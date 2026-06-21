@@ -1,0 +1,20 @@
+enabled: false
+mode: dry_run
+runtime_policy: fail_closed
+default_model: codex-default
+working_directory: .
+skills_directory: private_os/skills
+approval_policy: private_os_approval_queue
+allow_native_code_mode: false
+allow_browser_use: false
+allow_shell: false
+allowed_paths:
+  - .
+denied_paths:
+  - ../
+  - "~"
+  - /tmp
+  - /var
+  - /etc
+  - business
+  - secrets

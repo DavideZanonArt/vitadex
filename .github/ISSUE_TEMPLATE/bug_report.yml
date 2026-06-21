@@ -1,0 +1,31 @@
+name: Bug report
+description: Segnala un problema riproducibile
+title: "[Bug] "
+labels:
+  - bug
+body:
+  - type: textarea
+    id: summary
+    attributes:
+      label: Descrizione
+      description: Cosa succede e cosa ti aspettavi
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Passi per riprodurre
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Ambiente
+      description: OS, Python, commit o release
+  - type: textarea
+    id: privacy
+    attributes:
+      label: Verifica privacy
+      description: Conferma di aver rimosso dati personali, segreti e path sensibili
+    validations:
+      required: true

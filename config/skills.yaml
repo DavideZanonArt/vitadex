@@ -1,0 +1,12 @@
+enabled:
+  - housing_search
+  - quote_request
+  - travel_planning
+  - appointment_booking
+  - document_request
+  - complaint_management
+  - purchase_research
+  - email_followup
+  - decision_matrix
+  - dashboard_digest
+default_fallback: decision_matrix

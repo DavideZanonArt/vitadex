@@ -1,0 +1,12 @@
+id: appr_example_munich_email
+task_id: task_example_munich_housing_6_months
+action_type: send_message
+title: Invio richiesta disponibilità demo
+description: Inviare email di disponibilità a contatti esterni dopo revisione.
+risk_level: medium
+sensitivity_level: personal
+status: pending
+payload:
+  templates:
+    - templates/emails/housing-request-it.md
+    - templates/emails/housing-request-en.md

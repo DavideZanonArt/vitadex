@@ -1,0 +1,18 @@
+safe_mode: true
+rules:
+  read: allowed_if_scope_permitted
+  write_local: allowed
+  draft_external: allowed_until_A3
+  submit_external: approval_required
+  send_message: approval_required
+  create_calendar_event: approval_required
+  upload_document: explicit_approval_and_sensitivity_check
+  payment: forbidden
+  signature: forbidden
+  legal_commitment: forbidden
+blocked:
+  - payments
+  - signatures
+  - contracts
+  - medical final decisions
+  - legal final advice

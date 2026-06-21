@@ -1,0 +1,12 @@
+browser:
+  mode: mock_search_plan
+gmail:
+  mode: draft_only
+calendar:
+  mode: draft_event_only
+drive:
+  mode: mock_local
+telegram:
+  mode: mock_notification
+filesystem:
+  mode: project_root_only

@@ -1,0 +1,17 @@
+id: task_example_munich_housing_6_months
+title: Cercare soluzione abitativa temporanea
+description: Cercare un affitto temporaneo arredato in una zona ben collegata.
+area: home
+status: inbox
+priority: high
+autonomy_level: A3
+goal: Trovare opzioni reali e confrontabili per un affitto temporaneo di 6 mesi.
+constraints:
+  - Zona ben collegata.
+  - Nessuna email inviata senza approvazione.
+  - Nessun documento personale condiviso senza approvazione esplicita.
+missing_info:
+  - Budget massimo mensile.
+  - Date precise.
+  - Numero persone.
+  - Requisiti parcheggio e Wi-Fi.

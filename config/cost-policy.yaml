@@ -1,0 +1,40 @@
+default_profile: normal
+warn_before_expensive: true
+prefer_local_mock_adapters: true
+suggest_skill_after_repeated_prompts: 3
+suggest_agents_update_after_repeated_instructions: 3
+suggest_compaction_after_turns: 8
+profiles:
+  trivial:
+    max_turns: 2
+    max_file_reads: 3
+    max_subagents: 0
+    max_tool_calls: 5
+    max_output_lines: 40
+    reasoning_level: low
+    require_plan_first: false
+  normal:
+    max_turns: 5
+    max_file_reads: 10
+    max_subagents: 0
+    max_tool_calls: 15
+    max_output_lines: 80
+    reasoning_level: medium
+    require_plan_first: false
+  complex:
+    max_turns: 8
+    max_file_reads: 20
+    max_subagents: 1
+    max_tool_calls: 30
+    max_output_lines: 120
+    reasoning_level: medium_or_high
+    require_plan_first: true
+  expensive:
+    max_turns: 12
+    max_file_reads: 35
+    max_subagents: 2
+    max_tool_calls: 50
+    max_output_lines: 160
+    reasoning_level: high
+    require_plan_first: true
+    require_explicit_approval: true

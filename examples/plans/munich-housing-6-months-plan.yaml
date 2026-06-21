@@ -1,0 +1,29 @@
+task_id: task_example_munich_housing_6_months
+objective: Trovare una soluzione abitativa temporanea di 6 mesi.
+known_context:
+  - Zona ben collegata e tempi di spostamento contenuti.
+assumptions:
+  - Appartamento arredato.
+  - Ricerca in safe mode, senza navigazione live.
+missing_info:
+  - Budget massimo mensile.
+  - Date precise.
+  - Numero persone.
+risks:
+  - Truffe.
+  - Depositi non verificati.
+  - Contratti non adatti a 6 mesi.
+recommended_strategy: Preparare ricerca multi-fonte, tabella confronto, bozze contatto IT/EN e follow-up.
+required_skills:
+  - housing_search
+  - email_followup
+  - decision_matrix
+required_tools:
+  - BrowserTool(mock)
+  - GmailTool(draft)
+approval_points:
+  - action_type: send_message
+    title: Invio richiesta disponibilità demo
+expected_outputs:
+  - Shortlist
+  - Raccomandazione
