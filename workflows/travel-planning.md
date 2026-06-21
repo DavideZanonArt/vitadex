@@ -1,8 +1,8 @@
 # Travel Planning
 
-1. Date, destinazione, budget, trasporto.
-2. Vincoli: Wi-Fi, parcheggio, cancellazione, lavoro remoto.
-3. Opzioni alloggio e trasporto.
-4. Itinerario.
+1. Dates, destination, budget, and transport.
+2. Constraints: Wi-Fi, parking, cancellation, remote work.
+3. Lodging and transport options.
+4. Itinerary.
 5. Budget.
-6. Raccomandazione.
+6. Recommendation.

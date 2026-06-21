@@ -25,12 +25,12 @@ class Constitution:
 
     def load(self) -> str:
         if not self.exists():
-            raise ConstitutionMissingError("CONSTITUTION.md mancante: esecuzione bloccata.")
+            raise ConstitutionMissingError("CONSTITUTION.md missing: execution blocked.")
         return self.path.read_text(encoding="utf-8")
 
     def check(self) -> dict[str, object]:
         if not self.exists():
-            return {"ok": False, "path": str(self.path), "message": "CONSTITUTION.md mancante."}
+            return {"ok": False, "path": str(self.path), "message": "CONSTITUTION.md missing."}
         text = self.load()
         required = [
             "Identity",
@@ -52,17 +52,17 @@ class Constitution:
             "CONSTITUTION.md §3: Ask approval before external actions.",
             "CONSTITUTION.md §5: Forbidden actions include payments, signatures, legal commitments, "
             "sensitive documents, business systems, secrets, and unapproved messages.",
-            "CONSTITUTION.md §8: Italian, direct, clear, no fake certainty.",
+            "CONSTITUTION.md §8: English, direct, clear, no fake certainty.",
         ]
 
     def update_proposal(self) -> str:
         return (
-            "# Proposta aggiornamento CONSTITUTION.md\n\n"
-            "## Motivo\n\n"
-            "- Descrivere il problema operativo osservato.\n\n"
-            "## Modifica proposta\n\n"
-            "- Sezione da aggiornare:\n"
-            "- Testo proposto:\n\n"
-            "## Impatto sicurezza/privacy\n\n"
-            "- Nessun rilassamento dei divieti senza revisione esplicita.\n"
+            "# Proposed CONSTITUTION.md update\n\n"
+            "## Reason\n\n"
+            "- Describe the observed operating problem.\n\n"
+            "## Proposed change\n\n"
+            "- Section to update:\n"
+            "- Proposed text:\n\n"
+            "## Security and privacy impact\n\n"
+            "- Do not relax any prohibition without explicit review.\n"
         )

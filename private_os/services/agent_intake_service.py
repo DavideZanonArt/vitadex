@@ -69,7 +69,7 @@ class AgentIntakeService:
         audit(
             self.conn,
             "agent.intake.completed",
-            f"Intake agentico completato: {refreshed_task.title}",
+            f"Agent intake completed: {refreshed_task.title}",
             task_id=task.id,
             actor="agent",
             payload=payload,
@@ -80,31 +80,31 @@ class AgentIntakeService:
         normalized = message.strip()
         lower = normalized.lower()
         area = "private_projects"
-        if any(term in lower for term in ["monaco", "affitto", "casa", "appartamento", "stare"]):
+        if any(term in lower for term in ["munich", "rental", "house", "apartment", "stay"]):
             area = "home"
-        elif any(term in lower for term in ["viaggio", "hotel", "volo", "treno"]):
+        elif any(term in lower for term in ["travel", "hotel", "flight", "train"]):
             area = "travel"
-        elif any(term in lower for term in ["document", "certificato", "burocrazia"]):
+        elif any(term in lower for term in ["document", "certificate", "bureaucracy"]):
             area = "bureaucracy"
 
         constraints: list[str] = []
-        if "centro" in lower:
-            constraints.append("Centro o zona vicina al centro.")
+        if "center" in lower:
+            constraints.append("City center or an area close to the center.")
         distance_match = re.search(r"(\d+)\s*minut", lower)
         if distance_match:
-            constraints.append(f"Massimo {distance_match.group(1)} minuti auto dal centro.")
-        duration_match = re.search(r"(\d+)\s*mesi?", lower)
+            constraints.append(f"At most {distance_match.group(1)} minutes by car from the center.")
+        duration_match = re.search(r"(\d+)\s*months?", lower)
         if duration_match:
-            constraints.append(f"Durata indicativa: {duration_match.group(1)} mesi.")
+            constraints.append(f"Expected duration: {duration_match.group(1)} months.")
 
-        missing_info = ["budget massimo", "date precise", "destinatari da contattare"]
+        missing_info = ["maximum budget", "exact dates", "recipients to contact"]
         if area == "home":
-            missing_info.extend(["numero persone", "requisiti Wi-Fi/parcheggio"])
+            missing_info.extend(["number of people", "Wi-Fi and parking requirements"])
 
         return {
             "title": self._title_from_message(normalized),
             "area": area,
-            "priority": "high" if any(term in lower for term in ["urgente", "subito"]) else "medium",
+            "priority": "high" if any(term in lower for term in ["urgent", "asap"]) else "medium",
             "autonomy_level": "A3",
             "goal": normalized,
             "constraints": constraints,
@@ -127,44 +127,44 @@ class AgentIntakeService:
         raw_search_strategy = execution.get("search_strategy")
         search_strategy = raw_search_strategy if isinstance(raw_search_strategy, list) else []
         lines = [
-            "*Private OS - intake completato*",
+            "*Private OS - intake completed*",
             "",
-            f"*Messaggio:* {message}",
-            f"*Task creata:* `{task.id}` - {task.title}",
-            f"*Skill selezionata:* `{task.selected_skill}`",
-            f"*Memorie rilevanti:* {relevant_memory_count}",
+            f"*Message:* {message}",
+            f"*Task created:* `{task.id}` - {task.title}",
+            f"*Selected skill:* `{task.selected_skill}`",
+            f"*Relevant memories:* {relevant_memory_count}",
             "",
-            "*Piano operativo*",
+            "*Execution plan*",
             *[f"- {step.title}: {step.description}" for step in plan.steps],
             "",
-            "*Assunzioni*",
+            "*Assumptions*",
             *[f"- {item}" for item in plan.assumptions],
             "",
-            "*Informazioni mancanti*",
+            "*Missing information*",
             *[f"- {item}" for item in plan.missing_info],
             "",
             "*Dry-run execution*",
             *[f"- {item}" for item in search_strategy],
             "",
-            "*Bozze email*",
+            "*Email drafts*",
         ]
         if drafts:
-            lines.extend([f"- IT: {drafts.get('it', '')}", f"- EN: {drafts.get('en', '')}"])
+            lines.extend([f"- EN: {drafts.get('en', '')}"])
         else:
-            lines.append("- Nessuna bozza email generata.")
+            lines.append("- No email draft generated.")
         lines.extend(
             [
                 "",
-                "*Invio email*",
-                "- Non eseguito. Richiede approvazione esplicita.",
+                "*Email sending*",
+                "- Not executed. Explicit approval is required.",
                 "",
                 "*Follow-up*",
                 *[f"- `{f.id}` {f.due_date}: {f.title}" for f in followups],
                 "",
-                "*Approval da confermare*",
+                "*Approvals to confirm*",
                 *[f"- `{a.id}` {a.action_type}: {a.title}" for a in approvals],
                 "",
-                "*Prossima azione consigliata*",
+                "*Recommended next action*",
                 f"- {execution.get('recommendation_next', plan.final_recommendation_placeholder)}",
             ]
         )

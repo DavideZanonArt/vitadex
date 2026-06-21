@@ -10,9 +10,9 @@ from private_os.models.task import TaskRecord
 def test_trivial_task_gets_low_budget(tasks):
     task = tasks.create(
         TaskRecord(
-            title="Aggiorna piccolo template",
+            title="Update a small template",
             area="private_projects",
-            goal="Aggiornare una nota breve",
+            goal="Update a short note",
         )
     )
 
@@ -25,9 +25,9 @@ def test_trivial_task_gets_low_budget(tasks):
 def test_expensive_task_requires_plan_first(tasks):
     task = tasks.create(
         TaskRecord(
-            title="Audit completo di tutto il repository",
+            title="Full audit of the entire repository",
             area="private_projects",
-            goal="Fare audit completo",
+            goal="Run a full audit",
         )
     )
 
@@ -42,14 +42,14 @@ def test_subagent_blocked_when_budget_is_zero():
     decision = CostOptimizer().evaluate_subagent(budget, requested_subagents=1)
 
     assert decision.allowed is False
-    assert "Subagent bloccati" in decision.reason
+    assert "Subagents are blocked" in decision.reason
 
 
 def test_output_lines_are_capped():
     text = "\n".join(f"line {idx}" for idx in range(5))
     capped = CostOptimizer().cap_output(text, max_lines=3)
 
-    assert capped.splitlines() == ["line 0", "line 1", "line 2", "[Output troncato dal budget]"]
+    assert capped.splitlines() == ["line 0", "line 1", "line 2", "[Output truncated by budget]"]
 
 
 def test_cost_report_aggregates_usage_logs(conn):
@@ -75,4 +75,4 @@ def test_optimizer_suggests_skill_extraction_for_repeated_prompts():
 
     decision = CostOptimizer().optimize(budget_for_profile("task_1", "normal"), logs)
 
-    assert any("Estrai una skill" in suggestion for suggestion in decision.suggested_actions)
+    assert any("Extract a skill" in suggestion for suggestion in decision.suggested_actions)

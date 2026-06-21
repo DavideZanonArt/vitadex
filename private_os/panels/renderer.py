@@ -32,33 +32,33 @@ class PanelRenderer:
 
     def _task(self, content: dict) -> list[str]:
         return [
-            f"## Obiettivo\n{content.get('goal', '')}",
-            f"## Stato\n{content.get('status', '')}",
-            "## Prossime azioni",
+            f"## Goal\n{content.get('goal', '')}",
+            f"## Status\n{content.get('status', '')}",
+            "## Next actions",
             *[f"- {item}" for item in content.get("next_actions", [])],
         ]
 
     def _approval(self, content: dict) -> list[str]:
         return [
             "## Approval",
-            f"- Azione: {content.get('action_type', '')}",
-            f"- Rischio: {content.get('risk_level', '')}",
-            f"- Stato: {content.get('status', '')}",
-            f"- Descrizione: {content.get('description', '')}",
+            f"- Action: {content.get('action_type', '')}",
+            f"- Risk: {content.get('risk_level', '')}",
+            f"- Status: {content.get('status', '')}",
+            f"- Description: {content.get('description', '')}",
         ]
 
     def _decision(self, content: dict) -> list[str]:
         return [
-            "## Decisione",
-            f"- Raccomandazione: {content.get('recommendation', '')}",
-            f"- Rischi: {content.get('risks', '')}",
-            f"- Prossima azione: {content.get('next_action', '')}",
+            "## Decision",
+            f"- Recommendation: {content.get('recommendation', '')}",
+            f"- Risks: {content.get('risks', '')}",
+            f"- Next action: {content.get('next_action', '')}",
         ]
 
     def _dashboard(self, content: dict) -> list[str]:
         return [
             "## Dashboard",
-            f"- Task attive: {content.get('active_tasks', 0)}",
-            f"- Approval pendenti: {content.get('pending_approvals', 0)}",
-            f"- Follow-up pendenti: {content.get('pending_followups', 0)}",
+            f"- Active tasks: {content.get('active_tasks', 0)}",
+            f"- Pending approvals: {content.get('pending_approvals', 0)}",
+            f"- Pending follow-ups: {content.get('pending_followups', 0)}",
         ]

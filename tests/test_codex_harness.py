@@ -99,7 +99,7 @@ def test_codex_cli_commands(tmp_path: Path):
     task_id = created.output.split(":")[-1].strip()
 
     assert runner.invoke(app, ["codex", "status"], env=env).exit_code == 0
-    assert "thread Codex" in runner.invoke(app, ["codex", "bind", task_id], env=env).output
+    assert "Codex thread" in runner.invoke(app, ["codex", "bind", task_id], env=env).output
     assert "failed_closed" in runner.invoke(app, ["codex", "run", task_id, "--dry-run"], env=env).output
     assert "codex_thread_" in runner.invoke(app, ["codex", "threads"], env=env).output
     assert "ownership_split" in runner.invoke(app, ["codex", "export-context", task_id], env=env).output

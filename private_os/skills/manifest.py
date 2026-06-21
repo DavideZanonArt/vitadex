@@ -78,7 +78,7 @@ def instructions(manifest: SkillManifest) -> str:
             "",
             "## Task logs",
             "- Update private-os task logs with assumptions, decisions, outputs, approvals, and follow-ups.",
-            "- Keep output concise, deterministic, and in Italian for the local operator.",
+            "- Keep output concise, deterministic, and in English for the local operator.",
             "",
             "## Separation",
             "- Use only the local personal context explicitly provided to the system.",

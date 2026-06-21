@@ -1,7 +1,7 @@
 # Appointment Booking
 
-1. Definire servizio e destinatario.
-2. Preparare disponibilità.
-3. Controllare documenti richiesti.
-4. Scrivere bozza richiesta.
-5. Approvazione prima dell'invio.
+1. Define the service and recipient.
+2. Prepare availability.
+3. Check the required documents.
+4. Write the request draft.
+5. Require approval before sending.

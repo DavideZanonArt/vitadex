@@ -28,7 +28,7 @@ def test_missing_constitution_fails_safe(tmp_path):
         },
     )
     assert result.exit_code == 2
-    assert "CONSTITUTION.md mancante" in result.output
+    assert "CONSTITUTION.md missing" in result.output
 
 
 def test_local_constitution_override_is_preferred(tmp_path):
@@ -52,7 +52,7 @@ def test_forbidden_action_blocked_because_of_constitution():
 
 def test_planner_cites_constitution_for_risky_actions(conn, memory, tasks):
     task = tasks.create(
-        TaskRecord(title="Cercare affitto 6 mesi a Monaco", area="home", goal="Trovare casa")
+        TaskRecord(title="Find a 6-month rental in Munich", area="home", goal="Find a home")
     )
     plan = PlanningService(conn, memory, tasks).create_plan(task.id)
     assert any("CONSTITUTION.md §5" in risk for risk in plan.risks)
@@ -60,7 +60,7 @@ def test_planner_cites_constitution_for_risky_actions(conn, memory, tasks):
 
 def test_user_facing_style_follows_constitution():
     style = Constitution(__import__("pathlib").Path.cwd()).risky_action_context()
-    assert any("Italian" in item or "Italiano" in item for item in style)
+    assert any("English" in item for item in style)
 
 
 def test_settings_support_separate_state_root(monkeypatch, tmp_path):

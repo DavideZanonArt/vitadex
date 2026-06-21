@@ -15,7 +15,7 @@ from private_os.services.panel_service import PanelService
 
 
 def test_panel_created_from_task(conn, tasks, root):
-    task = tasks.create(TaskRecord(title="Cercare affitto", area="home", goal="Trovare casa"))
+    task = tasks.create(TaskRecord(title="Find a rental", area="home", goal="Find a home"))
     panel = PanelService(conn, root).from_task(task.id)
 
     assert panel.type == "task"
@@ -24,9 +24,9 @@ def test_panel_created_from_task(conn, tasks, root):
 
 
 def test_dashboard_panel_includes_approvals_and_followups(conn, tasks, root):
-    task = tasks.create(TaskRecord(title="Casa Monaco", area="home", goal="Trovare casa", status="active"))
+    task = tasks.create(TaskRecord(title="Munich housing", area="home", goal="Find a home", status="active"))
     ApprovalService(conn).create(
-        ApprovalRecord(task_id=task.id, action_type="send_message", title="Invio email", description="Bozza")
+        ApprovalRecord(task_id=task.id, action_type="send_message", title="Send email", description="Draft")
     )
     FollowupService(conn).create(
         FollowupRecord(task_id=task.id, title="Follow-up landlord", due_date="2026-06-24", trigger_condition="no reply", action="draft")
@@ -40,12 +40,12 @@ def test_dashboard_panel_includes_approvals_and_followups(conn, tasks, root):
 
 
 def test_panel_rendering_works(conn, tasks, root):
-    task = tasks.create(TaskRecord(title="Decisione casa", area="home", goal="Scegliere casa"))
+    task = tasks.create(TaskRecord(title="Housing decision", area="home", goal="Choose a home"))
     panel = PanelService(conn, root).from_task(task.id)
     markdown = PanelRenderer().markdown(panel)
     json_payload = PanelRenderer().json(panel)
 
-    assert "# Decisione casa" in markdown
+    assert "# Housing decision" in markdown
     assert '"type": "task"' in json_payload
 
 

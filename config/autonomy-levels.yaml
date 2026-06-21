@@ -1,18 +1,18 @@
 A0:
   label: think_only
-  description: Ragiona e struttura, senza bozze operative.
+  description: Think and structure without operational drafts.
 A1:
   label: draft_only
-  description: Crea bozze locali.
+  description: Create local drafts.
 A2:
   label: research_only
-  description: Ricerca e struttura, nessuna azione esterna.
+  description: Research and structure with no external action.
 A3:
   label: prepare_external_action
-  description: Prepara messaggi o azioni esterne, senza eseguirle.
+  description: Prepare external messages or actions without executing them.
 A4:
   label: execute_after_explicit_approval
-  description: Esegue solo dopo approvazione esplicita registrata.
+  description: Execute only after recorded explicit approval.
 A5:
   label: forbidden
-  description: Azione mai autonoma.
+  description: Action is never autonomous.

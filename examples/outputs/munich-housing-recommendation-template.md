@@ -1,13 +1,13 @@
-# Raccomandazione ricerca abitativa demo
+# Demo housing search recommendation
 
-## Scelta consigliata
+## Recommended choice
 
-## Perché
+## Why
 
-## Rischi
+## Risks
 
-## Informazioni da verificare prima di procedere
+## Information to verify before proceeding
 
-## Piano B
+## Plan B
 
-## Decisione richiesta all'utente
+## Decision requested from the user

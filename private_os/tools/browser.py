@@ -13,6 +13,6 @@ class BrowserTool(Tool):
         self.check(action, approval)
         return {
             "mode": "mock/search-plan",
-            "message": "Browser reale disabilitato in safe mode.",
+            "message": "Real browser access is disabled in safe mode.",
             "payload": action.payload,
         }

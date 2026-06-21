@@ -12,8 +12,8 @@ type AppShellProps = {
 
 const links = [
   { to: '/', label: 'Dashboard', icon: Activity, end: true },
-  { to: '/operazioni', label: 'Operazioni', icon: PanelLeftOpen },
-  { to: '/archivio', label: 'Archivio', icon: Archive },
+  { to: '/operations', label: 'Operations', icon: PanelLeftOpen },
+  { to: '/archive', label: 'Archive', icon: Archive },
 ]
 
 export function AppShell({ children, connection, generatedAt }: AppShellProps) {
@@ -23,9 +23,9 @@ export function AppShell({ children, connection, generatedAt }: AppShellProps) {
         <aside className="rounded-[32px] border border-black/8 bg-white/78 p-6 shadow-[0_30px_70px_rgba(19,19,18,0.05)] backdrop-blur">
           <div className="border-b border-black/6 pb-6">
             <p className="text-[11px] uppercase tracking-[0.26em] text-black/35">Davide Private Ops</p>
-            <h1 className="mt-3 font-serif text-[2rem] leading-none text-black/85">Osservatorio locale</h1>
+            <h1 className="mt-3 font-serif text-[2rem] leading-none text-black/85">Local observatory</h1>
             <p className="mt-3 text-sm leading-6 text-black/45">
-              Vista editoriale, sola lettura, agganciata ai segnali reali del tuo Private OS.
+              Editorial read-only view connected to the live signals from your Private OS.
             </p>
           </div>
 
@@ -54,12 +54,18 @@ export function AppShell({ children, connection, generatedAt }: AppShellProps) {
               <div>
                 <p className="text-[11px] uppercase tracking-[0.24em] text-black/35">Realtime</p>
                 <p className="text-sm text-black/70">
-                  {connection === 'connected' ? 'Connesso allo stream locale' : connection === 'degraded' ? 'Riconnessione in corso' : 'Connessione iniziale'}
+                  {connection === 'connected'
+                    ? 'Connected to the local stream'
+                    : connection === 'degraded'
+                      ? 'Reconnecting'
+                      : 'Initial connection'}
                 </p>
               </div>
             </div>
             <p className="mt-4 text-xs leading-5 text-black/45">
-              {generatedAt ? `Ultimo snapshot ${new Date(generatedAt).toLocaleString('it-IT')}` : 'In attesa del primo snapshot'}
+              {generatedAt
+                ? `Latest snapshot ${new Date(generatedAt).toLocaleString('en-US')}`
+                : 'Waiting for the first snapshot'}
             </p>
           </div>
         </aside>

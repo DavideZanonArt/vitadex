@@ -11,16 +11,16 @@ from private_os.skills.base import Skill, SkillContext
 class PurchaseResearchSkill(Skill):
     manifest = SkillManifest(
         id="purchase_research",
-        name="Ricerca acquisti",
-        description="Ricerca e confronta acquisti personali importanti.",
+        name="Purchase research",
+        description="Research and compare important personal purchases.",
         area="finance",
-        trigger_examples=["comprare", "acquisto", "prodotto", "confronta"],
+        trigger_examples=["buy", "purchase", "product", "compare"],
         outputs=[
-            "criteri",
-            "tabella confronto",
-            "pro/contro",
-            "controlli rischio",
-            "raccomandazione",
+            "criteria",
+            "comparison table",
+            "pros and cons",
+            "risk checks",
+            "recommendation",
         ],
     )
 
@@ -29,18 +29,18 @@ class PurchaseResearchSkill(Skill):
             task_id=task.id,
             objective=task.goal,
             known_context=[task.title],
-            missing_info=["budget", "must-have", "tempistica acquisto"],
-            risks=["Scam, garanzia debole, costo totale non chiaro."],
-            recommended_strategy="Confrontare opzioni e lasciare acquisto/pagamento fuori automazione.",
+            missing_info=["budget", "must-have features", "purchase timing"],
+            risks=["Scams, weak warranty, unclear total cost."],
+            recommended_strategy="Compare options and keep purchase or payment outside automation.",
             steps=[
-                PlanStep(title="Criteri", description="Definire criteri e pesi."),
-                PlanStep(title="Confronto", description="Preparare tabella opzioni."),
+                PlanStep(title="Criteria", description="Define criteria and weights."),
+                PlanStep(title="Comparison", description="Prepare the options table."),
             ],
             required_skills=["purchase_research", "decision_matrix"],
             required_tools=["BrowserTool(mock)"],
             approval_points=[],
-            expected_outputs=["matrice", "raccomandazione"],
-            final_recommendation_placeholder="Suggerire acquisto solo come raccomandazione, mai eseguire pagamento.",
+            expected_outputs=["matrix", "recommendation"],
+            final_recommendation_placeholder="Suggest the purchase only as a recommendation and never execute payment.",
         )
 
     def execute(
@@ -48,5 +48,5 @@ class PurchaseResearchSkill(Skill):
     ) -> dict[str, Any]:
         return {
             "dry_run": dry_run,
-            "risk_checks": ["venditore verificato", "garanzia", "reso", "prezzo totale"],
+            "risk_checks": ["verified seller", "warranty", "return policy", "total price"],
         }

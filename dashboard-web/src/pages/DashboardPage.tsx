@@ -28,40 +28,40 @@ export default function DashboardPage() {
         <p className="text-[11px] uppercase tracking-[0.26em] text-black/35">Dashboard</p>
         <div className="mt-4 flex flex-wrap items-end justify-between gap-4">
           <div>
-            <h2 className="font-serif text-4xl text-black/85">Tutto cio' che accade, senza rumore.</h2>
+            <h2 className="font-serif text-4xl text-black/85">Everything that matters, without the noise.</h2>
             <p className="mt-3 max-w-2xl text-sm leading-7 text-black/48">
-              Una lettura continua di task, approval, follow-up, log e pannelli generati dal sistema, con aggiornamento locale in tempo reale.
+              A continuous read of tasks, approvals, follow-ups, logs, and system-generated panels, updated locally in real time.
             </p>
           </div>
-          <p className="max-w-xs text-sm leading-6 text-black/45">{snapshot?.health.workspaceRoot ?? 'In attesa del workspace locale'}</p>
+          <p className="max-w-xs text-sm leading-6 text-black/45">{snapshot?.health.workspaceRoot ?? 'Waiting for the local workspace'}</p>
         </div>
       </section>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <MetricCard label="Task attive" value={summary?.activeTasks ?? 0} note="Focus operativo immediato." />
-        <MetricCard label="Approval pendenti" value={summary?.pendingApprovals ?? 0} note="Nodi che aspettano un si o un no." />
-        <MetricCard label="Follow-up" value={summary?.dueFollowups ?? 0} note="Scadenze da non lasciare evaporare." />
-        <MetricCard label="Decisioni" value={summary?.decisionRequests ?? 0} note="Task aperte ma incomplete." />
+        <MetricCard label="Active tasks" value={summary?.activeTasks ?? 0} note="Immediate operational focus." />
+        <MetricCard label="Pending approvals" value={summary?.pendingApprovals ?? 0} note="Items waiting for a yes or no." />
+        <MetricCard label="Follow-ups" value={summary?.dueFollowups ?? 0} note="Deadlines that should not drift away." />
+        <MetricCard label="Decisions" value={summary?.decisionRequests ?? 0} note="Open tasks that still need completion." />
       </div>
 
       <div className="grid gap-6 xl:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)]">
         <SectionFrame
-          eyebrow="Priorita'"
-          title="Flusso caldo"
-          subtitle="Le entita' piu' rilevanti del momento, ordinate per ultimo aggiornamento."
+          eyebrow="Priority"
+          title="Hot flow"
+          subtitle="The most relevant entities right now, ordered by latest update."
         >
           <UnifiedList
             items={snapshot?.priorities ?? []}
             selectedId={selectedEntity?.id}
-            emptyLabel="Nessuna priorita' disponibile."
+            emptyLabel="No priorities available."
             onSelect={(item) => void selectEntity(item.kind, item.id)}
           />
         </SectionFrame>
 
         <SectionFrame
           eyebrow="Realtime"
-          title="Timeline eventi"
-          subtitle="Eventi auditati, inseriti nel flusso in ordine cronologico inverso."
+          title="Event timeline"
+          subtitle="Audited events inserted into the stream in reverse chronological order."
         >
           <TimelineFeed items={snapshot?.timeline ?? []} />
         </SectionFrame>

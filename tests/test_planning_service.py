@@ -7,9 +7,9 @@ from private_os.services.planning_service import PlanningService
 def test_housing_task_plan_and_execute_dry_run(conn, memory, tasks):
     task = tasks.create(
         TaskRecord(
-            title="Cercare affitto 6 mesi a Monaco",
+            title="Find a 6-month rental in Munich",
             area="home",
-            goal="Trovare opzioni reali a Monaco",
+            goal="Find real options in Munich",
         )
     )
     service = PlanningService(conn, memory, tasks)

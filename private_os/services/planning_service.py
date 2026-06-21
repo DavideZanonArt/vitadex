@@ -35,7 +35,7 @@ class PlanningService:
         try:
             plan.risks.extend(Constitution(settings.root, settings.state_root).risky_action_context())
         except ConstitutionMissingError:
-            plan.risks.append("CONSTITUTION.md mancante: rischio costituzionale, procedere solo in safe mode.")
+            plan.risks.append("CONSTITUTION.md missing: constitutional risk, proceed only in safe mode.")
         upsert(self.conn, "plans", plan.id, plan.model_dump())
         for approval in skill.required_approvals(task, plan):
             self.approvals.create(approval)
@@ -53,7 +53,7 @@ class PlanningService:
         audit(
             self.conn,
             "planning.created",
-            f"Piano creato con skill {skill.manifest.id}",
+            f"Plan created with skill {skill.manifest.id}",
             task_id=task.id,
             payload=plan.model_dump(),
         )
@@ -80,7 +80,7 @@ class PlanningService:
         audit(
             self.conn,
             "skill.executed",
-            f"Esecuzione skill {skill.manifest.id} dry_run={dry_run}",
+            f"Skill execution {skill.manifest.id} dry_run={dry_run}",
             task_id=task.id,
             payload=result,
         )

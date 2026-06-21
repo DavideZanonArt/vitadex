@@ -1,8 +1,8 @@
 # Local Setup
 
-`private-os` separa il core pubblico dai dati runtime locali.
+`private-os` separates the public core from local runtime data.
 
-## 1. Crea l'ambiente
+## 1. Create the environment
 
 ```bash
 python3.12 -m venv .venv
@@ -10,15 +10,15 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 ```
 
-## 2. Duplica la configurazione locale
+## 2. Copy the local configuration
 
 ```bash
 cp .env.example .env.local
 ```
 
-## 3. Imposta i path locali
+## 3. Set the local paths
 
-Usa una directory fuori dal repository, per esempio:
+Use a directory outside the repository, for example:
 
 ```env
 PRIVATE_OS_STATE_ROOT=~/.private-os
@@ -29,29 +29,29 @@ PRIVATE_OS_WORKSPACE_DIR=~/.private-os/workspace
 PRIVATE_OS_DB_PATH=~/.private-os/data/private_os.sqlite
 ```
 
-## 4. Inizializza il runtime
+## 4. Initialize the runtime
 
 ```bash
 ./scripts/bootstrap-local.sh
 private-os init
 ```
 
-## 5. Overlay locale opzionale
+## 5. Optional local overlay
 
-Per regole o personalizzazioni locali non tracciate puoi usare:
+For untracked local rules or customizations you can use:
 
 - `CONSTITUTION.local.md`
 - `.env.local`
 - directory runtime sotto `PRIVATE_OS_STATE_ROOT`
 
-Questi file non devono essere committati.
+These files must not be committed.
 
-## 6. Uso Con Codex
+## 6. Using Codex
 
-Per usare Codex sopra la tua istanza locale:
+To use Codex on top of your local instance:
 
-- apri il clone locale del repository
-- lascia `.env.local` e `CONSTITUTION.local.md` fuori dal versionamento
-- fai lavorare Codex solo sul core pubblico e sul runtime locale
+- open the local clone of the repository
+- keep `.env.local` and `CONSTITUTION.local.md` out of version control
+- let Codex operate only on the public core and the local runtime
 
 Vedi anche `docs/codex-local-workflow.md`.

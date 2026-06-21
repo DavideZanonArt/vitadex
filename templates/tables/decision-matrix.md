@@ -1,6 +1,6 @@
-| Opzione | Criterio | Peso | Punteggio | Note |
+| Option | Criterion | Weight | Score | Notes |
 | --- | --- | --- | --- | --- |
-| | costo | | | |
-| | qualità | | | |
-| | rischio | | | |
-| | flessibilità | | | |
+| | cost | | | |
+| | quality | | | |
+| | risk | | | |
+| | flexibility | | | |

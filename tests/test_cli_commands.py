@@ -27,7 +27,7 @@ def test_cli_main_private_ops_workflow(tmp_path):
     runner = CliRunner()
     root = tmp_path
 
-    assert "Safe mode attivo" in _invoke(runner, root, ["init"]).output
+    assert "Safe mode enabled" in _invoke(runner, root, ["init"]).output
 
     memory_output = _invoke(
         runner,
@@ -40,14 +40,14 @@ def test_cli_main_private_ops_workflow(tmp_path):
             "--area",
             "travel",
             "--text",
-            "Preferisco viaggi in auto con Wi-Fi affidabile.",
+            "I prefer road trips with reliable Wi-Fi.",
         ],
     ).output
     memory_id = re.search(r"mem_[a-f0-9]+", memory_output).group(0)  # type: ignore[union-attr]
     assert "Wi-Fi" in _invoke(runner, root, ["memory", "search", "Wi-Fi"]).output
     assert "travel" in _invoke(runner, root, ["memory", "list"]).output
-    assert "Export creato" in _invoke(runner, root, ["memory", "export"]).output
-    assert "disattivata" in _invoke(runner, root, ["memory", "deactivate", memory_id]).output
+    assert "Export created" in _invoke(runner, root, ["memory", "export"]).output
+    assert "deactivated" in _invoke(runner, root, ["memory", "deactivate", memory_id]).output
 
     task_output = _invoke(
         runner,
@@ -56,11 +56,11 @@ def test_cli_main_private_ops_workflow(tmp_path):
             "task",
             "create",
             "--title",
-            "Cercare affitto 6 mesi a Monaco",
+            "Find a 6-month rental in Munich",
             "--area",
             "home",
             "--goal",
-            "Trovare opzioni reali per affitto temporaneo a Monaco di Baviera",
+            "Find real options for a temporary rental in Munich",
             "--autonomy-level",
             "A3",
         ],
@@ -75,11 +75,11 @@ def test_cli_main_private_ops_workflow(tmp_path):
     approvals = _invoke(runner, root, ["approvals", "list"]).output
     approval_id = re.search(r"appr_[a-f0-9]+", approvals).group(0)  # type: ignore[union-attr]
     assert "send_message" in _invoke(runner, root, ["approvals", "show", approval_id]).output
-    assert "concessa" in _invoke(runner, root, ["approvals", "approve", approval_id]).output
+    assert "granted" in _invoke(runner, root, ["approvals", "approve", approval_id]).output
 
     followups = _invoke(runner, root, ["followups", "list"]).output
     followup_id = re.search(r"fu_[a-f0-9]+", followups).group(0)  # type: ignore[union-attr]
-    assert "Follow-up completato" in _invoke(
+    assert "Follow-up completed" in _invoke(
         runner, root, ["followups", "complete", followup_id]
     ).output
     assert "PRIVATE OPS DASHBOARD" in _invoke(runner, root, ["dashboard"]).output
@@ -92,22 +92,22 @@ def test_cli_main_private_ops_workflow(tmp_path):
             "task",
             "create",
             "--title",
-            "Richiedere preventivo assicurazione",
+            "Request an insurance quote",
             "--area",
             "bureaucracy",
             "--goal",
-            "Preparare richiesta preventivo personale",
+            "Prepare a personal quote request",
         ],
     ).output
     second_task_id = re.search(r"task_[a-f0-9]+", second_task_output).group(0)  # type: ignore[union-attr]
-    assert "Stato aggiornato" in _invoke(
+    assert "Status updated" in _invoke(
         runner, root, ["task", "update-status", second_task_id, "active"]
     ).output
-    assert "Nota aggiunta" in _invoke(
-        runner, root, ["task", "add-note", second_task_id, "Budget massimo da confermare"]
+    assert "Note added" in _invoke(
+        runner, root, ["task", "add-note", second_task_id, "Maximum budget to confirm"]
     ).output
-    assert "Task chiusa" in _invoke(runner, root, ["task", "close", second_task_id]).output
-    assert "Task archiviata" in _invoke(runner, root, ["task", "archive", second_task_id]).output
+    assert "Task closed" in _invoke(runner, root, ["task", "close", second_task_id]).output
+    assert "Task archived" in _invoke(runner, root, ["task", "archive", second_task_id]).output
 
     third_task_output = _invoke(
         runner,
@@ -116,24 +116,24 @@ def test_cli_main_private_ops_workflow(tmp_path):
             "task",
             "create",
             "--title",
-            "Cercare altro affitto a Monaco",
+            "Look for another rental in Munich",
             "--area",
             "home",
             "--goal",
-            "Preparare secondo test approvazione",
+            "Prepare a second approval test",
         ],
     ).output
     third_task_id = re.search(r"task_[a-f0-9]+", third_task_output).group(0)  # type: ignore[union-attr]
     _invoke(runner, root, ["task", "plan", third_task_id])
     pending_approvals = _invoke(runner, root, ["approvals", "list", "--status", "pending"]).output
     reject_approval_id = re.search(r"appr_[a-f0-9]+", pending_approvals).group(0)  # type: ignore[union-attr]
-    assert "rifiutata" in _invoke(
+    assert "rejected" in _invoke(
         runner, root, ["approvals", "reject", reject_approval_id]
     ).output
 
     remaining_followups = _invoke(runner, root, ["followups", "list", "--status", "pending"]).output
     cancel_followup_id = re.search(r"fu_[a-f0-9]+", remaining_followups).group(0)  # type: ignore[union-attr]
-    assert "cancellato" in _invoke(
+    assert "canceled" in _invoke(
         runner, root, ["followups", "cancel", cancel_followup_id]
     ).output
 
@@ -148,11 +148,11 @@ def test_cli_main_private_ops_workflow(tmp_path):
             "task",
             "create",
             "--title",
-            "Audit completo di tutto il repository",
+            "Full audit of the entire repository",
             "--area",
             "private_projects",
             "--goal",
-            "Fare audit completo",
+            "Run a full audit",
         ],
     ).output
     cost_task_id = re.search(r"task_[a-f0-9]+", cost_task_output).group(0)  # type: ignore[union-attr]

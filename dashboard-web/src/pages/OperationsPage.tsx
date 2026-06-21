@@ -23,15 +23,15 @@ export default function OperationsPage() {
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
       <SectionFrame
-        eyebrow="Operazioni"
-        title="Lista unificata"
-        subtitle="Filtra per tipo, stato o testo per leggere il sistema come un unico flusso coerente."
+        eyebrow="Operations"
+        title="Unified list"
+        subtitle="Filter by type, status, or text to read the system as one coherent flow."
       >
         <div className="mb-5 grid gap-3 md:grid-cols-[1.1fr_0.5fr_0.5fr]">
           <input
             value={filters.search}
             onChange={(event) => setFilters({ search: event.target.value })}
-            placeholder="Cerca titolo, preview o tag"
+            placeholder="Search title, preview, or tag"
             className="rounded-2xl border border-black/10 bg-[var(--paper-strong)] px-4 py-3 text-sm outline-none transition focus:border-black/20"
           />
           <select
@@ -41,7 +41,7 @@ export default function OperationsPage() {
           >
             {kinds.map((kind) => (
               <option key={kind} value={kind}>
-                {kind === 'all' ? 'Tutti i tipi' : kind}
+                {kind === 'all' ? 'All types' : kind}
               </option>
             ))}
           </select>
@@ -52,7 +52,7 @@ export default function OperationsPage() {
           >
             {statuses.map((status) => (
               <option key={status || 'all-status'} value={status}>
-                {status || 'Tutti gli stati'}
+                {status || 'All statuses'}
               </option>
             ))}
           </select>
@@ -61,7 +61,7 @@ export default function OperationsPage() {
         <UnifiedList
           items={operations}
           selectedId={selectedEntity?.id}
-          emptyLabel="Nessuna entita' corrisponde ai filtri correnti."
+          emptyLabel="No entity matches the current filters."
           onSelect={(item) => void selectEntity(item.kind, item.id)}
         />
       </SectionFrame>

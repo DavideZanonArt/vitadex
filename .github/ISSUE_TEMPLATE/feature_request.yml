@@ -1,5 +1,5 @@
 name: Feature request
-description: Proponi un miglioramento
+description: Propose an improvement
 title: "[Feature] "
 labels:
   - enhancement
@@ -7,19 +7,19 @@ body:
   - type: textarea
     id: problem
     attributes:
-      label: Problema
-      description: Quale problema operativo vuoi risolvere
+      label: Problem
+      description: Which operational problem do you want to solve
     validations:
       required: true
   - type: textarea
     id: proposal
     attributes:
-      label: Proposta
-      description: Soluzione desiderata
+      label: Proposal
+      description: Desired solution
     validations:
       required: true
   - type: textarea
     id: safety
     attributes:
-      label: Impatto sicurezza
-      description: Spiega come la proposta rispetta safe mode, approval e separazione pubblico/locale
+      label: Safety impact
+      description: Explain how the proposal respects safe mode, approvals, and public-local separation

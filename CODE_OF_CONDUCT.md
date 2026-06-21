@@ -1,18 +1,18 @@
 # Code Of Conduct
 
-Questo progetto adotta uno standard semplice:
+This project follows a simple standard:
 
-- sii rispettoso
-- sii chiaro
-- discuti il codice, non la persona
-- evita linguaggio ostile, discriminatorio o aggressivo
-- collabora in buona fede
+- be respectful
+- be clear
+- discuss the code, not the person
+- avoid hostile, discriminatory, or aggressive language
+- collaborate in good faith
 
-Comportamenti non accettati:
+Unacceptable behavior:
 
-- molestie o intimidazioni
-- pubblicazione di dati personali altrui
-- condivisione di segreti o credenziali
-- spam, flame o trolling
+- harassment or intimidation
+- publishing someone else's personal data
+- sharing secrets or credentials
+- spam, flame wars, or trolling
 
-Per segnalazioni sensibili usa il canale indicato in `SECURITY.md`.
+For sensitive reports, use the channel documented in `SECURITY.md`.

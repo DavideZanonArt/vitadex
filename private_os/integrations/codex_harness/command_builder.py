@@ -14,9 +14,9 @@ class CodexCommandBuilder:
 
     def build(self, task: TaskRecord, dry_run: bool = True) -> CodexCommand:
         prompt = (
-            f"Task privata: {task.title}\n"
-            f"Obiettivo: {task.goal}\n"
-            "Rispetta memoria, approval queue, safe mode e separazione da sistemi business."
+            f"Private task: {task.title}\n"
+            f"Goal: {task.goal}\n"
+            "Respect memory, the approval queue, safe mode, and separation from business systems."
         )
         return CodexCommand(
             task_id=task.id,

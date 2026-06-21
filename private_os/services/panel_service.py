@@ -30,7 +30,7 @@ class PanelService:
         self.ensure_workspace()
         upsert(self.conn, "panels", panel.id, panel.model_dump())
         self.write_markdown(panel)
-        audit(self.conn, "panel.created", f"Panel creato: {panel.title}", task_id=panel.related_task_id, payload=panel.model_dump())
+        audit(self.conn, "panel.created", f"Panel created: {panel.title}", task_id=panel.related_task_id, payload=panel.model_dump())
         return panel
 
     def get(self, panel_id: str) -> Panel:
@@ -75,8 +75,8 @@ class PanelService:
         panels = self.list()
         items = "\n".join(f"<li><a href='panels/{panel.id}.md'>{panel.title}</a> ({panel.type})</li>" for panel in panels)
         html = f"""<!doctype html>
-<html lang="it"><head><meta charset="utf-8"><title>Private OS Panels</title></head>
-<body><h1>Private OS Panels</h1><p>Locale: 127.0.0.1. Non esporre su rete pubblica.</p><ul>{items}</ul></body></html>
+<html lang="en"><head><meta charset="utf-8"><title>Private OS Panels</title></head>
+<body><h1>Private OS Panels</h1><p>Local only: 127.0.0.1. Do not expose on a public network.</p><ul>{items}</ul></body></html>
 """
         path = self.workspace_dir / "index.html"
         path.write_text(html, encoding="utf-8")

@@ -12,19 +12,19 @@ export function EntityDetail({ entity }: EntityDetailProps) {
   if (!entity) {
     return (
       <SectionFrame
-        eyebrow="Dettaglio"
-        title="Nessuna entita' selezionata"
-        subtitle="Seleziona un elemento dalla lista per aprire contesto, payload e relazioni."
+        eyebrow="Detail"
+        title="No entity selected"
+        subtitle="Select an item from the list to open context, payload, and relationships."
       >
         <div className="rounded-[24px] border border-dashed border-black/10 bg-black/[0.02] p-8 text-sm text-black/45">
-          La dashboard resta in sola lettura: qui compare solo il contesto dell'elemento scelto.
+          The dashboard remains read-only: only the context of the selected item appears here.
         </div>
       </SectionFrame>
     )
   }
 
   return (
-    <SectionFrame eyebrow="Dettaglio" title={entity.title} subtitle="Contesto completo in lettura, pronto per audit e consultazione.">
+    <SectionFrame eyebrow="Detail" title={entity.title} subtitle="Full read-only context, ready for audit and review.">
       <div className="flex flex-wrap gap-2">
         <StatusBadge label={entity.kind} />
         <StatusBadge label={entity.status.split('_').join(' ')} />

@@ -1,11 +1,11 @@
 ## Summary
 
-- descrivi il cambiamento
+- describe the change
 
 ## Checks
 
-- [ ] test eseguiti
-- [ ] docs aggiornate se necessario
-- [ ] nessun dato personale reale aggiunto
-- [ ] nessun segreto o path locale sensibile aggiunto
-- [ ] safe mode e approval model rispettati
+- [ ] tests run
+- [ ] docs updated if needed
+- [ ] no real personal data added
+- [ ] no secrets or sensitive local paths added
+- [ ] safe mode and approval model respected

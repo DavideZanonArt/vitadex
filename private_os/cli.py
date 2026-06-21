@@ -38,18 +38,18 @@ from private_os.skills.exporter import SkillExporter
 from private_os.skills.validator import validate_exportable_manifests
 from private_os.web.app import create_web_app
 
-app = typer.Typer(help="Private OS locale-first per workflow personali.")
-memory_app = typer.Typer(help="Memoria strutturata.")
-task_app = typer.Typer(help="Task operative.")
-skills_app = typer.Typer(help="Skill disponibili.")
-approvals_app = typer.Typer(help="Coda approvazioni.")
+app = typer.Typer(help="Locale-first Private OS for personal workflows.")
+memory_app = typer.Typer(help="Structured memory.")
+task_app = typer.Typer(help="Operational tasks.")
+skills_app = typer.Typer(help="Available skills.")
+approvals_app = typer.Typer(help="Approval queue.")
 followups_app = typer.Typer(help="Follow-up.")
-logs_app = typer.Typer(help="Log audit.")
-agent_app = typer.Typer(help="Flussi agentici end-to-end.")
-costs_app = typer.Typer(help="Budget token e ottimizzazione costi.")
-codex_app = typer.Typer(help="Integrazione Codex harness.")
-constitution_app = typer.Typer(help="Costituzione operativa del progetto.")
-panel_app = typer.Typer(help="Workspace a pannelli.")
+logs_app = typer.Typer(help="Audit logs.")
+agent_app = typer.Typer(help="End-to-end agent flows.")
+costs_app = typer.Typer(help="Token budgets and cost optimization.")
+codex_app = typer.Typer(help="Codex harness integration.")
+constitution_app = typer.Typer(help="Project operating constitution.")
+panel_app = typer.Typer(help="Panel workspace.")
 app.add_typer(memory_app, name="memory")
 app.add_typer(task_app, name="task")
 app.add_typer(skills_app, name="skills")
@@ -86,15 +86,15 @@ def _services():
 
 @app.command()
 def init() -> None:
-    """Inizializza database e cartelle locali."""
+    """Initialize the database and local folders."""
     settings = get_settings()
     conn = connect(settings.db_path)
     init_db(conn)
     for folder in [settings.data_dir, settings.logs_dir, settings.memory_dir, settings.workspace_dir]:
         folder.mkdir(parents=True, exist_ok=True)
-    print(f"[green]Private OS inizializzato[/green]: {settings.db_path}")
-    print(f"Runtime locale: {settings.state_root}")
-    print("Safe mode attivo: nessun invio esterno, nessun pagamento, nessuna firma.")
+    print(f"[green]Private OS initialized[/green]: {settings.db_path}")
+    print(f"Local runtime: {settings.state_root}")
+    print("Safe mode enabled: no external sends, no payments, no signatures.")
 
 
 @app.command()
@@ -107,8 +107,8 @@ def dashboard() -> None:
 def serve() -> None:
     conn, settings, _, _ = _services()
     path = PanelService(conn, settings.state_root, workspace_dir=settings.workspace_dir).serve_static()
-    print(f"Dashboard locale inizializzata: {path}")
-    print("Aprila localmente. Rischio: non esporre questa cartella su rete pubblica.")
+    print(f"Local dashboard initialized: {path}")
+    print("Open it locally. Risk: do not expose this folder on a public network.")
 
 
 @app.command("web")
@@ -116,7 +116,7 @@ def web(
     host: Annotated[str, typer.Option("--host")] = "127.0.0.1",
     port: Annotated[int, typer.Option("--port")] = 8765,
 ) -> None:
-    """Avvia la dashboard web locale in sola lettura."""
+    """Start the local read-only web dashboard."""
     settings = get_settings()
     access_token = secrets.token_urlsafe(24)
     app_instance = create_web_app(
@@ -125,8 +125,8 @@ def web(
         db_path=settings.db_path,
         access_token=access_token,
     )
-    print(f"Dashboard web locale: http://{host}:{port}/?access_token={access_token}")
-    print("Modalita' sola lettura attiva. Non esporre questa porta su rete pubblica.")
+    print(f"Local web dashboard: http://{host}:{port}/?access_token={access_token}")
+    print("Read-only mode enabled. Do not expose this port on a public network.")
     uvicorn.run(app_instance, host=host, port=port, log_level="warning")
 
 
@@ -157,7 +157,7 @@ def panel_create(
     conn, settings, _, _ = _services()
     panel = Panel(title=title, type=type, content=content)  # type: ignore[arg-type]
     created = PanelService(conn, settings.state_root, workspace_dir=settings.workspace_dir).create(panel)
-    print(f"Panel creato: {created.id}")
+    print(f"Panel created: {created.id}")
 
 
 @panel_app.command("update")
@@ -170,14 +170,14 @@ def panel_update(
     updated = PanelService(conn, settings.state_root, workspace_dir=settings.workspace_dir).update(
         panel_id, content=content, status=status
     )
-    print(f"Panel aggiornato: {updated.id}")
+    print(f"Panel updated: {updated.id}")
 
 
 @panel_app.command("from-task")
 def panel_from_task(task_id: str) -> None:
     conn, settings, _, _ = _services()
     panel = PanelService(conn, settings.state_root, workspace_dir=settings.workspace_dir).from_task(task_id)
-    print(f"Panel task creato: {panel.id}")
+    print(f"Task panel created: {panel.id}")
 
 
 @panel_app.command("dashboard")
@@ -224,26 +224,26 @@ def codex_status() -> None:
 @codex_app.command("bind")
 def codex_bind(task_id: str) -> None:
     binding = _codex_adapter().bind_task(task_id)
-    print(f"Task collegata a thread Codex: {binding.thread.id}")
+    print(f"Task bound to Codex thread: {binding.thread.id}")
 
 
 @codex_app.command("resume")
 def codex_resume(task_id: str) -> None:
     result = _codex_adapter().resume_thread(task_id)
-    print(f"Ripresa Codex: {result.status}. {result.summary}")
+    print(f"Codex resume: {result.status}. {result.summary}")
 
 
 @codex_app.command("run")
 def codex_run(task_id: str, dry_run: Annotated[bool, typer.Option("--dry-run")] = True) -> None:
     result = _codex_adapter().run_task(task_id, dry_run=dry_run)
-    print(f"Esecuzione Codex: {result.status}. {result.summary}")
+    print(f"Codex run: {result.status}. {result.summary}")
 
 
 @codex_app.command("threads")
 def codex_threads() -> None:
     threads = _codex_adapter().list_threads()
     if not threads:
-        print("Nessun thread Codex collegato.")
+        print("No Codex thread is currently bound.")
         return
     for thread in threads:
         print(f"{thread.id} | task={thread.task_id} | {thread.title}")
@@ -282,13 +282,13 @@ def costs_budget(task_id: str) -> None:
 def costs_set_profile(task_id: str, profile: str) -> None:
     _, _, _, tasks = _services()
     if profile not in {"trivial", "normal", "complex", "expensive"}:
-        raise typer.BadParameter("Profilo valido: trivial|normal|complex|expensive")
+        raise typer.BadParameter("Valid profiles: trivial|normal|complex|expensive")
     task = tasks.get(task_id)
     task.cost_profile = profile  # type: ignore[assignment]
     task.token_budget = budget_for_profile(task.id, task.cost_profile).model_dump()
     tasks.save(task)
     if profile == "expensive":
-        print("Profilo expensive: richiede piano e approvazione esplicita prima dell'esecuzione.")
+        print("Expensive profile: requires a plan and explicit approval before execution.")
     print_json({"task_id": task.id, "cost_profile": task.cost_profile, "token_budget": task.token_budget})
 
 
@@ -312,9 +312,9 @@ def costs_optimize(task_id: str) -> None:
 @agent_app.command("intake")
 def agent_intake(
     message: str,
-    json_output: Annotated[bool, typer.Option("--json", help="Stampa JSON invece di Markdown.")] = False,
+    json_output: Annotated[bool, typer.Option("--json", help="Print JSON instead of Markdown.")] = False,
 ) -> None:
-    """Trasforma un messaggio libero in task, piano, dry-run, approval e follow-up."""
+    """Turn a free-form message into a task, plan, dry-run, approvals, and follow-ups."""
     conn, _, memory, tasks = _services()
     result = AgentIntakeService(conn, memory, tasks).intake(message)
     if json_output:
@@ -346,7 +346,7 @@ def memory_add(
         tags=[t.strip() for t in tags.split(",") if t.strip()],
     )
     memory.add(record)
-    print(f"Memoria aggiunta: {record.id}")
+    print(f"Memory added: {record.id}")
 
 
 @memory_app.command("list")
@@ -366,7 +366,7 @@ def memory_search(query: str) -> None:
 @memory_app.command("export")
 def memory_export() -> None:
     _, _, memory, _ = _services()
-    print(f"Export creato: {memory.export_markdown()}")
+    print(f"Export created: {memory.export_markdown()}")
 
 
 @memory_app.command("review")
@@ -379,26 +379,26 @@ def memory_review() -> None:
 @memory_app.command("compact")
 def memory_compact() -> None:
     _, _, memory, _ = _services()
-    print(f"Compaction aggiornata: {memory.compact()}")
+    print(f"Compaction updated: {memory.compact()}")
 
 
 @memory_app.command("reflect")
 def memory_reflect() -> None:
     _, _, memory, _ = _services()
-    print(f"Reflection generata: {memory.reflect()}")
+    print(f"Reflection generated: {memory.reflect()}")
 
 
 @memory_app.command("export-markdown")
 def memory_export_markdown() -> None:
     _, _, memory, _ = _services()
-    print(f"Export Markdown creato: {memory.export_markdown()}")
+    print(f"Markdown export created: {memory.export_markdown()}")
 
 
 @memory_app.command("import-markdown")
 def memory_import_markdown(path: Path) -> None:
     _, _, memory, _ = _services()
     records = memory.import_markdown(path)
-    print(f"Memorie importate: {len(records)}")
+    print(f"Imported memories: {len(records)}")
 
 
 @memory_app.command("diff")
@@ -418,14 +418,14 @@ def memory_stale() -> None:
 def memory_promote_from_task(task_id: str) -> None:
     _, _, memory, _ = _services()
     record = memory.promote_from_task(task_id)
-    print(f"Memoria promossa da task in review: {record.id}")
+    print(f"Memory promoted from task for review: {record.id}")
 
 
 @memory_app.command("deactivate")
 def memory_deactivate(memory_id: str) -> None:
     _, _, memory, _ = _services()
     memory.deactivate(memory_id)
-    print(f"Memoria disattivata: {memory_id}")
+    print(f"Memory deactivated: {memory_id}")
 
 
 @task_app.command("create")
@@ -447,7 +447,7 @@ def task_create(
         autonomy_level=autonomy_level,  # type: ignore[arg-type]
     )
     tasks.create(task)
-    print(f"Task creata: {task.id}")
+    print(f"Task created: {task.id}")
 
 
 @task_app.command("list")
@@ -481,28 +481,28 @@ def task_execute(task_id: str, dry_run: Annotated[bool, typer.Option("--dry-run"
 def task_update_status(task_id: str, status: str) -> None:
     _, _, _, tasks = _services()
     tasks.update_status(task_id, status)
-    print(f"Stato aggiornato: {task_id} -> {status}")
+    print(f"Status updated: {task_id} -> {status}")
 
 
 @task_app.command("add-note")
 def task_add_note(task_id: str, note: str) -> None:
     _, _, _, tasks = _services()
     tasks.add_note(task_id, note)
-    print("Nota aggiunta.")
+    print("Note added.")
 
 
 @task_app.command("close")
 def task_close(task_id: str) -> None:
     _, _, _, tasks = _services()
     tasks.update_status(task_id, "done")
-    print(f"Task chiusa: {task_id}")
+    print(f"Task closed: {task_id}")
 
 
 @task_app.command("archive")
 def task_archive(task_id: str) -> None:
     _, _, _, tasks = _services()
     tasks.update_status(task_id, "archived")
-    print(f"Task archiviata: {task_id}")
+    print(f"Task archived: {task_id}")
 
 
 @skills_app.command("list")
@@ -520,7 +520,7 @@ def skills_show(skill_id: str) -> None:
 def skills_match(task_id: str) -> None:
     _, _, _, tasks = _services()
     skill = SkillService().match(tasks.get(task_id))
-    print(f"Skill consigliata: {skill.manifest.id} - {skill.manifest.name}")
+    print(f"Recommended skill: {skill.manifest.id} - {skill.manifest.name}")
 
 
 @skills_app.command("export")
@@ -530,7 +530,7 @@ def skills_export(
 ) -> None:
     exported = SkillExporter(target).export(skill)
     for path in exported:
-        print(f"Skill esportata: {path}")
+        print(f"Skill exported: {path}")
 
 
 @skills_app.command("validate")
@@ -547,7 +547,7 @@ def skills_build() -> None:
     if any(errors for errors in result.values()):
         print_json(result)
         raise typer.Exit(code=1)
-    print("Skill build OK: manifest esportabili validi.")
+    print("Skill build OK: exportable manifests are valid.")
 
 
 @approvals_app.command("list")
@@ -567,7 +567,7 @@ def approvals_approve(
     approval_id: str, notes: Annotated[str | None, typer.Option("--notes")] = None
 ) -> None:
     ApprovalService(_conn()).approve(approval_id, notes)
-    print(f"Approvazione concessa: {approval_id}")
+    print(f"Approval granted: {approval_id}")
 
 
 @approvals_app.command("reject")
@@ -575,7 +575,7 @@ def approvals_reject(
     approval_id: str, notes: Annotated[str | None, typer.Option("--notes")] = None
 ) -> None:
     ApprovalService(_conn()).reject(approval_id, notes)
-    print(f"Approvazione rifiutata: {approval_id}")
+    print(f"Approval rejected: {approval_id}")
 
 
 @followups_app.command("list")
@@ -593,13 +593,13 @@ def followups_due() -> None:
 @followups_app.command("complete")
 def followups_complete(followup_id: str) -> None:
     FollowupService(_conn()).complete(followup_id)
-    print(f"Follow-up completato: {followup_id}")
+    print(f"Follow-up completed: {followup_id}")
 
 
 @followups_app.command("cancel")
 def followups_cancel(followup_id: str) -> None:
     FollowupService(_conn()).cancel(followup_id)
-    print(f"Follow-up cancellato: {followup_id}")
+    print(f"Follow-up canceled: {followup_id}")
 
 
 @logs_app.command("list")

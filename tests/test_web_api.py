@@ -27,40 +27,40 @@ def _seed_dashboard(root: Path, db_path: Path) -> None:
     conn = connect(db_path)
     init_db(conn)
     task = TaskRecord(
-        title="Organizzare documenti affitto",
+        title="Organize rental documents",
         area="home",
-        goal="Raccogliere tutto per invio proprietario",
+        goal="Gather everything for the landlord submission",
         status="active",
         priority="high",
-        missing_info=["Serve conferma ultime buste paga"],
+        missing_info=["Need confirmation of the latest pay slips"],
     )
     TaskService(conn).create(task)
     ApprovalService(conn).create(
         ApprovalRecord(
             task_id=task.id,
             action_type="email_draft",
-            title="Bozza email proprietario",
-            description="Rivedere il testo prima dell'invio",
+            title="Landlord email draft",
+            description="Review the text before sending",
         )
     )
     FollowupService(conn).create(
         FollowupRecord(
             task_id=task.id,
-            title="Ricontattare agenzia",
+            title="Follow up with agency",
             due_date="2026-06-21",
-            trigger_condition="Nessuna risposta entro 48h",
-            action="Preparare follow-up in italiano e inglese",
+            trigger_condition="No reply within 48h",
+            action="Prepare a follow-up in English",
         )
     )
     PanelService(conn, root).create(
         Panel(
-            title="Riepilogo affitto",
+            title="Rental summary",
             type="note",
-            content="Documenti raccolti, manca solo un allegato.",
+            content="Documents collected, only one attachment is missing.",
             related_task_id=task.id,
         )
     )
-    AuditService(conn).record("system.snapshot_ready", "Snapshot iniziale disponibile", task_id=task.id)
+    AuditService(conn).record("system.snapshot_ready", "Initial snapshot available", task_id=task.id)
     conn.close()
 
 
@@ -86,13 +86,13 @@ def test_operations_support_kind_and_search_filters(tmp_path: Path) -> None:
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
-    response = client.get("/api/operazioni", params={"kind": "approval", "search": "proprietario"})
+    response = client.get("/api/operations", params={"kind": "approval", "search": "landlord"})
 
     assert response.status_code == 200
     payload = response.json()
     assert payload["count"] == 1
     assert payload["items"][0]["kind"] == "approval"
-    assert payload["items"][0]["title"] == "Bozza email proprietario"
+    assert payload["items"][0]["title"] == "Landlord email draft"
 
 
 def test_entity_returns_rendered_panel_detail(tmp_path: Path) -> None:
@@ -102,12 +102,12 @@ def test_entity_returns_rendered_panel_detail(tmp_path: Path) -> None:
     panels_response = client.get("/api/panels")
     panel_id = panels_response.json()["items"][0]["id"]
 
-    response = client.get(f"/api/entita/panel/{panel_id}")
+    response = client.get(f"/api/entities/panel/{panel_id}")
 
     assert response.status_code == 200
     payload = response.json()
     assert payload["kind"] == "panel"
-    assert "Riepilogo affitto" in payload["rendered"]
+    assert "Rental summary" in payload["rendered"]
     assert payload["relatedTaskId"]
 
 
@@ -137,9 +137,9 @@ def test_operations_status_filter_orders_by_updated_at_and_honors_limit(tmp_path
     conn = connect(db_path)
     TaskService(conn).create(
         TaskRecord(
-            title="Aspettare conferma banca",
+            title="Wait for bank confirmation",
             area="finance",
-            goal="Verificare accredito finale",
+            goal="Verify the final transfer",
             status="waiting",
             created_at="2026-06-20T08:00:00+00:00",
             updated_at="2026-06-20T08:00:00+00:00",
@@ -147,9 +147,9 @@ def test_operations_status_filter_orders_by_updated_at_and_honors_limit(tmp_path
     )
     TaskService(conn).create(
         TaskRecord(
-            title="Aspettare contratto firmato",
+            title="Wait for signed contract",
             area="home",
-            goal="Ricevere copia firmata del contratto",
+            goal="Receive the signed copy of the contract",
             status="waiting",
             created_at="2026-06-21T08:00:00+00:00",
             updated_at="2026-06-21T08:00:00+00:00",
@@ -158,15 +158,15 @@ def test_operations_status_filter_orders_by_updated_at_and_honors_limit(tmp_path
     conn.close()
     client = _client(tmp_path, db_path)
 
-    limited = client.get("/api/operazioni", params={"kind": "task", "status": "waiting", "limit": 1})
-    full = client.get("/api/operazioni", params={"kind": "task", "status": "waiting", "limit": 2})
+    limited = client.get("/api/operations", params={"kind": "task", "status": "waiting", "limit": 1})
+    full = client.get("/api/operations", params={"kind": "task", "status": "waiting", "limit": 2})
 
     assert limited.status_code == 200
     assert full.status_code == 200
-    assert limited.json()["items"][0]["title"] == "Aspettare contratto firmato"
+    assert limited.json()["items"][0]["title"] == "Wait for signed contract"
     assert [item["title"] for item in full.json()["items"]] == [
-        "Aspettare contratto firmato",
-        "Aspettare conferma banca",
+        "Wait for signed contract",
+        "Wait for bank confirmation",
     ]
 
 
@@ -176,7 +176,7 @@ def test_api_requires_authentication(tmp_path: Path) -> None:
     client = TestClient(create_web_app(root=tmp_path, db_path=db_path, access_token="test-token"))
 
     snapshot_response = client.get("/api/dashboard/snapshot")
-    logs_response = client.get("/api/archivio/logs")
+    logs_response = client.get("/api/archive/logs")
 
     assert snapshot_response.status_code == 401
     assert logs_response.status_code == 401
@@ -188,15 +188,15 @@ def test_logs_endpoint_and_log_entity_redact_payload_and_preserve_risk_level(tmp
     conn = connect(db_path)
     critical_log = AuditService(conn).record(
         "approval.blocked",
-        "Invio bloccato per controllo finale",
+        "Send blocked for final review",
         payload={"channel": "email", "reason": "missing_attachment"},
         risk_level="critical",
     )
     conn.close()
     client = _client(tmp_path, db_path)
 
-    logs_response = client.get("/api/archivio/logs", params={"limit": 10})
-    entity_response = client.get(f"/api/entita/log/{critical_log['id']}")
+    logs_response = client.get("/api/archive/logs", params={"limit": 10})
+    entity_response = client.get(f"/api/entities/log/{critical_log['id']}")
 
     assert logs_response.status_code == 200
     assert entity_response.status_code == 200
@@ -219,9 +219,9 @@ def test_health_signature_changes_when_snapshot_changes(tmp_path: Path) -> None:
     conn = connect(db_path)
     TaskService(conn).create(
         TaskRecord(
-            title="Nuovo promemoria urgente",
+            title="New urgent reminder",
             area="bureaucracy",
-            goal="Caricare un nuovo documento richiesto",
+            goal="Upload a newly requested document",
             status="active",
             created_at="2026-06-21T12:00:00+00:00",
             updated_at="2026-06-21T12:00:00+00:00",

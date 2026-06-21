@@ -11,11 +11,11 @@ from private_os.skills.base import Skill, SkillContext
 class ComplaintManagementSkill(Skill):
     manifest = SkillManifest(
         id="complaint_management",
-        name="Gestione reclami",
-        description="Prepara reclami fattuali evitando linguaggio diffamatorio o legalmente rischioso.",
+        name="Complaint management",
+        description="Prepare factual complaints while avoiding defamatory or legally risky language.",
         area="bureaucracy",
-        trigger_examples=["reclamo", "lamentela", "rimborso", "contestazione"],
-        outputs=["timeline fattuale", "bozza neutra", "piano escalation", "checklist prove"],
+        trigger_examples=["complaint", "refund", "dispute", "issue"],
+        outputs=["factual timeline", "neutral draft", "escalation plan", "evidence checklist"],
         risk_level="high",
     )
 
@@ -24,14 +24,14 @@ class ComplaintManagementSkill(Skill):
             task_id=task.id,
             objective=task.goal,
             known_context=[task.title],
-            missing_info=["timeline verificabile", "prove", "risultato richiesto"],
-            risks=["Accuse non provate, toni aggressivi, impegni legali non voluti."],
-            recommended_strategy="Usare solo fatti verificabili, richiesta chiara e escalation prudente.",
+            missing_info=["verifiable timeline", "evidence", "requested outcome"],
+            risks=["Unproven accusations, aggressive tone, unintended legal commitments."],
+            recommended_strategy="Use only verifiable facts, a clear request, and cautious escalation.",
             steps=[
-                PlanStep(title="Timeline", description="Raccogliere date e prove."),
+                PlanStep(title="Timeline", description="Collect dates and evidence."),
                 PlanStep(
-                    title="Bozza neutra",
-                    description="Scrivere reclamo fattuale.",
+                    title="Neutral draft",
+                    description="Write a factual complaint.",
                     requires_approval=True,
                 ),
             ],
@@ -40,15 +40,15 @@ class ComplaintManagementSkill(Skill):
             approval_points=[
                 {
                     "action_type": "send_message",
-                    "title": "Invio reclamo",
-                    "description": "Invio solo dopo revisione del contenuto.",
+                    "title": "Send complaint",
+                    "description": "Send only after reviewing the content.",
                 }
             ],
-            expected_outputs=["timeline", "bozza", "escalation"],
-            final_recommendation_placeholder="Inviare solo se fatti e richiesta sono chiari.",
+            expected_outputs=["timeline", "draft", "escalation"],
+            final_recommendation_placeholder="Send only if the facts and request are clear.",
         )
 
     def execute(
         self, task: TaskRecord, plan: PlanRecord, context: SkillContext, dry_run: bool = True
     ) -> dict[str, Any]:
-        return {"dry_run": dry_run, "template": "templates/emails/complaint-neutral-it.md"}
+        return {"dry_run": dry_run, "template": "templates/emails/complaint-neutral-en.md"}

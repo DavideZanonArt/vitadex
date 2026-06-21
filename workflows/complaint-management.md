@@ -1,7 +1,7 @@
 # Complaint Management
 
-1. Separare fatti, opinioni e richieste.
-2. Costruire timeline verificabile.
-3. Allegare solo prove necessarie dopo approvazione.
-4. Scrivere bozza neutra.
-5. Pianificare escalation prudente.
+1. Separate facts, opinions, and requests.
+2. Build a verifiable timeline.
+3. Attach only the necessary evidence after approval.
+4. Write a neutral draft.
+5. Plan a cautious escalation.

@@ -1,15 +1,15 @@
 # Contributing
 
-Grazie per voler contribuire a `private-os`.
+Thanks for contributing to `private-os`.
 
-## Regole Base
+## Basic Rules
 
-- Nessun dato personale reale nel repository.
-- Nessun segreto, token, path assoluto locale o credenziale nei commit.
-- Tutte le azioni esterne devono restare safe-by-default.
-- Ogni cambiamento deve mantenere la separazione tra core pubblico e runtime locale.
+- No real personal data in the repository.
+- No secrets, tokens, absolute local paths, or credentials in commits.
+- All external actions must remain safe by default.
+- Every change must preserve the separation between the public core and the local runtime.
 
-## Setup Sviluppo
+## Development Setup
 
 ```bash
 python3.12 -m venv .venv
@@ -18,7 +18,7 @@ pip install -e ".[dev]"
 cp .env.example .env.local
 ```
 
-## Comandi Utili
+## Useful Commands
 
 ```bash
 pytest
@@ -28,23 +28,23 @@ mypy private_os
 
 ## Pull Request
 
-- Mantieni le PR piccole e focalizzate.
-- Aggiorna la documentazione se cambi setup, config o comportamento utente.
-- Aggiungi o aggiorna test quando il rischio regressione lo giustifica.
-- Conferma esplicitamente che non stai introducendo dati sensibili.
+- Keep PRs small and focused.
+- Update documentation if you change setup, configuration, or user-facing behavior.
+- Add or update tests when regression risk justifies it.
+- Confirm explicitly that you are not introducing sensitive data.
 
 ## Scope
 
-Contributi benvenuti:
+Welcome contributions:
 
-- hardening del runtime locale
-- integrazioni safe-by-default
+- hardening for the local runtime
+- safe-by-default integrations
 - docs
 - test
-- miglioramenti UX della CLI e dashboard
+- CLI and dashboard UX improvements
 
-Contributi fuori scope senza discussione preliminare:
+Out-of-scope contributions without prior discussion:
 
-- bypass delle approval
-- automazione di pagamenti, firme o impegni legali
-- accesso a contesti business o sistemi produttivi
+- approval bypasses
+- automation for payments, signatures, or legal commitments
+- access to business contexts or production systems

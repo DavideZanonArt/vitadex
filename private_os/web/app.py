@@ -55,7 +55,7 @@ def create_web_app(
     def dashboard_snapshot(read_model: PrivateOpsReadModel = Depends(get_read_model)) -> dict[str, object]:
         return read_model.dashboard_snapshot()
 
-    @app.get("/api/operazioni", dependencies=[Depends(require_web_access)])
+    @app.get("/api/operations", dependencies=[Depends(require_web_access)])
     def operations(
         kind: EntityKind | None = Query(default=None),
         status: str | None = Query(default=None),
@@ -66,7 +66,7 @@ def create_web_app(
         items = read_model.operations(kind=kind, status=status, search=search, limit=limit)
         return {"items": items, "count": len(items)}
 
-    @app.get("/api/archivio/logs", dependencies=[Depends(require_web_access)])
+    @app.get("/api/archive/logs", dependencies=[Depends(require_web_access)])
     def logs(
         limit: int = Query(default=50, ge=1, le=200),
         read_model: PrivateOpsReadModel = Depends(get_read_model),
@@ -96,7 +96,7 @@ def create_web_app(
 
         return StreamingResponse(event_stream(), media_type="text/event-stream")
 
-    @app.get("/api/entita/{kind}/{entity_id}", dependencies=[Depends(require_web_access)])
+    @app.get("/api/entities/{kind}/{entity_id}", dependencies=[Depends(require_web_access)])
     def entity(
         kind: EntityKind,
         entity_id: str,
@@ -105,7 +105,7 @@ def create_web_app(
         try:
             return read_model.entity(kind, entity_id)
         except KeyError as exc:
-            raise HTTPException(status_code=404, detail=f"Entita' non trovata: {kind}/{entity_id}") from exc
+            raise HTTPException(status_code=404, detail=f"Entity not found: {kind}/{entity_id}") from exc
 
     @app.get("/api/health", dependencies=[Depends(require_web_access)])
     def health(read_model: PrivateOpsReadModel = Depends(get_read_model)) -> JSONResponse:

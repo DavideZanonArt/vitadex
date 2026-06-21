@@ -1,28 +1,28 @@
 # Security Policy
 
-## Come Segnalare
+## Reporting
 
-Non aprire issue pubbliche per:
+Do not open public issues for:
 
-- segreti esposti
-- leak di dati personali
-- bypass di approval o safe mode
-- vulnerabilita' che permettono accesso a file locali non previsti
+- exposed secrets
+- personal data leaks
+- approval or safe-mode bypasses
+- vulnerabilities that allow unintended access to local files
 
-Apri invece una segnalazione privata verso il maintainer con:
+Instead, send a private report to the maintainer including:
 
-- descrizione del problema
-- impatto
-- passi per riprodurre
-- eventuale fix suggerito
+- problem description
+- impact
+- steps to reproduce
+- suggested fix, if available
 
-## Regole Di Sicurezza Del Progetto
+## Project Security Rules
 
-- il repository pubblico non deve contenere dati personali reali
-- il runtime locale deve restare fuori dal versionamento
-- le integrazioni esterne devono essere opt-in e approval-gated
-- safe mode deve restare il default
+- the public repository must not contain real personal data
+- the local runtime must remain outside version control
+- external integrations must be opt-in and approval-gated
+- safe mode must remain the default
 
 ## Disclosure
 
-Le segnalazioni valide vengono confermate rapidamente, corrette in branch privata se necessario e pubblicate solo dopo disponibilita' della patch.
+Valid reports are acknowledged quickly, fixed in a private branch when needed, and disclosed only after a patch is available.

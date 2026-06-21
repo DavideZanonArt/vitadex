@@ -1,6 +1,6 @@
-# Shortlist affitto Monaco 6 mesi
+# Munich 6-month housing shortlist
 
-| Rank | Opzione | Zona | Prezzo totale | Pro | Contro | Rischi | Prossima azione |
+| Rank | Option | Area | Total price | Pros | Cons | Risks | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- |
 | 1 | | | | | | | |
 | 2 | | | | | | | |

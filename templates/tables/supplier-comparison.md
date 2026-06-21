@@ -1,3 +1,3 @@
-| Fornitore | Contatto | Prezzo | Inclusioni | Esclusioni | Tempi | Validità | Rischi | Score | Prossima azione |
+| Supplier | Contact | Price | Inclusions | Exclusions | Timing | Validity | Risks | Score | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | | | | | | | | | |

@@ -11,11 +11,11 @@ from private_os.skills.base import Skill, SkillContext
 class DocumentRequestSkill(Skill):
     manifest = SkillManifest(
         id="document_request",
-        name="Richiesta documenti",
-        description="Organizza richieste, checklist e tracking documenti.",
+        name="Document request",
+        description="Organize document requests, checklists, and tracking.",
         area="bureaucracy",
-        trigger_examples=["documento", "documenti", "certificato", "richiedere"],
-        outputs=["checklist documenti", "email richiesta", "tracker", "follow-up"],
+        trigger_examples=["document", "documents", "certificate", "request"],
+        outputs=["document checklist", "request email", "tracker", "follow-up"],
     )
 
     def plan(self, task: TaskRecord, context: SkillContext) -> PlanRecord:
@@ -23,13 +23,13 @@ class DocumentRequestSkill(Skill):
             task_id=task.id,
             objective=task.goal,
             known_context=[task.title],
-            missing_info=["ente/persona destinataria", "scadenza", "formato richiesto"],
-            risks=["Documenti sensibili: non caricare o inviare senza approvazione esplicita."],
-            recommended_strategy="Creare checklist e bozza richiesta; ogni invio resta approvato manualmente.",
+            missing_info=["recipient organization or person", "deadline", "required format"],
+            risks=["Sensitive documents: do not upload or send them without explicit approval."],
+            recommended_strategy="Create a checklist and request draft; every send remains manually approved.",
             steps=[
-                PlanStep(title="Checklist", description="Elencare documenti e stato."),
+                PlanStep(title="Checklist", description="List the documents and their status."),
                 PlanStep(
-                    title="Bozza richiesta", description="Preparare email.", requires_approval=True
+                    title="Request draft", description="Prepare the email.", requires_approval=True
                 ),
             ],
             required_skills=["document_request", "email_followup"],
@@ -37,15 +37,15 @@ class DocumentRequestSkill(Skill):
             approval_points=[
                 {
                     "action_type": "send_message",
-                    "title": "Invio richiesta documenti",
-                    "description": "Inviare richiesta dopo verifica dati.",
+                    "title": "Send document request",
+                    "description": "Send the request after verifying the data.",
                 }
             ],
-            expected_outputs=["checklist", "tracker", "bozza"],
-            final_recommendation_placeholder="Procedere solo con destinatario e scadenza confermati.",
+            expected_outputs=["checklist", "tracker", "draft"],
+            final_recommendation_placeholder="Proceed only after the recipient and deadline are confirmed.",
         )
 
     def execute(
         self, task: TaskRecord, plan: PlanRecord, context: SkillContext, dry_run: bool = True
     ) -> dict[str, Any]:
-        return {"dry_run": dry_run, "template": "templates/emails/document-request-it.md"}
+        return {"dry_run": dry_run, "template": "templates/emails/document-request-en.md"}

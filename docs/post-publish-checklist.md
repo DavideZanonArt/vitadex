@@ -2,29 +2,29 @@
 
 ## GitHub
 
-- abilita branch protection su `main`
-- richiedi PR per modifiche a `main`
-- rendi obbligatorie le Actions verdi
-- abilita `Dependabot alerts`
-- abilita `Dependabot security updates`
-- abilita `Secret scanning` se disponibile
+- enable branch protection on `main`
+- require PRs for changes to `main`
+- make passing Actions mandatory
+- enable `Dependabot alerts`
+- enable `Dependabot security updates`
+- enable `Secret scanning` when available
 
 ## Repository Hygiene
 
-- controlla regolarmente `.secrets.baseline`
-- aggiorna `CHANGELOG.md` ad ogni release
-- mantieni `README.md` allineato al setup reale
-- rimuovi esempi che diventano troppo vicini a casi reali
+- review `.secrets.baseline` regularly
+- update `CHANGELOG.md` for every release
+- keep `README.md` aligned with the real setup
+- remove examples that become too close to real cases
 
 ## Local Runtime
 
-- usa solo `.env.local`
-- usa solo `CONSTITUTION.local.md`
-- mantieni `PRIVATE_OS_STATE_ROOT` fuori dal repository
-- non fare commit di memoria, DB, log o workspace
+- use only `.env.local`
+- use only `CONSTITUTION.local.md`
+- keep `PRIVATE_OS_STATE_ROOT` outside the repository
+- do not commit memory, the database, logs, or workspace files
 
 ## Release
 
-- tagga la release
-- scrivi release notes sintetiche
-- verifica CI verde prima del tag
+- tag the release
+- write concise release notes
+- verify CI is green before tagging

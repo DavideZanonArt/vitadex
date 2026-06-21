@@ -3,27 +3,27 @@
 [![CI](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml)
 [![Secret Scan](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml)
 
-Framework locale-first per costruire un personal agent OS con memoria, task, piani, approvazioni, follow-up, audit log e integrazione Codex.
+Locale-first framework for building a personal agent OS with memory, tasks, plans, approvals, follow-ups, audit logs, and Codex integration.
 
-Il repository pubblico contiene il core del prodotto. I dati personali, la memoria reale, i log e le configurazioni dell'utente devono vivere solo in locale, fuori dal versionamento.
+The public repository contains the product core. Personal data, real memory, logs, and user-specific configuration must remain local and outside version control.
 
-## Funzionalità
+## Features
 
-- Task operative con stato, obiettivo, vincoli, assunzioni e next actions.
-- Memoria strutturata con review, sensibilità e ricerca locale.
-- Approval queue per tutte le azioni esterne.
-- Follow-up e audit log persistenti.
-- Dashboard CLI e web in sola lettura.
-- Skill esportabili e riusabili.
-- Integrazione locale con Codex harness in modalità `dry_run` e `fail_closed`.
+- Operational tasks with status, goal, constraints, assumptions, and next actions.
+- Structured memory with review workflows, sensitivity levels, and local search.
+- Approval queue for all external actions.
+- Persistent follow-ups and audit logs.
+- Read-only CLI and web dashboards.
+- Exportable and reusable skills.
+- Local Codex harness integration running in `dry_run` and `fail_closed` mode.
 
-## Requisiti
+## Requirements
 
 - Python 3.12+
-- ambiente locale Unix-like o macOS
-- nessuna credenziale business nel repository
+- a Unix-like local environment or macOS
+- no business credentials stored in the repository
 
-## Installazione
+## Installation
 
 ```bash
 python3.12 -m venv .venv
@@ -34,15 +34,15 @@ cp .env.example .env.local
 private-os init
 ```
 
-## Configurazione Locale Sicura
+## Secure Local Configuration
 
-Il repository pubblico non deve contenere dati personali. Usa sempre un overlay locale non tracciato:
+The public repository must not contain personal data. Always use an untracked local overlay:
 
 ```bash
 cp .env.example .env.local
 ```
 
-Configura almeno questi path locali:
+Configure at least these local paths:
 
 - `PRIVATE_OS_STATE_ROOT`
 - `PRIVATE_OS_DATA_DIR`
@@ -51,7 +51,7 @@ Configura almeno questi path locali:
 - `PRIVATE_OS_WORKSPACE_DIR`
 - `PRIVATE_OS_DB_PATH`
 
-Esempio consigliato:
+Recommended example:
 
 ```env
 PRIVATE_OS_STATE_ROOT=~/.private-os
@@ -62,14 +62,14 @@ PRIVATE_OS_WORKSPACE_DIR=~/.private-os/workspace
 PRIVATE_OS_DB_PATH=~/.private-os/data/private_os.sqlite
 ```
 
-Il file `.env.local` non va committato. Lo stesso vale per `memory/`, `housing/`, `workspace/`, `logs/`, DB SQLite e qualsiasi file con contenuti personali.
+Do not commit `.env.local`. The same rule applies to `memory/`, `housing/`, `workspace/`, `logs/`, the SQLite database, and any file containing personal content.
 
 ## Quickstart
 
 ```bash
 private-os init
-private-os memory add --type preference --area travel --text "Preferisco viaggi in auto con Wi-Fi affidabile."
-private-os task create --title "Preparare richiesta appartamento temporaneo" --area home --goal "Raccogliere opzioni e bozze di contatto"
+private-os memory add --type preference --area travel --text "I prefer road trips with reliable Wi-Fi."
+private-os task create --title "Prepare temporary apartment request" --area home --goal "Collect options and outreach drafts"
 private-os task plan <task_id>
 private-os task execute <task_id> --dry-run
 private-os approvals list
@@ -78,37 +78,37 @@ private-os web
 private-os codex status
 ```
 
-## Modello Di Sicurezza
+## Security Model
 
-Safe mode è attivo di default:
+Safe mode is enabled by default:
 
-- browser in modalità mock/search-plan
-- Gmail crea bozze, non invia
-- Calendar crea proposte, non eventi reali
-- Drive usa storage locale mock
-- Telegram genera notifiche mock
-- filesystem limitato all'ambito configurato
-- pagamenti, firme e impegni legali sono vietati
+- browser runs in mock or search-plan mode
+- Gmail creates drafts and does not send messages
+- Calendar creates proposals instead of real events
+- Drive uses mock local storage
+- Telegram generates mock notifications
+- filesystem access is limited to the configured scope
+- payments, signatures, and legal commitments are forbidden
 
-## Modello Repository
+## Repository Model
 
-Il pattern previsto è:
+The intended structure is:
 
-- `repo pubblico`: codice, test, documentazione, esempi anonimi, config base
-- `istanza locale`: profilo utente, memoria reale, task reali, output runtime, override locali
-- `Codex`: agganciato all'istanza locale, non ai dati pubblicati
+- `public repo`: code, tests, documentation, anonymized examples, base configuration
+- `local instance`: user profile, real memory, real tasks, runtime outputs, local overrides
+- `Codex`: attached to the local instance, not to published data
 
-## Struttura Principale
+## Main Structure
 
-- `private_os/`: implementazione Python
-- `tests/`: test automatici
-- `config/`: policy e default versionati
-- `docs/`: architettura, setup locale e integrazioni
-- `examples/`: fixture anonime
-- `templates/`: template generici
-- `workflows/`: workflow documentati
+- `private_os/`: Python implementation
+- `tests/`: automated tests
+- `config/`: versioned policies and defaults
+- `docs/`: architecture, local setup, and integrations
+- `examples/`: anonymous fixtures
+- `templates/`: generic templates
+- `workflows/`: documented workflows
 
-## Skill Incluse
+## Included Skills
 
 - `housing_search`
 - `quote_request`
@@ -121,14 +121,14 @@ Il pattern previsto è:
 - `decision_matrix`
 - `dashboard_digest`
 
-## Integrazione Codex
+## Codex Integration
 
-`private-os codex ...` collega una task locale a un thread Codex. Il core mantiene task, memoria, approvals, follow-up e audit log; Codex mantiene la sessione agente e le modifiche workspace.
+`private-os codex ...` binds a local task to a Codex thread. The core keeps tasks, memory, approvals, follow-ups, and audit logs; Codex owns the agent session and workspace changes.
 
-Vedi `docs/future-openclaw-integration.md` e `private_os/integrations/codex_harness/README.md`.
-Per il workflow locale definitivo, vedi `docs/codex-local-workflow.md`.
+See `docs/future-openclaw-integration.md` and `private_os/integrations/codex_harness/README.md`.
+For the canonical local workflow, see `docs/codex-local-workflow.md`.
 
-## Sviluppo
+## Development
 
 ```bash
 pytest
@@ -136,23 +136,23 @@ ruff check .
 mypy private_os
 ```
 
-Per aggiungere una skill:
+To add a skill:
 
-1. Crea `private_os/skills/<skill>.py`.
-2. Estendi `Skill`.
-3. Definisci `manifest`.
-4. Implementa `plan()` ed `execute()`.
-5. Registra la skill in `private_os/skills/__init__.py`.
-6. Aggiungi workflow, template e test.
+1. Create `private_os/skills/<skill>.py`.
+2. Extend `Skill`.
+3. Define `manifest`.
+4. Implement `plan()` and `execute()`.
+5. Register the skill in `private_os/skills/__init__.py`.
+6. Add workflow, templates, and tests.
 
-## Contributi
+## Contributions
 
-Apri issue o pull request seguendo `CONTRIBUTING.md`. Le PR non devono contenere dati personali, segreti, path locali assoluti o esempi reali riconducibili a persone reali.
+Open issues or pull requests following `CONTRIBUTING.md`. PRs must not contain personal data, secrets, absolute local paths, or real examples traceable to actual people.
 
-## Operazioni Post Publish
+## Post-Publish Operations
 
-Vedi `docs/post-publish-checklist.md` per i passaggi GitHub e runtime da mantenere dopo la pubblicazione.
+See `docs/post-publish-checklist.md` for the GitHub and runtime steps to maintain after publishing.
 
-## Licenza
+## License
 
 Vedi `LICENSE`.

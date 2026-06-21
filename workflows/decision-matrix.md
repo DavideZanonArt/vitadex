@@ -1,7 +1,7 @@
 # Decision Matrix
 
-1. Definire opzioni.
-2. Definire criteri e pesi.
-3. Separare dati certi e assunzioni.
-4. Calcolare score.
-5. Raccomandare opzione, backup e rischi.
+1. Define the options.
+2. Define criteria and weights.
+3. Separate known data from assumptions.
+4. Calculate the score.
+5. Recommend a primary option, a backup, and the risks.

@@ -63,11 +63,11 @@ export const useOpsStore = create<OpsState>((set, get) => ({
     if (filters.search) {
       params.set('search', filters.search)
     }
-    const response = await fetchJson<PaginatedItems>(`/api/operazioni?${params.toString()}`)
+    const response = await fetchJson<PaginatedItems>(`/api/operations?${params.toString()}`)
     set({ operations: response.items, error: null })
   },
   refreshLogs: async () => {
-    const response = await fetchJson<PaginatedItems>('/api/archivio/logs')
+    const response = await fetchJson<PaginatedItems>('/api/archive/logs')
     set({ logs: response.items, error: null })
   },
   refreshPanels: async () => {
@@ -84,17 +84,17 @@ export const useOpsStore = create<OpsState>((set, get) => ({
         get().refreshPanels(),
       ])
     } catch (error) {
-      set({ error: error instanceof Error ? error.message : 'Errore sconosciuto' })
+      set({ error: error instanceof Error ? error.message : 'Unknown error' })
     } finally {
       set({ isLoading: false })
     }
   },
   selectEntity: async (kind, entityId) => {
     try {
-      const selectedEntity = await fetchJson<EntityDetail>(`/api/entita/${kind}/${entityId}`)
+      const selectedEntity = await fetchJson<EntityDetail>(`/api/entities/${kind}/${entityId}`)
       set({ selectedEntity, error: null })
     } catch (error) {
-        set({ error: error instanceof Error ? error.message : "Errore dettaglio entita'" })
-      }
-    },
+      set({ error: error instanceof Error ? error.message : 'Entity detail error' })
+    }
+  },
 }))

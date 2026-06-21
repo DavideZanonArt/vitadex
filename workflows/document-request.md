@@ -1,7 +1,7 @@
 # Document Request
 
-1. Elencare documenti necessari.
-2. Identificare fonte e scadenza.
-3. Scrivere richiesta.
-4. Tracciare stato.
-5. Follow-up se non arriva risposta.
+1. List the required documents.
+2. Identify the source and deadline.
+3. Write the request.
+4. Track the status.
+5. Follow up if no reply arrives.

@@ -1,9 +1,9 @@
 # Housing Search
 
-1. Definire criteri minimi: città, durata, zona, budget, persone, date, arredato, Wi-Fi, parcheggio.
-2. Preparare fonti e query senza navigazione reale in safe mode.
-3. Compilare tabella confronto.
-4. Preparare messaggio di disponibilità in bozza.
-5. Creare follow-up a 3 e 7 giorni.
-6. Produrre shortlist con rischi e raccomandazione.
-7. Chiedere approvazione prima di ogni invio o condivisione documenti.
+1. Define the minimum criteria: city, duration, area, budget, people, dates, furnished status, Wi-Fi, and parking.
+2. Prepare sources and queries without live browsing in safe mode.
+3. Fill in the comparison table.
+4. Prepare the availability message as a draft.
+5. Create follow-ups at 3 and 7 days.
+6. Produce a shortlist with risks and a recommendation.
+7. Request approval before any send or document sharing.

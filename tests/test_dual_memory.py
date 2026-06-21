@@ -6,7 +6,7 @@ from private_os.models.memory import MemoryRecord
 def test_markdown_export_works(memory, root):
     memory.add(
         MemoryRecord(
-            text="Preferisco Wi-Fi affidabile quando viaggio.",
+            text="I prefer reliable Wi-Fi when I travel.",
             type="preference",
             area="preferences",
         )
@@ -15,13 +15,13 @@ def test_markdown_export_works(memory, root):
     path = memory.export_markdown()
 
     assert path.exists()
-    assert "Preferisco Wi-Fi affidabile" in path.read_text(encoding="utf-8")
+    assert "I prefer reliable Wi-Fi" in path.read_text(encoding="utf-8")
 
 
 def test_sqlite_memory_remains_source_of_truth(memory):
     record = memory.add(
         MemoryRecord(
-            text="Budget massimo da confermare prima di inviare richieste.",
+            text="Maximum budget to confirm before sending requests.",
             type="constraint",
             area="constraints",
         )
@@ -29,14 +29,14 @@ def test_sqlite_memory_remains_source_of_truth(memory):
 
     diff = memory.diff()
 
-    assert memory.search("Budget massimo")[0].id == record.id
+    assert memory.search("Maximum budget")[0].id == record.id
     assert diff["sqlite_records"] == 1
 
 
 def test_inferred_memories_require_review(memory):
     record = memory.add(
         MemoryRecord(
-            text="L'utente forse preferisce quartieri centrali.",
+            text="The user may prefer central neighborhoods.",
             type="preference",
             area="preferences",
             source="assistant_inferred",
@@ -49,11 +49,11 @@ def test_inferred_memories_require_review(memory):
 
 def test_sensitive_memories_are_blocked_from_external_output(memory):
     safe = memory.add(
-        MemoryRecord(text="Preferisce email concise.", type="preference", area="preferences")
+        MemoryRecord(text="Prefers concise emails.", type="preference", area="preferences")
     )
     sensitive = memory.add(
         MemoryRecord(
-            text="Dato personale sensibile.",
+            text="Sensitive personal data.",
             type="profile",
             area="private_profile",
             sensitivity="sensitive",
@@ -70,8 +70,8 @@ def test_sensitive_memories_are_blocked_from_external_output(memory):
 def test_compaction_preserves_constraints(memory, root):
     memory.add(
         MemoryRecord(
-            text="Non inviare email senza approvazione.",
-            canonical_text="Non inviare email senza approvazione.",
+            text="Do not send email without approval.",
+            canonical_text="Do not send email without approval.",
             type="constraint",
             area="constraints",
         )
@@ -79,4 +79,4 @@ def test_compaction_preserves_constraints(memory, root):
 
     path = memory.compact()
 
-    assert "Non inviare email senza approvazione." in path.read_text(encoding="utf-8")
+    assert "Do not send email without approval." in path.read_text(encoding="utf-8")

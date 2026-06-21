@@ -3,9 +3,9 @@ from __future__ import annotations
 from private_os.costs.budget import TaskCostProfile, UsageEstimate
 from private_os.models.task import TaskRecord
 
-TRIVIAL_TERMS = {"rinomina", "template", "classifica", "inspect", "piccolo", "nota"}
-COMPLEX_TERMS = {"architettura", "permission", "sicurezza", "refactor", "integrazione"}
-EXPENSIVE_TERMS = {"audit completo", "tutto il repository", "multi-agent", "browser", "grande refactor"}
+TRIVIAL_TERMS = {"rename", "template", "classify", "inspect", "small", "note"}
+COMPLEX_TERMS = {"architecture", "permission", "security", "refactor", "integration"}
+EXPENSIVE_TERMS = {"full audit", "entire repository", "multi-agent", "browser", "large refactor"}
 
 
 class CostEstimator:
@@ -29,7 +29,7 @@ class CostEstimator:
         }[profile]
         warnings = []
         if profile == "expensive":
-            warnings.append("Profilo expensive: richiede piano e approvazione esplicita.")
+            warnings.append("Expensive profile: requires a plan and explicit approval.")
         return UsageEstimate(
             task_id=task.id,
             profile=profile,

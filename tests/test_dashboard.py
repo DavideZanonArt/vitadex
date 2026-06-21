@@ -7,12 +7,12 @@ from private_os.services.dashboard_service import DashboardService
 def test_dashboard_output(conn, tasks):
     tasks.create(
         TaskRecord(
-            title="Cercare affitto 6 mesi a Monaco",
+            title="Find a 6-month rental in Munich",
             area="home",
-            goal="Trovare casa",
+            goal="Find a home",
             status="active",
         )
     )
     output = DashboardService(conn).render()
     assert "PRIVATE OPS DASHBOARD" in output
-    assert "Cercare affitto" in output
+    assert "Find a 6-month rental" in output

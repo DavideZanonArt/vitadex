@@ -46,7 +46,7 @@ class Skill(ABC):
                 ApprovalRecord(
                     task_id=task.id,
                     action_type=point.get("action_type", "send_message"),
-                    title=point.get("title", "Approvazione richiesta"),
+                    title=point.get("title", "Approval required"),
                     description=point.get("description", ""),
                     payload=payload,
                     risk_level=point.get("risk_level", "medium"),

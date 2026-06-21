@@ -1,43 +1,43 @@
 # Architecture
 
-## Modello
+## Model
 
-`private-os` usa una separazione netta tra:
+`private-os` enforces a clear split between:
 
-- core pubblico versionato
-- runtime locale non tracciato
+- versioned public core
+- untracked local runtime
 
-## Core Pubblico
+## Public Core
 
-Il core contiene:
+The core contains:
 
-- codice Python
-- test
-- documentazione
-- config base
-- esempi anonimi
+- Python code
+- tests
+- documentation
+- base configuration
+- anonymous examples
 
-## Runtime Locale
+## Local Runtime
 
-Il runtime contiene:
+The runtime contains:
 
-- memoria reale
-- task reali
-- log
+- real memory
+- real tasks
+- logs
 - workspace
-- database SQLite
-- override locali
+- SQLite database
+- local overrides
 
-## Flusso Operativo
+## Operational Flow
 
-1. un input crea o aggiorna una task
-2. il sistema recupera memoria rilevante
-3. seleziona una skill
-4. produce un piano
-5. esegue solo in `dry_run` se l'azione è esterna
-6. genera approval e follow-up
-7. registra audit log
+1. an input creates or updates a task
+2. the system retrieves relevant memory
+3. it selects a skill
+4. it produces a plan
+5. it executes only in `dry_run` when the action is external
+6. it generates approvals and follow-ups
+7. it records the audit log
 
-## Integrazione Codex
+## Codex Integration
 
-Codex lavora sul workspace locale e sul core, ma non deve introdurre dati personali nel repository pubblico.
+Codex works on the local workspace and the core, but it must not introduce personal data into the public repository.

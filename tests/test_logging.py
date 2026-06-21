@@ -10,12 +10,12 @@ from private_os.services.planning_service import PlanningService
 
 def test_logging_of_planning_and_approval(conn, memory, tasks):
     task = tasks.create(
-        TaskRecord(title="Cercare affitto 6 mesi a Monaco", area="home", goal="Trovare casa")
+        TaskRecord(title="Find a 6-month rental in Munich", area="home", goal="Find a home")
     )
     PlanningService(conn, memory, tasks).create_plan(task.id)
     ApprovalService(conn).create(
         ApprovalRecord(
-            task_id=task.id, action_type="send_message", title="Invio", description="Email"
+            task_id=task.id, action_type="send_message", title="Send", description="Email"
         )
     )
     events = [log["event_type"] for log in AuditService(conn).list()]
@@ -24,8 +24,8 @@ def test_logging_of_planning_and_approval(conn, memory, tasks):
 
 
 def test_audit_logs_keep_latest_insert_first_with_same_second_timestamps(conn):
-    first = audit(conn, "system.first", "Primo evento")
-    second = audit(conn, "system.second", "Secondo evento")
+    first = audit(conn, "system.first", "First event")
+    second = audit(conn, "system.second", "Second event")
 
     logs = AuditService(conn).list()
 

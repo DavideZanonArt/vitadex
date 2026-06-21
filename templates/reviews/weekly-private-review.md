@@ -1,13 +1,13 @@
-# Review settimanale private ops
+# Weekly private ops review
 
-## Task attive
+## Active tasks
 
 ## Waiting
 
-## Approvazioni in attesa
+## Pending approvals
 
-## Follow-up scaduti
+## Overdue follow-ups
 
-## Decisioni richieste
+## Required decisions
 
-## Azioni consigliate
+## Suggested actions

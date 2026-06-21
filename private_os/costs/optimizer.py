@@ -11,16 +11,16 @@ class CostOptimizer:
         if requested_subagents > budget.max_subagents:
             return BudgetDecision(
                 allowed=False,
-                reason="Subagent bloccati dal budget della task.",
-                suggested_actions=["Usa un solo agente principale o aumenta il profilo costi."],
+                reason="Subagents are blocked by the task budget.",
+                suggested_actions=["Use a single main agent or increase the cost profile."],
             )
-        return BudgetDecision(allowed=True, reason="Subagent dentro budget.")
+        return BudgetDecision(allowed=True, reason="Subagents are within budget.")
 
     def cap_output(self, text: str, max_lines: int) -> str:
         lines = text.splitlines()
         if len(lines) <= max_lines:
             return text
-        return "\n".join([*lines[:max_lines], "[Output troncato dal budget]"])
+        return "\n".join([*lines[:max_lines], "[Output truncated by budget]"])
 
     def optimize(self, budget: TokenBudget, usage_logs: list[UsageLog]) -> BudgetDecision:
         policy = default_policy()
@@ -28,18 +28,18 @@ class CostOptimizer:
         warnings: list[str] = []
         repeated = Counter(log.prompt_fingerprint for log in usage_logs if log.prompt_fingerprint)
         if any(count >= policy.suggest_skill_after_repeated_prompts for count in repeated.values()):
-            suggestions.append("Estrai una skill: prompt simili si stanno ripetendo.")
+            suggestions.append("Extract a skill: similar prompts are repeating.")
         if len(usage_logs) >= policy.suggest_agents_update_after_repeated_instructions:
-            suggestions.append("Valuta aggiornamento AGENTS.md: istruzioni operative ripetute.")
+            suggestions.append("Consider updating AGENTS.md: operational instructions are repeating.")
         if sum(log.turns for log in usage_logs) >= policy.suggest_compaction_after_turns:
-            suggestions.append("Compatta il contesto prima di continuare.")
+            suggestions.append("Compact the context before continuing.")
         if budget.require_plan_first:
-            warnings.append("Questa task richiede un piano prima dell'esecuzione.")
+            warnings.append("This task requires a plan before execution.")
         if budget.require_compaction:
-            warnings.append("Questa task richiede compaction se la sessione si allunga.")
+            warnings.append("This task requires compaction if the session grows long.")
         return BudgetDecision(
             allowed=True,
-            reason="Budget valutato.",
+            reason="Budget evaluated.",
             warnings=warnings,
-            suggested_actions=suggestions or ["Nessuna ottimizzazione urgente."],
+            suggested_actions=suggestions or ["No urgent optimization needed."],
         )

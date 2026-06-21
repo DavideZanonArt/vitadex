@@ -11,17 +11,17 @@ from private_os.skills.base import Skill, SkillContext
 class TravelPlanningSkill(Skill):
     manifest = SkillManifest(
         id="travel_planning",
-        name="Pianificazione viaggi",
-        description="Organizza viaggi personali con vincoli pratici.",
+        name="Travel planning",
+        description="Organize personal travel with practical constraints.",
         area="travel",
-        trigger_examples=["viaggio", "hotel", "itinerario", "trasporto"],
+        trigger_examples=["travel", "hotel", "itinerary", "transport"],
         outputs=[
-            "itinerario",
-            "criteri alloggio",
-            "trasporti",
+            "itinerary",
+            "lodging criteria",
+            "transport",
             "budget",
             "workability check",
-            "raccomandazione",
+            "recommendation",
         ],
     )
 
@@ -31,29 +31,29 @@ class TravelPlanningSkill(Skill):
             objective=task.goal,
             known_context=[task.title, task.description],
             assumptions=[
-                "Preferire opzioni verificabili e cancellabili se i dati sono incompleti."
+                "Prefer options that are verifiable and cancellable when the data is incomplete."
             ],
-            missing_info=["date", "budget", "preferenze trasporto"],
-            risks=["Prenotazioni non rimborsabili, Wi-Fi insufficiente, parcheggio mancante."],
-            recommended_strategy="Costruire opzioni confrontabili e bloccare le prenotazioni dietro approvazione.",
+            missing_info=["dates", "budget", "transport preferences"],
+            risks=["Non-refundable bookings, poor Wi-Fi, missing parking."],
+            recommended_strategy="Build comparable options and keep bookings behind approval.",
             steps=[
                 PlanStep(
-                    title="Criteri viaggio",
-                    description="Definire date, trasporto, alloggio, lavoro remoto.",
+                    title="Travel criteria",
+                    description="Define dates, transport, lodging, and remote-work needs.",
                 ),
-                PlanStep(title="Itinerario", description="Preparare piano giorno per giorno."),
+                PlanStep(title="Itinerary", description="Prepare a day-by-day plan."),
             ],
             required_skills=["travel_planning", "decision_matrix"],
             required_tools=["BrowserTool(mock)", "CalendarTool(draft)"],
             approval_points=[
                 {
                     "action_type": "create_calendar_event",
-                    "title": "Creazione evento calendario viaggio",
-                    "description": "Creare evento solo dopo approvazione.",
+                    "title": "Create travel calendar event",
+                    "description": "Create the event only after approval.",
                 }
             ],
-            expected_outputs=["checklist viaggio", "budget", "raccomandazione"],
-            final_recommendation_placeholder="Scegliere l'opzione più robusta su costi, logistica e flessibilità.",
+            expected_outputs=["travel checklist", "budget", "recommendation"],
+            final_recommendation_placeholder="Choose the most robust option across cost, logistics, and flexibility.",
         )
 
     def execute(

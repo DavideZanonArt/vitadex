@@ -2,8 +2,8 @@
 
 ## 0.1.0
 
-- introduzione costituzione pubblica `CONSTITUTION.md`
-- supporto a runtime locale separato tramite `PRIVATE_OS_STATE_ROOT`
-- de-branding del core pubblico
-- aggiornamento `.gitignore` e `.env.example`
-- aggiunta documentazione e file standard GitHub
+- public operating constitution added in `CONSTITUTION.md`
+- support for a separate local runtime via `PRIVATE_OS_STATE_ROOT`
+- public core de-branded
+- `.gitignore` and `.env.example` updated
+- documentation and standard GitHub files added

@@ -11,11 +11,11 @@ from private_os.skills.base import Skill, SkillContext
 class EmailFollowupSkill(Skill):
     manifest = SkillManifest(
         id="email_followup",
-        name="Follow-up email",
-        description="Traccia email attese e prepara follow-up.",
+        name="Email follow-up",
+        description="Track expected emails and prepare follow-ups.",
         area="communication",
-        trigger_examples=["follow-up", "followup", "risposta", "email"],
-        outputs=["cadenza", "bozza follow-up", "stato waiting", "criteri chiusura"],
+        trigger_examples=["follow-up", "followup", "reply", "email"],
+        outputs=["cadence", "follow-up draft", "waiting status", "closure criteria"],
     )
 
     def plan(self, task: TaskRecord, context: SkillContext) -> PlanRecord:
@@ -23,24 +23,24 @@ class EmailFollowupSkill(Skill):
             task_id=task.id,
             objective=task.goal,
             known_context=[task.title],
-            missing_info=["destinatario", "data primo invio"],
-            risks=["Messaggi ripetuti o inviati senza contesto."],
-            recommended_strategy="Preparare cadenza e bozze, invio solo approvato.",
+            missing_info=["recipient", "date of the first send"],
+            risks=["Repeated messages or messages sent without context."],
+            recommended_strategy="Prepare the cadence and drafts; sending remains approval-gated.",
             steps=[
-                PlanStep(title="Cadenza", description="Definire 3/7/14 giorni."),
-                PlanStep(title="Bozza", description="Preparare follow-up.", requires_approval=True),
+                PlanStep(title="Cadence", description="Define 3/7/14 days."),
+                PlanStep(title="Draft", description="Prepare the follow-up.", requires_approval=True),
             ],
             required_skills=["email_followup"],
             required_tools=["GmailTool(draft)"],
             approval_points=[
                 {
                     "action_type": "send_message",
-                    "title": "Invio follow-up",
-                    "description": "Inviare follow-up dopo approvazione.",
+                    "title": "Send follow-up",
+                    "description": "Send the follow-up after approval.",
                 }
             ],
-            expected_outputs=["bozza", "follow-up"],
-            final_recommendation_placeholder="Chiudere se nessuna risposta dopo 14 giorni o se non conviene insistere.",
+            expected_outputs=["draft", "follow-up"],
+            final_recommendation_placeholder="Close if there is no reply after 14 days or if it is not worth pushing further.",
         )
 
     def execute(
@@ -48,6 +48,6 @@ class EmailFollowupSkill(Skill):
     ) -> dict[str, Any]:
         return {
             "dry_run": dry_run,
-            "cadence": ["3 giorni", "7 giorni", "14 giorni"],
-            "template": "templates/emails/followup-it.md",
+            "cadence": ["3 days", "7 days", "14 days"],
+            "template": "templates/emails/followup-en.md",
         }

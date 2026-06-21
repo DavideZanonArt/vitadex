@@ -1,18 +1,18 @@
 # Memory Review
 
-## Memorie da accettare
+## Memories to accept
 
-## Memorie da correggere
+## Memories to correct
 
-## Memorie da rifiutare
+## Memories to reject
 
-## Memorie stale
+## Stale memories
 
-## Duplicati
+## Duplicates
 
-## Promozioni da task log
+## Promotions from task logs
 
-Regole:
-- Non accettare inferenze sensibili senza approvazione.
-- Non inventare fatti durante compaction.
-- Conservare fatti, vincoli, preferenze e decisioni.
+Rules:
+- Do not accept sensitive inferences without approval.
+- Do not invent facts during compaction.
+- Preserve facts, constraints, preferences, and decisions.

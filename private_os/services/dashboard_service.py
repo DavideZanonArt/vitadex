@@ -25,48 +25,48 @@ class DashboardService:
         lines = [
             "PRIVATE OPS DASHBOARD",
             "",
-            "Oggi",
-            f"- {len(active)} task attive",
-            f"- {len(approvals)} approvazioni in attesa",
-            f"- {len(due)} follow-up scaduti",
-            f"- {len(decisions)} decisioni richieste",
+            "Today",
+            f"- {len(active)} active tasks",
+            f"- {len(approvals)} pending approvals",
+            f"- {len(due)} overdue follow-ups",
+            f"- {len(decisions)} required decisions",
             "",
-            "Task prioritarie",
+            "Priority tasks",
         ]
         priority = [
             t for t in tasks if t.status in {"active", "needs_approval", "waiting", "blocked"}
         ][:5]
         lines.extend(
             [f"- {t.title} ({t.status})" for t in priority]
-            or ["- Nessuna task prioritaria"]
+            or ["- No priority tasks"]
         )
-        lines.extend(["", "Azioni consigliate"])
+        lines.extend(["", "Suggested actions"])
         if approvals:
-            lines.append("- Approva, modifica o rifiuta le bozze in attesa")
+            lines.append("- Approve, edit, or reject the pending drafts")
         if due:
-            lines.append("- Gestisci i follow-up scaduti")
+            lines.append("- Handle overdue follow-ups")
         if decisions:
-            lines.append("- Completa le informazioni mancanti nelle task aperte")
+            lines.append("- Complete the missing information in open tasks")
         if blocked:
-            lines.append("- Sblocca o archivia le task bloccate")
+            lines.append("- Unblock or archive blocked tasks")
         if not (approvals or due or decisions or blocked):
-            lines.append("- Nessuna azione urgente")
+            lines.append("- No urgent actions")
         lines.extend(
             [
                 "",
                 "Waiting",
                 *(
-                    [f"- {t.title}: {t.waiting_on or 'in attesa'}" for t in waiting]
-                    or ["- Nessuna"]
+                    [f"- {t.title}: {t.waiting_on or 'waiting'}" for t in waiting]
+                    or ["- None"]
                 ),
             ]
         )
-        lines.extend(["", "Bloccate", *([f"- {t.title}" for t in blocked] or ["- Nessuna"])])
+        lines.extend(["", "Blocked", *([f"- {t.title}" for t in blocked] or ["- None"])])
         lines.extend(
             [
                 "",
-                "Decisioni recenti",
-                *([f"- {t.title}: {t.decision_log[-1]}" for t in recent_done] or ["- Nessuna"]),
+                "Recent decisions",
+                *([f"- {t.title}: {t.decision_log[-1]}" for t in recent_done] or ["- None"]),
             ]
         )
         return "\n".join(lines)

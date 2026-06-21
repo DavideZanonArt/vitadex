@@ -36,7 +36,7 @@ class MemoryService:
         audit(
             self.conn,
             "memory.created",
-            f"Memoria aggiunta: {record.area}/{record.type}",
+            f"Memory added: {record.area}/{record.type}",
             payload=record.model_dump(),
         )
         return record
@@ -81,7 +81,7 @@ class MemoryService:
         audit(
             self.conn,
             "memory.deactivated",
-            f"Memoria disattivata: {memory_id}",
+            f"Memory deactivated: {memory_id}",
             payload={"id": memory_id},
         )
         return record
@@ -91,7 +91,7 @@ class MemoryService:
         audit(
             self.conn,
             "memory.exported",
-            "Memoria esportata in Markdown",
+            "Memory exported to Markdown",
             payload={"path": str(path)},
         )
         return path
@@ -103,14 +103,14 @@ class MemoryService:
         self.markdown.ensure_files()
         path = self.memory_dir / "MAINMEMORY.md"
         path.write_text(compact_records(self.list(active_only=False)), encoding="utf-8")
-        audit(self.conn, "memory.compacted", "Memoria compatta aggiornata", payload={"path": str(path)})
+        audit(self.conn, "memory.compacted", "Compacted memory updated", payload={"path": str(path)})
         return path
 
     def reflect(self) -> Path:
         self.markdown.ensure_files()
         path = self.memory_dir / "REFLECTION.md"
         path.write_text(reflection_summary(self.list(active_only=False)), encoding="utf-8")
-        audit(self.conn, "memory.reflected", "Reflection memoria generata", payload={"path": str(path)})
+        audit(self.conn, "memory.reflected", "Memory reflection generated", payload={"path": str(path)})
         return path
 
     def import_markdown(self, path: Path) -> builtins.list[MemoryRecord]:
@@ -137,8 +137,8 @@ class MemoryService:
 
     def promote_from_task(self, task_id: str) -> MemoryRecord:
         record = MemoryRecord(
-            text=f"Pattern operativo derivato dalla task {task_id}.",
-            canonical_text=f"Pattern operativo derivato dalla task {task_id}.",
+            text=f"Operational pattern derived from task {task_id}.",
+            canonical_text=f"Operational pattern derived from task {task_id}.",
             type="task_pattern",
             area="task_patterns",
             source="assistant_inferred",

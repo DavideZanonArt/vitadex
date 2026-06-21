@@ -50,7 +50,7 @@ class CodexHarnessAdapter:
         audit(
             self.conn,
             "codex.thread_bound",
-            f"Task collegata a thread Codex: {binding.thread.id}",
+            f"Task bound to Codex thread: {binding.thread.id}",
             task_id=task.id,
             payload=binding.model_dump(),
         )
@@ -71,8 +71,8 @@ class CodexHarnessAdapter:
             "task": task.model_dump(),
             "codex_binding": binding.model_dump() if binding else None,
             "ownership_split": {
-                "codex": ["sessione agente", "continuazione thread", "modifiche workspace"],
-                "private_os": ["task", "memoria", "approval", "log", "dashboard", "summary"],
+                "codex": ["agent session", "thread continuation", "workspace changes"],
+                "private_os": ["tasks", "memory", "approvals", "logs", "dashboard", "summary"],
             },
             "safety": self.status(),
         }
@@ -80,22 +80,22 @@ class CodexHarnessAdapter:
     def resume_thread(self, task_id: str) -> CodexExecutionResult:
         binding = self.bind_task(task_id)
         if not self.config.enabled or self.config.mode == "disabled":
-            return self._fail_closed(task_id, binding.thread.id, "Codex non disponibile: runtime disabilitato.")
+            return self._fail_closed(task_id, binding.thread.id, "Codex unavailable: runtime disabled.")
         return CodexExecutionResult(
             task_id=task_id,
             thread_id=binding.thread.id,
             status="dry_run",
             executed=False,
-            summary="Thread Codex pronto. Nessuna azione esterna eseguita.",
-            logs=["Resume thread in modalità dry-run."],
+            summary="Codex thread ready. No external action executed.",
+            logs=["Resume thread in dry-run mode."],
         )
 
     def run_task(self, task_id: str, dry_run: bool = True) -> CodexExecutionResult:
         binding = self.bind_task(task_id)
         if not self._path_allowed(self.root):
-            return self._fail_closed(task_id, binding.thread.id, "Percorso progetto bloccato dalla policy Codex.")
+            return self._fail_closed(task_id, binding.thread.id, "Project path blocked by Codex policy.")
         if not self.config.enabled and self.config.runtime_policy == "fail_closed":
-            return self._fail_closed(task_id, binding.thread.id, "Codex non disponibile: fail closed.")
+            return self._fail_closed(task_id, binding.thread.id, "Codex unavailable: fail closed.")
         if dry_run or self.config.mode == "dry_run":
             command = CodexCommandBuilder(self.root, self.config).build(self.tasks.get(task_id), dry_run=True)
             result = CodexExecutionResult(
@@ -103,15 +103,15 @@ class CodexHarnessAdapter:
                 thread_id=binding.thread.id,
                 status="dry_run",
                 executed=False,
-                summary="Dry-run Codex: comando preparato, nessuna azione eseguita.",
-                logs=["Codex dry-run completato senza shell, browser o invii esterni."],
+                summary="Codex dry-run: command prepared, no action executed.",
+                logs=["Codex dry-run completed without shell, browser, or external sends."],
                 payload={"command": command.model_dump()},
             )
             self.log_result(result)
             return result
         if not self.config.allow_shell:
-            return self._fail_closed(task_id, binding.thread.id, "Shell non consentita dalla policy Codex.")
-        return self._fail_closed(task_id, binding.thread.id, "Esecuzione reale non implementata in safe mode.")
+            return self._fail_closed(task_id, binding.thread.id, "Shell not allowed by Codex policy.")
+        return self._fail_closed(task_id, binding.thread.id, "Live execution is not implemented in safe mode.")
 
     def log_result(self, result: CodexExecutionResult) -> None:
         audit(

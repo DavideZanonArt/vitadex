@@ -21,27 +21,27 @@ export default function ArchivePage() {
     <div className="space-y-6">
       <div className="grid gap-6 xl:grid-cols-2">
         <SectionFrame
-          eyebrow="Archivio"
-          title="Log audit"
-          subtitle="La traccia cronologica del sistema, utile per capire cosa e' accaduto e quando."
+          eyebrow="Archive"
+          title="Audit log"
+          subtitle="The chronological system trail, useful for understanding what happened and when."
         >
           <UnifiedList
             items={logs}
             selectedId={selectedEntity?.id}
-            emptyLabel="Nessun log disponibile."
+            emptyLabel="No logs available."
             onSelect={(item) => void selectEntity(item.kind, item.id)}
           />
         </SectionFrame>
 
         <SectionFrame
           eyebrow="Workspace"
-          title="Panels generati"
-          subtitle="Materiale strutturato esportato dal Private OS e renderizzato in modo leggibile."
+          title="Generated panels"
+          subtitle="Structured material exported from Private OS and rendered in a readable way."
         >
           <UnifiedList
             items={panels}
             selectedId={selectedEntity?.id}
-            emptyLabel="Nessun panel disponibile."
+            emptyLabel="No panels available."
             onSelect={(item) => void selectEntity(item.kind, item.id)}
           />
         </SectionFrame>

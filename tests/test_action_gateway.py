@@ -15,7 +15,7 @@ def test_gateway_rejects_external_action_without_approved_matching_approval(conn
         id="act_send_email",
         task_id="task_1",
         action_type="send_message",
-        title="Invia email",
+        title="Send email",
         payload={"to": "landlord@example.com"},
     )
 
@@ -26,7 +26,7 @@ def test_gateway_rejects_external_action_without_approved_matching_approval(conn
         ApprovalRecord(
             task_id="task_1",
             action_type="send_message",
-            title="Invio email",
+            title="Send email",
             description="Test",
             payload={"action_id": action.id},
         )
@@ -42,14 +42,14 @@ def test_gateway_executes_external_action_only_with_approved_matching_approval(c
         id="act_send_email",
         task_id="task_1",
         action_type="send_message",
-        title="Invia email",
+        title="Send email",
         payload={"to": "landlord@example.com"},
     )
     approval = approvals.create(
         ApprovalRecord(
             task_id="task_1",
             action_type="send_message",
-            title="Invio email",
+            title="Send email",
             description="Test",
             payload={"action_id": action.id},
         )
@@ -66,7 +66,7 @@ def test_tool_does_not_accept_boolean_as_approval_bypass():
         id="act_send_email",
         task_id="task_1",
         action_type="send_message",
-        title="Invia email",
+        title="Send email",
     )
     with pytest.raises(PermissionError):
         GmailTool().run(action, approval=True)  # type: ignore[arg-type]

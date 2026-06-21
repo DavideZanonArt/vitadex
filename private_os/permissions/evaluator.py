@@ -14,7 +14,7 @@ class PermissionEvaluator:
             return PermissionDecision(
                 allowed=False,
                 forbidden=True,
-                reason="Azione vietata da CONSTITUTION.md §5: pagamenti, firme e impegni legali non sono autonomi.",
+                reason="Action forbidden by CONSTITUTION.md §5: payments, signatures, and legal commitments are not autonomous.",
             )
         if (
             action.action_type == "upload_document"
@@ -24,15 +24,15 @@ class PermissionEvaluator:
             return PermissionDecision(
                 allowed=False,
                 requires_approval=True,
-                reason="Caricamento documenti sensibili richiede approvazione esplicita.",
+                reason="Uploading sensitive documents requires explicit approval.",
             )
         if action.action_type in APPROVAL_REQUIRED_ACTIONS:
             return PermissionDecision(
                 allowed=approved,
                 requires_approval=not approved,
-                reason="Azione esterna consentita solo con approvazione."
+                reason="External action allowed only with approval."
                 if not approved
-                else "Approvazione valida.",
+                else "Approval is valid.",
             )
         if action.action_type in ALLOWED_ACTIONS:
             if action.action_type == "draft_external" and action.autonomy_level not in {
@@ -44,9 +44,9 @@ class PermissionEvaluator:
                 return PermissionDecision(
                     allowed=False,
                     requires_approval=True,
-                    reason="Autonomia troppo alta per bozza esterna.",
+                    reason="Autonomy level is too high for an external draft.",
                 )
-            return PermissionDecision(allowed=True, reason="Azione locale o bozza consentita.")
+            return PermissionDecision(allowed=True, reason="Local action or draft is allowed.")
         return PermissionDecision(
-            allowed=False, requires_approval=True, reason="Azione non riconosciuta."
+            allowed=False, requires_approval=True, reason="Unrecognized action."
         )

@@ -15,8 +15,8 @@ export default function App() {
       <AppShell connection={connection} generatedAt={generatedAt}>
         <Routes>
           <Route path="/" element={<DashboardPage />} />
-          <Route path="/operazioni" element={<OperationsPage />} />
-          <Route path="/archivio" element={<ArchivePage />} />
+          <Route path="/operations" element={<OperationsPage />} />
+          <Route path="/archive" element={<ArchivePage />} />
         </Routes>
       </AppShell>
     </BrowserRouter>

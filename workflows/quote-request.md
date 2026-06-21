@@ -1,8 +1,8 @@
 # Quote Request
 
-1. Definire richiesta e criteri.
-2. Preparare lista fornitori.
-3. Creare email standard.
-4. Raccogliere preventivi in matrice.
-5. Confrontare prezzo, condizioni, tempi, rischi.
-6. Raccomandare scelta e backup.
+1. Define the request and criteria.
+2. Prepare the supplier list.
+3. Create a standard email.
+4. Collect quotes in a matrix.
+5. Compare price, terms, timing, and risks.
+6. Recommend a preferred option and a backup.

@@ -1,3 +1,3 @@
-| Nome | URL | Zona | Min auto centro | Prezzo/mese | Deposito | Arredato | Wi-Fi | Parcheggio | Durata minima | Documenti | Rischi | Prossima azione |
+| Name | URL | Area | Min drive to center | Price/month | Deposit | Furnished | Wi-Fi | Parking | Minimum duration | Documents | Risks | Next action |
 | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
 | | | | | | | | | | | | | |

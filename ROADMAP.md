@@ -2,28 +2,28 @@
 
 ## v0.1.0
 
-- core open source ripulito
-- runtime locale configurabile
-- README e setup sicuro
-- CI base
+- cleaned open-source core
+- configurable local runtime
+- secure README and setup
+- baseline CI
 
 ## v0.2.0
 
-- docs architetturali complete
-- storage locale esterno migliorato
-- fixture demo anonime piu' ricche
+- complete architecture docs
+- improved external local storage
+- richer anonymous demo fixtures
 - hardening web dashboard
 
 ## v0.3.0
 
-- plugin/integration model piu' esplicito
-- miglioramenti export skill
-- test end-to-end piu' completi
-- strumenti di scansione segreti in CI
+- more explicit plugin and integration model
+- skill export improvements
+- more complete end-to-end tests
+- secret scanning tools in CI
 
 ## v1.0.0
 
-- API e config stabili
-- semantica compatibilita' dichiarata
-- contributor workflow consolidato
-- rilascio pubblico stabile
+- stable API and configuration
+- declared compatibility semantics
+- consolidated contributor workflow
+- stable public release

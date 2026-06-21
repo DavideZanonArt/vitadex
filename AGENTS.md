@@ -1,32 +1,32 @@
 # AGENTS.md
 
-Questo repository contiene il core open source di `private-os`.
+This repository contains the open-source core of `private-os`.
 
-## Fonte primaria
+## Primary Source
 
-Leggere e rispettare `CONSTITUTION.md` come costituzione operativa del progetto.
-Questo file resta volutamente corto per ridurre contesto e costi token.
+Read and follow `CONSTITUTION.md` as the project's operating constitution.
+This file intentionally stays short to reduce context and token costs.
 
-## Regole operative
+## Operating Rules
 
-- Lingua predefinita: italiano.
-- Ambito: workflow personali locali, non business.
-- Separare sempre dati personali e dati business.
-- Non accedere a repository, credenziali o sistemi business senza richiesta esplicita.
-- Non inviare email, messaggi, form, documenti o prenotazioni senza approval esplicita.
-- Non salvare segreti, token, password, OTP, dati bancari o documenti sensibili completi nel repo.
-- Usare safe mode, dry-run e approval queue come default.
-- Tenere memoria, log, workspace e database reali solo in path locali non tracciati.
-- Prima di costruire capability generiche, verificare plugin, MCP, skill o tool gia' disponibili.
-- Ogni task significativa deve avere prossima azione concreta, follow-up se coinvolge terzi, e log essenziale.
-- Preferire patch mirate, test focalizzati e output brevi.
+- Default language: English.
+- Scope: local personal workflows, not business operations.
+- Always separate personal data from business data.
+- Do not access business repositories, credentials, or systems without an explicit request.
+- Do not send emails, messages, forms, documents, or bookings without explicit approval.
+- Do not store secrets, tokens, passwords, OTPs, banking data, or complete sensitive documents in the repo.
+- Use safe mode, dry-run, and the approval queue by default.
+- Keep real memory, logs, workspace data, and databases only in untracked local paths.
+- Before building generic capabilities, check plugins, MCP servers, skills, or tools that already exist.
+- Every significant task should have a concrete next action, a follow-up if third parties are involved, and an essential log trail.
+- Prefer targeted patches, focused tests, and concise output.
 
-## File chiave
+## Key Files
 
-- `CONSTITUTION.md`: costituzione operativa pubblica.
-- `README.md`: setup e comandi.
-- `config/`: policy, permessi, skill e costi.
-- `.env.example`: esempio di configurazione locale.
-- `workflows/`: workflow operativi.
-- `private_os/`: implementazione Python.
-- `tests/`: test del sistema.
+- `CONSTITUTION.md`: public operating constitution.
+- `README.md`: setup and commands.
+- `config/`: policies, permissions, skills, and costs.
+- `.env.example`: local configuration example.
+- `workflows/`: operating workflows.
+- `private_os/`: Python implementation.
+- `tests/`: system tests.

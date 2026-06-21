@@ -1,11 +1,11 @@
 followups:
-  - title: Ricontattare il contatto senza risposta
+  - title: Follow up with the contact with no reply
     due_in_days: 3
-    trigger_condition: Nessuna risposta dopo 3 giorni
-    action: Preparare follow-up email
+    trigger_condition: No reply after 3 days
+    action: Prepare a follow-up email
     approval_required: true
-  - title: Confermare budget e date
+  - title: Confirm budget and dates
     due_in_days: 1
-    trigger_condition: Budget o date mancanti
-    action: Chiedere decisione all'utente
+    trigger_condition: Budget or dates are missing
+    action: Ask the user for a decision
     approval_required: false

@@ -1,20 +1,20 @@
 # Codex Local Workflow
 
-Questo documento descrive il setup consigliato per usare `private-os` come core pubblico e Codex come agente locale sopra un overlay personale non tracciato.
+This document describes the recommended setup for using `private-os` as the public core and Codex as a local agent on top of an untracked personal overlay.
 
-## Obiettivo
+## Goal
 
-- repository pubblico pulito
-- dati personali solo su questo computer
-- Codex agganciato al clone locale del repository
-- runtime e memoria fuori dal versionamento
+- clean public repository
+- personal data only on this computer
+- Codex attached to the local clone of the repository
+- runtime and memory outside version control
 
-## Struttura Consigliata
+## Recommended Structure
 
-- clone locale del repository `private-os`
-- `.env.local` non tracciato nel clone
+- local clone of the `private-os` repository
+- `.env.local` untracked inside the clone
 - `CONSTITUTION.local.md` in `PRIVATE_OS_STATE_ROOT`
-- memoria, database, log e workspace in `~/.private-os/`
+- memory, database, logs, and workspace in `~/.private-os/`
 
 ## Bootstrap
 
@@ -26,25 +26,25 @@ pip install -e ".[dev]"
 private-os init
 ```
 
-## Come Lavora Codex
+## How Codex Works
 
-Codex opera sul clone locale del repository e può:
+Codex operates on the local clone of the repository and can:
 
-- leggere il core pubblico
-- modificare il codice pubblico
-- usare `.env.local`
-- usare i dati runtime locali
+- read the public core
+- modify public code
+- use `.env.local`
+- use local runtime data
 
-Codex non deve:
+Codex must not:
 
-- committare dati personali
-- spostare memoria reale nel repository
-- creare esempi pubblici a partire da dati reali
+- commit personal data
+- move real memory into the repository
+- create public examples from real data
 
-## Flusso Consigliato
+## Recommended Flow
 
-1. aggiorna il clone locale del core pubblico
-2. lascia invariato l'overlay locale
-3. usa Codex sul clone locale
-4. verifica che ogni modifica pubblicabile non tocchi il runtime personale
-5. fai commit solo del codice e della documentazione pubblica
+1. update the local clone of the public core
+2. leave the local overlay unchanged
+3. use Codex on the local clone
+4. verify that every publishable change does not touch personal runtime data
+5. commit only public code and documentation
