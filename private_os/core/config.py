@@ -34,6 +34,24 @@ def _resolve_path(value: str | os.PathLike[str] | None, *, base: Path) -> Path |
     return path.resolve()
 
 
+def _load_local_env(base: Path) -> dict[str, str]:
+    for candidate in [base / ".env.local", base / ".env"]:
+        if not candidate.exists():
+            continue
+        values: dict[str, str] = {}
+        for raw_line in candidate.read_text(encoding="utf-8").splitlines():
+            line = raw_line.strip()
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", 1)
+            key = key.strip()
+            value = value.strip().strip("\"'")
+            if key:
+                values[key] = value
+        return values
+    return {}
+
+
 def load_yaml(path: Path) -> dict[str, Any]:
     if not path.exists():
         return {}
@@ -43,14 +61,19 @@ def load_yaml(path: Path) -> dict[str, Any]:
 
 def get_settings(root: Path | None = None) -> Settings:
     base = (root or project_root()).resolve()
-    state_root = _resolve_path(os.getenv("PRIVATE_OS_STATE_ROOT"), base=base) or base
-    data_dir = _resolve_path(os.getenv("PRIVATE_OS_DATA_DIR"), base=state_root) or (state_root / "data")
-    logs_dir = _resolve_path(os.getenv("PRIVATE_OS_LOG_DIR"), base=state_root) or (state_root / "logs")
-    memory_dir = _resolve_path(os.getenv("PRIVATE_OS_MEMORY_DIR"), base=state_root) or (state_root / "memory")
-    workspace_dir = _resolve_path(os.getenv("PRIVATE_OS_WORKSPACE_DIR"), base=state_root) or (state_root / "workspace")
-    db_path = _resolve_path(os.getenv("PRIVATE_OS_DB_PATH"), base=state_root) or (data_dir / "private_os.sqlite")
-    allowed_root = _resolve_path(os.getenv("PRIVATE_OS_ALLOWED_ROOT"), base=base) or base
-    safe = os.getenv("PRIVATE_OS_SAFE_MODE", "true").lower() in {"1", "true", "yes", "on"}
+    file_env = _load_local_env(base)
+
+    def env(name: str, default: str | None = None) -> str | None:
+        return os.getenv(name, file_env.get(name, default))
+
+    state_root = _resolve_path(env("PRIVATE_OS_STATE_ROOT"), base=base) or base
+    data_dir = _resolve_path(env("PRIVATE_OS_DATA_DIR"), base=state_root) or (state_root / "data")
+    logs_dir = _resolve_path(env("PRIVATE_OS_LOG_DIR"), base=state_root) or (state_root / "logs")
+    memory_dir = _resolve_path(env("PRIVATE_OS_MEMORY_DIR"), base=state_root) or (state_root / "memory")
+    workspace_dir = _resolve_path(env("PRIVATE_OS_WORKSPACE_DIR"), base=state_root) or (state_root / "workspace")
+    db_path = _resolve_path(env("PRIVATE_OS_DB_PATH"), base=state_root) or (data_dir / "private_os.sqlite")
+    allowed_root = _resolve_path(env("PRIVATE_OS_ALLOWED_ROOT"), base=base) or base
+    safe = env("PRIVATE_OS_SAFE_MODE", "true").lower() in {"1", "true", "yes", "on"}
     return Settings(
         root=base,
         state_root=state_root,
@@ -60,6 +83,6 @@ def get_settings(root: Path | None = None) -> Settings:
         workspace_dir=workspace_dir,
         db_path=db_path.resolve(),
         safe_mode=safe,
-        language=os.getenv("PRIVATE_OS_LANGUAGE", "it"),
+        language=env("PRIVATE_OS_LANGUAGE", "it"),
         allowed_root=allowed_root.resolve(),
     )

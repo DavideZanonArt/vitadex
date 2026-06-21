@@ -73,3 +73,17 @@ def test_settings_support_separate_state_root(monkeypatch, tmp_path):
     assert settings.root == tmp_path.resolve()
     assert settings.state_root == state_root.resolve()
     assert settings.memory_dir == (state_root / "memory").resolve()
+
+
+def test_settings_load_env_local_file(monkeypatch, tmp_path):
+    monkeypatch.delenv("PRIVATE_OS_STATE_ROOT", raising=False)
+    monkeypatch.delenv("PRIVATE_OS_MEMORY_DIR", raising=False)
+    (tmp_path / ".env.local").write_text(
+        "PRIVATE_OS_STATE_ROOT=~/.private-os-test\nPRIVATE_OS_MEMORY_DIR=~/.private-os-test/memory\n",
+        encoding="utf-8",
+    )
+
+    settings = get_settings(tmp_path)
+
+    assert settings.state_root == (__import__("pathlib").Path("~/.private-os-test").expanduser().resolve())
+    assert settings.memory_dir == (__import__("pathlib").Path("~/.private-os-test/memory").expanduser().resolve())
