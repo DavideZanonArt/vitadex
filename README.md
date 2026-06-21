@@ -1,5 +1,8 @@
 # private-os
 
+[![CI](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml)
+[![Secret Scan](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml)
+
 Framework locale-first per costruire un personal agent OS con memoria, task, piani, approvazioni, follow-up, audit log e integrazione Codex.
 
 Il repository pubblico contiene il core del prodotto. I dati personali, la memoria reale, i log e le configurazioni dell'utente devono vivere solo in locale, fuori dal versionamento.
@@ -27,6 +30,7 @@ python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 cp .env.example .env.local
+./scripts/bootstrap-local.sh
 private-os init
 ```
 
@@ -122,6 +126,7 @@ Il pattern previsto è:
 `private-os codex ...` collega una task locale a un thread Codex. Il core mantiene task, memoria, approvals, follow-up e audit log; Codex mantiene la sessione agente e le modifiche workspace.
 
 Vedi `docs/future-openclaw-integration.md` e `private_os/integrations/codex_harness/README.md`.
+Per il workflow locale definitivo, vedi `docs/codex-local-workflow.md`.
 
 ## Sviluppo
 
@@ -143,6 +148,10 @@ Per aggiungere una skill:
 ## Contributi
 
 Apri issue o pull request seguendo `CONTRIBUTING.md`. Le PR non devono contenere dati personali, segreti, path locali assoluti o esempi reali riconducibili a persone reali.
+
+## Operazioni Post Publish
+
+Vedi `docs/post-publish-checklist.md` per i passaggi GitHub e runtime da mantenere dopo la pubblicazione.
 
 ## Licenza
 

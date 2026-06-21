@@ -32,6 +32,7 @@ PRIVATE_OS_DB_PATH=~/.private-os/data/private_os.sqlite
 ## 4. Inizializza il runtime
 
 ```bash
+./scripts/bootstrap-local.sh
 private-os init
 ```
 
@@ -44,3 +45,13 @@ Per regole o personalizzazioni locali non tracciate puoi usare:
 - directory runtime sotto `PRIVATE_OS_STATE_ROOT`
 
 Questi file non devono essere committati.
+
+## 6. Uso Con Codex
+
+Per usare Codex sopra la tua istanza locale:
+
+- apri il clone locale del repository
+- lascia `.env.local` e `CONSTITUTION.local.md` fuori dal versionamento
+- fai lavorare Codex solo sul core pubblico e sul runtime locale
+
+Vedi anche `docs/codex-local-workflow.md`.
