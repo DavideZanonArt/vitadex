@@ -73,7 +73,9 @@ def get_settings(root: Path | None = None) -> Settings:
     workspace_dir = _resolve_path(env("PRIVATE_OS_WORKSPACE_DIR"), base=state_root) or (state_root / "workspace")
     db_path = _resolve_path(env("PRIVATE_OS_DB_PATH"), base=state_root) or (data_dir / "private_os.sqlite")
     allowed_root = _resolve_path(env("PRIVATE_OS_ALLOWED_ROOT"), base=base) or base
-    safe = env("PRIVATE_OS_SAFE_MODE", "true").lower() in {"1", "true", "yes", "on"}
+    safe_value = env("PRIVATE_OS_SAFE_MODE", "true") or "true"
+    language = env("PRIVATE_OS_LANGUAGE", "it") or "it"
+    safe = safe_value.lower() in {"1", "true", "yes", "on"}
     return Settings(
         root=base,
         state_root=state_root,
@@ -83,6 +85,6 @@ def get_settings(root: Path | None = None) -> Settings:
         workspace_dir=workspace_dir,
         db_path=db_path.resolve(),
         safe_mode=safe,
-        language=env("PRIVATE_OS_LANGUAGE", "it"),
+        language=language,
         allowed_root=allowed_root.resolve(),
     )

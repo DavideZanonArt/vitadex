@@ -3,7 +3,7 @@ from __future__ import annotations
 import hashlib
 import json
 import sqlite3
-from datetime import datetime, timezone
+from datetime import UTC, datetime
 from pathlib import Path
 from typing import Any, Literal
 
@@ -110,7 +110,14 @@ class PrivateOpsReadModel:
         if kind == "task":
             task = self.tasks.get(entity_id)
             data = task.model_dump()
-            return self._entity_response(kind=kind, entity_id=entity_id, title=task.title, status=task.status, data=data, related_task_id=task.id)
+            return self._entity_response(
+                kind=kind,
+                entity_id=entity_id,
+                title=task.title,
+                status=task.status,
+                data=data,
+                related_task_id=task.id,
+            )
         if kind == "approval":
             approval = self.approvals.get(entity_id)
             data = approval.model_dump()
@@ -286,4 +293,4 @@ class PrivateOpsReadModel:
 
     def _fallback_timestamp(self) -> str:
         target = self.db_path if self.db_path.exists() else self.root
-        return datetime.fromtimestamp(target.stat().st_mtime, tz=timezone.utc).isoformat()
+        return datetime.fromtimestamp(target.stat().st_mtime, tz=UTC).isoformat()
