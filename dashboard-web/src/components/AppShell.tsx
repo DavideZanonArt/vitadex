@@ -1,6 +1,6 @@
 import type { ReactNode } from 'react'
 import { NavLink } from 'react-router-dom'
-import { Activity, Archive, PanelLeftOpen, Radio } from 'lucide-react'
+import { Activity, BookOpenText, PanelLeftOpen, Radio } from 'lucide-react'
 
 import { cn } from '@/lib/utils'
 
@@ -12,8 +12,8 @@ type AppShellProps = {
 
 const links = [
   { to: '/', label: 'Dashboard', icon: Activity, end: true },
+  { to: '/knowledge', label: 'Knowledge', icon: BookOpenText },
   { to: '/operations', label: 'Operations', icon: PanelLeftOpen },
-  { to: '/archive', label: 'Archive', icon: Archive },
 ]
 
 export function AppShell({ children, connection, generatedAt }: AppShellProps) {

@@ -56,3 +56,44 @@ export type PaginatedItems = {
   items: UnifiedItem[]
   count: number
 }
+
+export type KnowledgeScope = 'public' | 'personal'
+
+export type KnowledgeSource = 'docs' | 'memory' | 'workspace'
+
+export type KnowledgeKind = 'markdown' | 'note' | 'panel'
+
+export type KnowledgeItem = {
+  id: string
+  title: string
+  scope: KnowledgeScope
+  source: KnowledgeSource
+  kind: KnowledgeKind
+  path: string
+  updatedAt: string
+  tags: string[]
+  preview: string
+}
+
+export type KnowledgeHealth = {
+  publicAvailable: boolean
+  personalAvailable: boolean
+  counts: {
+    public: number
+    personal: number
+    memory: number
+    workspace: number
+    total: number
+  }
+}
+
+export type KnowledgeSnapshot = {
+  mainDocs: KnowledgeItem[]
+  personalContext: KnowledgeItem[]
+  recentWorkspaceFiles: KnowledgeItem[]
+  health: KnowledgeHealth
+}
+
+export type KnowledgeContent = KnowledgeItem & {
+  content: string
+}

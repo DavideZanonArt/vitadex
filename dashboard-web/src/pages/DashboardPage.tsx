@@ -1,6 +1,8 @@
 import { useEffect } from 'react'
 
 import { EntityDetail } from '@/components/EntityDetail'
+import { KnowledgeDetail } from '@/components/KnowledgeDetail'
+import { KnowledgeList } from '@/components/KnowledgeList'
 import { MetricCard } from '@/components/MetricCard'
 import { SectionFrame } from '@/components/SectionFrame'
 import { TimelineFeed } from '@/components/TimelineFeed'
@@ -10,9 +12,12 @@ import { useOpsStore } from '@/store/useOpsStore'
 
 export default function DashboardPage() {
   const snapshot = useOpsStore((state) => state.snapshot)
+  const knowledgeSnapshot = useOpsStore((state) => state.knowledgeSnapshot)
   const selectedEntity = useOpsStore((state) => state.selectedEntity)
+  const selectedKnowledgeItem = useOpsStore((state) => state.selectedKnowledgeItem)
   const refreshAll = useOpsStore((state) => state.refreshAll)
   const selectEntity = useOpsStore((state) => state.selectEntity)
+  const selectKnowledgeItem = useOpsStore((state) => state.selectKnowledgeItem)
 
   useRealtime()
 
@@ -67,6 +72,48 @@ export default function DashboardPage() {
         </SectionFrame>
       </div>
 
+      <div className="grid gap-6 xl:grid-cols-3">
+        <SectionFrame
+          eyebrow="Knowledge"
+          title="Main Docs"
+          subtitle="Core public documents always within reach."
+        >
+          <KnowledgeList
+            items={knowledgeSnapshot?.mainDocs ?? []}
+            selectedId={selectedKnowledgeItem?.id}
+            emptyLabel="No public docs available."
+            onSelect={(item) => void selectKnowledgeItem(item.id)}
+          />
+        </SectionFrame>
+
+        <SectionFrame
+          eyebrow="Personal"
+          title="Personal Context"
+          subtitle="High-signal memory files surfaced read-only."
+        >
+          <KnowledgeList
+            items={knowledgeSnapshot?.personalContext ?? []}
+            selectedId={selectedKnowledgeItem?.id}
+            emptyLabel="No personal context available."
+            onSelect={(item) => void selectKnowledgeItem(item.id)}
+          />
+        </SectionFrame>
+
+        <SectionFrame
+          eyebrow="Workspace"
+          title="Recent Workspace"
+          subtitle="Latest local notes and outputs from approved folders."
+        >
+          <KnowledgeList
+            items={knowledgeSnapshot?.recentWorkspaceFiles ?? []}
+            selectedId={selectedKnowledgeItem?.id}
+            emptyLabel="No recent workspace files available."
+            onSelect={(item) => void selectKnowledgeItem(item.id)}
+          />
+        </SectionFrame>
+      </div>
+
+      <KnowledgeDetail item={selectedKnowledgeItem} />
       <EntityDetail entity={selectedEntity} />
     </div>
   )

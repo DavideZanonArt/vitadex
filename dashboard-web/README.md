@@ -1,57 +1,74 @@
-# React + TypeScript + Vite
+# Dashboard Web
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+`dashboard-web/` is the read-only React dashboard for the open-source `private-os` repository.
+It presents the local backend as an editorial interface for:
 
-Currently, two official plugins are available:
+- dashboard snapshots
+- operations
+- entity detail views across tasks, approvals, follow-ups, panels, and logs
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+The frontend is built with React, TypeScript, Vite, Tailwind, and Zustand.
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Node.js 22 or newer
+- npm
+- the local backend available from the repository root
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+By default, the Vite dev server proxies `/api` requests to `http://127.0.0.1:8765`.
+
+## Development
+
+Install dependencies:
+
+```bash
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Start the dev server:
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  extends: [
-    // other configs...
-    // Enable lint rules for React
-    reactX.configs['recommended-typescript'],
-    // Enable lint rules for React DOM
-    reactDom.configs.recommended,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm run dev
 ```
+
+## Commands
+
+- `npm run dev`: start the Vite dev server
+- `npm run lint`: run ESLint
+- `npm run check`: run TypeScript type-checking
+- `npm run build`: create a production build
+- `npm run test`: run the Vitest suite
+- `npm run preview`: serve the production build locally
+
+## Backend Integration
+
+The frontend expects the Python backend from the repository root to expose the local API.
+
+Typical flow:
+
+1. Start the backend from the repository root.
+2. Start the frontend from `dashboard-web/`.
+3. Open the Vite URL and let `/api` requests flow through the local proxy.
+
+For production packaging, the backend can serve the built frontend bundle directly.
+
+## Project Structure
+
+- `src/App.tsx`: application shell and route composition
+- `src/pages/`: top-level route screens
+- `src/components/`: reusable UI building blocks
+- `src/store/`: Zustand state and refresh actions
+- `src/hooks/`: cross-cutting client hooks such as realtime updates
+- `src/utils/`: API helpers and utility functions
+- `src/test/`: frontend test setup
+
+## Testing
+
+The current automated coverage is intentionally minimal and focused on smoke testing.
+
+The first frontend test verifies that the main routes render without crashing:
+
+- `/`
+- `/operations`
+
+This is a baseline safety net, not full UI coverage.

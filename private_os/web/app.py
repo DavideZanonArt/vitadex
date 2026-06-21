@@ -11,6 +11,7 @@ from fastapi.responses import FileResponse, JSONResponse, RedirectResponse, Resp
 
 from private_os.core.config import Settings, get_settings
 from private_os.core.db import connect, init_db
+from private_os.web.knowledge import KnowledgeIndex, KnowledgeScope, KnowledgeSource
 from private_os.web.read_model import EntityKind, PrivateOpsReadModel
 from private_os.web.stream import stream_dashboard
 
@@ -46,6 +47,14 @@ def create_web_app(
     def get_read_model(conn: sqlite3.Connection = Depends(get_conn)) -> PrivateOpsReadModel:
         return PrivateOpsReadModel(conn, settings.state_root, settings.db_path)
 
+    def get_knowledge_index() -> KnowledgeIndex:
+        return KnowledgeIndex(
+            public_root=settings.root,
+            state_root=settings.state_root,
+            memory_root=settings.memory_dir,
+            workspace_root=settings.workspace_dir,
+        )
+
     def require_web_access(request: Request) -> None:
         if _is_authorized(request, session_token):
             return
@@ -66,21 +75,32 @@ def create_web_app(
         items = read_model.operations(kind=kind, status=status, search=search, limit=limit)
         return {"items": items, "count": len(items)}
 
-    @app.get("/api/archive/logs", dependencies=[Depends(require_web_access)])
-    def logs(
+    @app.get("/api/knowledge/snapshot", dependencies=[Depends(require_web_access)])
+    def knowledge_snapshot(knowledge_index: KnowledgeIndex = Depends(get_knowledge_index)) -> dict[str, object]:
+        return knowledge_index.snapshot()
+
+    @app.get("/api/knowledge/items", dependencies=[Depends(require_web_access)])
+    def knowledge_items(
+        scope: KnowledgeScope | None = Query(default=None),
+        source: KnowledgeSource | None = Query(default=None),
+        search: str | None = Query(default=None),
         limit: int = Query(default=50, ge=1, le=200),
-        read_model: PrivateOpsReadModel = Depends(get_read_model),
+        knowledge_index: KnowledgeIndex = Depends(get_knowledge_index),
     ) -> dict[str, object]:
-        items = read_model.logs_list(limit=limit)
+        items = knowledge_index.items(scope=scope, source=source, search=search, limit=limit)
         return {"items": items, "count": len(items)}
 
-    @app.get("/api/panels", dependencies=[Depends(require_web_access)])
-    def panels(
-        limit: int = Query(default=50, ge=1, le=200),
-        read_model: PrivateOpsReadModel = Depends(get_read_model),
+    @app.get("/api/knowledge/content", dependencies=[Depends(require_web_access)])
+    def knowledge_content(
+        item_id: str = Query(...),
+        knowledge_index: KnowledgeIndex = Depends(get_knowledge_index),
     ) -> dict[str, object]:
-        items = read_model.panels_list(limit=limit)
-        return {"items": items, "count": len(items)}
+        try:
+            return knowledge_index.content(item_id)
+        except ValueError as exc:
+            raise HTTPException(status_code=400, detail="Malformed knowledge item identifier") from exc
+        except KeyError as exc:
+            raise HTTPException(status_code=404, detail="Knowledge item not found") from exc
 
     @app.get("/api/stream", dependencies=[Depends(require_web_access)])
     async def stream(once: bool = Query(default=False)) -> StreamingResponse:
@@ -146,15 +166,20 @@ def create_web_app(
 def _resolve_settings(*, root: Path | None, state_root: Path | None, db_path: Path | None) -> Settings:
     settings = get_settings(root)
     effective_state_root = state_root.resolve() if state_root is not None else settings.state_root
+    data_dir = effective_state_root / settings.data_dir.name
+    logs_dir = effective_state_root / settings.logs_dir.name
+    memory_dir = effective_state_root / settings.memory_dir.name
+    workspace_dir = effective_state_root / settings.workspace_dir.name
+    effective_db_path = (data_dir / settings.db_path.name) if db_path is None else db_path.resolve()
     if db_path is None:
         return Settings(
             root=settings.root,
             state_root=effective_state_root,
-            data_dir=settings.data_dir,
-            logs_dir=settings.logs_dir,
-            memory_dir=settings.memory_dir,
-            workspace_dir=settings.workspace_dir,
-            db_path=settings.db_path,
+            data_dir=data_dir,
+            logs_dir=logs_dir,
+            memory_dir=memory_dir,
+            workspace_dir=workspace_dir,
+            db_path=effective_db_path,
             safe_mode=settings.safe_mode,
             language=settings.language,
             allowed_root=settings.allowed_root,
@@ -162,11 +187,11 @@ def _resolve_settings(*, root: Path | None, state_root: Path | None, db_path: Pa
     return Settings(
         root=settings.root,
         state_root=effective_state_root,
-        data_dir=settings.data_dir,
-        logs_dir=settings.logs_dir,
-        memory_dir=settings.memory_dir,
-        workspace_dir=settings.workspace_dir,
-        db_path=db_path.resolve(),
+        data_dir=data_dir,
+        logs_dir=logs_dir,
+        memory_dir=memory_dir,
+        workspace_dir=workspace_dir,
+        db_path=effective_db_path,
         safe_mode=settings.safe_mode,
         language=settings.language,
         allowed_root=settings.allowed_root,

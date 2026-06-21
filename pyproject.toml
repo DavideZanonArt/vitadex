@@ -6,7 +6,20 @@ build-backend = "hatchling.build"
 name = "private-os"
 version = "0.1.0"
 description = "Private, local-first personal agentic operating system."
+readme = "README.md"
 requires-python = ">=3.12"
+license = { file = "LICENSE" }
+authors = [
+  { name = "private-os contributors" },
+]
+classifiers = [
+  "Development Status :: 3 - Alpha",
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.12",
+  "Topic :: Software Development :: Libraries :: Application Frameworks",
+]
 dependencies = [
   "fastapi>=0.115,<1",
   "pydantic>=2.7",
@@ -27,6 +40,11 @@ dev = [
 
 [project.scripts]
 private-os = "private_os.cli:app"
+
+[project.urls]
+Homepage = "https://github.com/DavideZanonArt/private-os-public"
+Repository = "https://github.com/DavideZanonArt/private-os-public"
+Issues = "https://github.com/DavideZanonArt/private-os-public/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["private_os"]

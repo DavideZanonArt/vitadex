@@ -98,14 +98,6 @@ class PrivateOpsReadModel:
         events = [self._timeline_event(log) for log in self.audit.list()]
         return sorted(events, key=lambda item: item["at"], reverse=True)[:limit]
 
-    def logs_list(self, *, limit: int = 50) -> list[dict[str, Any]]:
-        logs = [self._log_item(log) for log in self.audit.list()]
-        return sorted(logs, key=lambda item: item["updatedAt"], reverse=True)[:limit]
-
-    def panels_list(self, *, limit: int = 50) -> list[dict[str, Any]]:
-        panels = [self._panel_item(panel) for panel in self.panels.list()]
-        return sorted(panels, key=lambda item: item["updatedAt"], reverse=True)[:limit]
-
     def entity(self, kind: EntityKind, entity_id: str) -> dict[str, Any]:
         if kind == "task":
             task = self.tasks.get(entity_id)
