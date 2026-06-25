@@ -20,7 +20,7 @@
 
 - use only `.env.local`
 - use only `CONSTITUTION.local.md`
-- keep `PRIVATE_OS_STATE_ROOT` outside the repository
+- keep `VITADEX_STATE_ROOT` outside the repository
 - do not commit memory, the database, logs, or workspace files
 
 ## Release

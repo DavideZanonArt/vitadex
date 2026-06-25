@@ -1,7 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
 
 import { StatusBadge } from '@/components/StatusBadge'
-import { cn } from '@/lib/utils'
+import { cn, compactText } from '@/lib/utils'
 import type { UnifiedItem } from '@/types'
 
 type UnifiedListProps = {
@@ -48,7 +48,7 @@ export function UnifiedList({ items, selectedId, emptyLabel, onSelect }: Unified
             </div>
             <ArrowUpRight className="mt-1 h-4 w-4 text-black/25" />
           </div>
-          <p className="mt-3 line-clamp-2 text-sm leading-6 text-black/48">{item.preview}</p>
+          <p className="mt-3 line-clamp-2 text-sm leading-6 text-black/48">{compactText(item.preview, 150)}</p>
           <div className="mt-4 flex flex-wrap items-center gap-2">
             <StatusBadge label={item.status.split('_').join(' ')} tone={toneFromStatus(item.status)} />
             {item.tags.slice(0, 2).map((tag) => (

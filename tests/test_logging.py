@@ -1,11 +1,11 @@
 from __future__ import annotations
 
-from private_os.core.logging import audit
-from private_os.models.approval import ApprovalRecord
-from private_os.models.task import TaskRecord
-from private_os.services.approval_service import ApprovalService
-from private_os.services.audit_service import AuditService
-from private_os.services.planning_service import PlanningService
+from vitadex.core.logging import audit
+from vitadex.models.approval import ApprovalRecord
+from vitadex.models.task import TaskRecord
+from vitadex.services.approval_service import ApprovalService
+from vitadex.services.audit_service import AuditService
+from vitadex.services.planning_service import PlanningService
 
 
 def test_logging_of_planning_and_approval(conn, memory, tasks):

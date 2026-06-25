@@ -1,6 +1,6 @@
 # AGENTS.md
 
-This repository contains the open-source core of `private-os`.
+This repository contains the open-source core of `vitadex`.
 
 ## Primary Source
 
@@ -28,5 +28,5 @@ This file intentionally stays short to reduce context and token costs.
 - `config/`: policies, permissions, skills, and costs.
 - `.env.example`: local configuration example.
 - `workflows/`: operating workflows.
-- `private_os/`: Python implementation.
+- `vitadex/`: Python implementation.
 - `tests/`: system tests.

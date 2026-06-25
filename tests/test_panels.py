@@ -4,14 +4,14 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from private_os.cli import app
-from private_os.models.approval import ApprovalRecord
-from private_os.models.followup import FollowupRecord
-from private_os.models.task import TaskRecord
-from private_os.panels.renderer import PanelRenderer
-from private_os.services.approval_service import ApprovalService
-from private_os.services.followup_service import FollowupService
-from private_os.services.panel_service import PanelService
+from vitadex.cli import app
+from vitadex.models.approval import ApprovalRecord
+from vitadex.models.followup import FollowupRecord
+from vitadex.models.task import TaskRecord
+from vitadex.panels.renderer import PanelRenderer
+from vitadex.services.approval_service import ApprovalService
+from vitadex.services.followup_service import FollowupService
+from vitadex.services.panel_service import PanelService
 
 
 def test_panel_created_from_task(conn, tasks, root):
@@ -55,9 +55,9 @@ def test_local_serve_command_can_initialize(tmp_path: Path):
         app,
         ["serve"],
         env={
-            "PRIVATE_OS_ROOT": str(tmp_path),
-            "PRIVATE_OS_DB_PATH": str(tmp_path / "data" / "private_os.sqlite"),
-            "PRIVATE_OS_IGNORE_CONSTITUTION": "true",
+            "VITADEX_ROOT": str(tmp_path),
+            "VITADEX_DB_PATH": str(tmp_path / "data" / "vitadex.sqlite"),
+            "VITADEX_IGNORE_CONSTITUTION": "true",
         },
     )
 

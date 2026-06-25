@@ -1,13 +1,13 @@
-project: private-os
+project: vitadex
 language: it
 safe_mode: true
-database: data/private_os.sqlite
+database: data/vitadex.sqlite
 runtime:
-  state_root: ~/.private-os
-  data_dir: ~/.private-os/data
-  memory_dir: ~/.private-os/memory
-  logs_dir: ~/.private-os/logs
-  workspace_dir: ~/.private-os/workspace
+  state_root: ~/.vitadex
+  data_dir: ~/.vitadex/data
+  memory_dir: ~/.vitadex/memory
+  logs_dir: ~/.vitadex/logs
+  workspace_dir: ~/.vitadex/workspace
 separation:
   forbidden_contexts:
     - business repositories

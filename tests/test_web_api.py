@@ -5,17 +5,17 @@ from pathlib import Path
 
 from fastapi.testclient import TestClient
 
-from private_os.core.db import connect, init_db
-from private_os.models.approval import ApprovalRecord
-from private_os.models.followup import FollowupRecord
-from private_os.models.task import TaskRecord
-from private_os.panels.base import Panel
-from private_os.services.approval_service import ApprovalService
-from private_os.services.audit_service import AuditService
-from private_os.services.followup_service import FollowupService
-from private_os.services.panel_service import PanelService
-from private_os.services.task_service import TaskService
-from private_os.web.app import create_web_app
+from vitadex.core.db import connect, init_db
+from vitadex.models.approval import ApprovalRecord
+from vitadex.models.followup import FollowupRecord
+from vitadex.models.task import TaskRecord
+from vitadex.panels.base import Panel
+from vitadex.services.approval_service import ApprovalService
+from vitadex.services.audit_service import AuditService
+from vitadex.services.followup_service import FollowupService
+from vitadex.services.panel_service import PanelService
+from vitadex.services.task_service import TaskService
+from vitadex.web.app import create_web_app
 
 
 def _client(
@@ -28,7 +28,7 @@ def _client(
     client = TestClient(
         create_web_app(root=tmp_path, state_root=state_root, db_path=db_path, access_token=access_token)
     )
-    client.cookies.set("private_os_session", access_token)
+    client.cookies.set("vitadex_session", access_token)
     return client
 
 
@@ -103,7 +103,7 @@ def _write_knowledge_fixtures(root: Path, state_root: Path) -> None:
 
 
 def test_dashboard_snapshot_exposes_summary(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -120,7 +120,7 @@ def test_dashboard_snapshot_exposes_summary(tmp_path: Path) -> None:
 
 
 def test_operations_support_kind_and_search_filters(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -134,7 +134,7 @@ def test_operations_support_kind_and_search_filters(tmp_path: Path) -> None:
 
 
 def test_entity_returns_rendered_panel_detail(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
     operations_response = client.get("/api/operations", params={"kind": "panel"})
@@ -150,7 +150,7 @@ def test_entity_returns_rendered_panel_detail(tmp_path: Path) -> None:
 
 
 def test_stream_emits_initial_health_and_snapshot(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -170,7 +170,7 @@ def test_stream_emits_initial_health_and_snapshot(tmp_path: Path) -> None:
 
 
 def test_operations_status_filter_orders_by_updated_at_and_honors_limit(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     conn = connect(db_path)
     TaskService(conn).create(
@@ -209,7 +209,7 @@ def test_operations_status_filter_orders_by_updated_at_and_honors_limit(tmp_path
 
 
 def test_knowledge_snapshot_returns_public_and_personal_sections(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     state_root = tmp_path / "state"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path, state_root)
@@ -228,7 +228,7 @@ def test_knowledge_snapshot_returns_public_and_personal_sections(tmp_path: Path)
 
 
 def test_knowledge_items_filter_by_scope_source_and_search(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     state_root = tmp_path / "state"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path, state_root)
@@ -248,7 +248,7 @@ def test_knowledge_items_filter_by_scope_source_and_search(tmp_path: Path) -> No
 
 
 def test_knowledge_items_orders_recent_workspace_files(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     state_root = tmp_path / "state"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path, state_root)
@@ -261,7 +261,7 @@ def test_knowledge_items_orders_recent_workspace_files(tmp_path: Path) -> None:
 
 
 def test_knowledge_snapshot_degrades_when_personal_roots_are_missing(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     state_root = tmp_path / "missing-state"
     _seed_dashboard(tmp_path, db_path)
     (tmp_path / "README.md").write_text("# Public README\n\nMain repo entrypoint.\n", encoding="utf-8")
@@ -278,7 +278,7 @@ def test_knowledge_snapshot_degrades_when_personal_roots_are_missing(tmp_path: P
 
 
 def test_knowledge_content_returns_preview_for_allowed_item(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     state_root = tmp_path / "state"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path, state_root)
@@ -296,7 +296,7 @@ def test_knowledge_content_returns_preview_for_allowed_item(tmp_path: Path) -> N
 
 
 def test_knowledge_content_rejects_unknown_item_identifier(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -309,10 +309,10 @@ def test_knowledge_content_rejects_unknown_item_identifier(tmp_path: Path) -> No
 
 def test_create_web_app_uses_db_under_state_root_override_when_db_path_is_omitted(tmp_path: Path) -> None:
     state_root = tmp_path / "state-override"
-    expected_db_path = state_root / "data" / "private_os.sqlite"
-    default_db_path = tmp_path / "data" / "private_os.sqlite"
+    expected_db_path = state_root / "data" / "vitadex.sqlite"
+    default_db_path = tmp_path / "data" / "vitadex.sqlite"
     client = TestClient(create_web_app(root=tmp_path, state_root=state_root, access_token="test-token"))
-    client.cookies.set("private_os_session", "test-token")
+    client.cookies.set("vitadex_session", "test-token")
 
     response = client.get("/api/dashboard/snapshot")
 
@@ -322,7 +322,7 @@ def test_create_web_app_uses_db_under_state_root_override_when_db_path_is_omitte
 
 
 def test_api_requires_authentication(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = TestClient(create_web_app(root=tmp_path, db_path=db_path, access_token="test-token"))
 
@@ -334,7 +334,7 @@ def test_api_requires_authentication(tmp_path: Path) -> None:
 
 
 def test_archive_logs_endpoint_is_not_exposed(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -344,7 +344,7 @@ def test_archive_logs_endpoint_is_not_exposed(tmp_path: Path) -> None:
 
 
 def test_panels_endpoint_is_not_exposed(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -354,7 +354,7 @@ def test_panels_endpoint_is_not_exposed(tmp_path: Path) -> None:
 
 
 def test_log_entity_redacts_payload_and_preserves_risk_level(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     conn = connect(db_path)
     critical_log = AuditService(conn).record(
@@ -375,7 +375,7 @@ def test_log_entity_redacts_payload_and_preserves_risk_level(tmp_path: Path) -> 
 
 
 def test_health_signature_changes_when_snapshot_changes(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -400,7 +400,7 @@ def test_health_signature_changes_when_snapshot_changes(tmp_path: Path) -> None:
 
 
 def test_root_bootstrap_sets_session_cookie_from_access_token(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     dist = tmp_path / "dashboard-web" / "dist"
     dist.mkdir(parents=True)
@@ -410,4 +410,4 @@ def test_root_bootstrap_sets_session_cookie_from_access_token(tmp_path: Path) ->
     response = client.get("/?access_token=test-token", follow_redirects=False)
 
     assert response.status_code == 307
-    assert "private_os_session=" in response.headers["set-cookie"]
+    assert "vitadex_session=" in response.headers["set-cookie"]

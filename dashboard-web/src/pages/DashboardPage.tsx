@@ -7,7 +7,6 @@ import { MetricCard } from '@/components/MetricCard'
 import { SectionFrame } from '@/components/SectionFrame'
 import { TimelineFeed } from '@/components/TimelineFeed'
 import { UnifiedList } from '@/components/UnifiedList'
-import { useRealtime } from '@/hooks/useRealtime'
 import { useOpsStore } from '@/store/useOpsStore'
 
 export default function DashboardPage() {
@@ -18,8 +17,6 @@ export default function DashboardPage() {
   const refreshAll = useOpsStore((state) => state.refreshAll)
   const selectEntity = useOpsStore((state) => state.selectEntity)
   const selectKnowledgeItem = useOpsStore((state) => state.selectKnowledgeItem)
-
-  useRealtime()
 
   useEffect(() => {
     void refreshAll()
@@ -38,7 +35,9 @@ export default function DashboardPage() {
               A continuous read of tasks, approvals, follow-ups, logs, and system-generated panels, updated locally in real time.
             </p>
           </div>
-          <p className="max-w-xs text-sm leading-6 text-black/45">{snapshot?.health.workspaceRoot ?? 'Waiting for the local workspace'}</p>
+          <p className="max-w-xs text-sm leading-6 text-black/45">
+            {snapshot?.health.workspaceRoot ? 'Workspace locale connesso' : 'Waiting for the local workspace'}
+          </p>
         </div>
       </section>
 

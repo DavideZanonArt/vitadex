@@ -4,11 +4,11 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from private_os.cli import app
-from private_os.integrations.codex_harness.adapter import CodexHarnessAdapter
-from private_os.integrations.codex_harness.config import CodexHarnessConfig
-from private_os.models.task import TaskRecord
-from private_os.services.audit_service import AuditService
+from vitadex.cli import app
+from vitadex.integrations.codex_harness.adapter import CodexHarnessAdapter
+from vitadex.integrations.codex_harness.config import CodexHarnessConfig
+from vitadex.models.task import TaskRecord
+from vitadex.services.audit_service import AuditService
 
 
 def test_codex_disabled_fails_closed(conn, tasks, root):
@@ -77,9 +77,9 @@ def test_denied_paths_are_blocked(conn, tasks, root):
 def test_codex_cli_commands(tmp_path: Path):
     runner = CliRunner()
     env = {
-        "PRIVATE_OS_ROOT": str(tmp_path),
-        "PRIVATE_OS_DB_PATH": str(tmp_path / "data" / "private_os.sqlite"),
-        "PRIVATE_OS_IGNORE_CONSTITUTION": "true",
+        "VITADEX_ROOT": str(tmp_path),
+        "VITADEX_DB_PATH": str(tmp_path / "data" / "vitadex.sqlite"),
+        "VITADEX_IGNORE_CONSTITUTION": "true",
     }
     created = runner.invoke(
         app,

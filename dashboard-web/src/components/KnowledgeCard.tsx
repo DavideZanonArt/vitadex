@@ -1,7 +1,7 @@
 import { ArrowUpRight } from 'lucide-react'
 
 import { ScopeBadge } from '@/components/ScopeBadge'
-import { cn } from '@/lib/utils'
+import { cn, compactPath, compactText } from '@/lib/utils'
 import type { KnowledgeItem } from '@/types'
 
 type KnowledgeCardProps = {
@@ -28,12 +28,12 @@ export function KnowledgeCard({ item, isSelected = false, onSelect }: KnowledgeC
           </div>
           <div>
             <h3 className="text-sm font-medium text-black/78">{item.title}</h3>
-            <p className="mt-1 text-xs uppercase tracking-[0.14em] text-black/35">{item.path}</p>
+            <p className="mt-1 text-xs uppercase tracking-[0.14em] text-black/35">{compactPath(item.path)}</p>
           </div>
         </div>
         <ArrowUpRight className="mt-1 h-4 w-4 text-black/25" />
       </div>
-      <p className="mt-3 line-clamp-3 text-sm leading-6 text-black/48">{item.preview}</p>
+      <p className="mt-3 line-clamp-3 text-sm leading-6 text-black/48">{compactText(item.preview, 170)}</p>
       <div className="mt-4 flex flex-wrap items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           {item.tags.slice(0, 3).map((tag) => (

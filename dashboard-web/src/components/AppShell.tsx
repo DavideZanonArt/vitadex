@@ -8,6 +8,7 @@ type AppShellProps = {
   children: ReactNode
   connection: 'connecting' | 'connected' | 'degraded'
   generatedAt?: string
+  hasLocalData?: boolean
 }
 
 const links = [
@@ -16,16 +17,31 @@ const links = [
   { to: '/operations', label: 'Operations', icon: PanelLeftOpen },
 ]
 
-export function AppShell({ children, connection, generatedAt }: AppShellProps) {
+export function AppShell({ children, connection, generatedAt, hasLocalData = false }: AppShellProps) {
+  const connectionLabel =
+    connection === 'connected'
+      ? 'Connected to the local stream'
+      : connection === 'degraded'
+        ? 'Realtime reconnecting'
+        : hasLocalData
+          ? 'Local data available'
+          : 'Initial connection'
+
+  const connectionNote = generatedAt
+    ? `Latest snapshot ${new Date(generatedAt).toLocaleString('en-US')}`
+    : hasLocalData
+      ? 'Using the latest local data while realtime connects.'
+      : 'Waiting for the first snapshot'
+
   return (
     <div className="min-h-screen bg-[var(--paper)] text-[var(--ink)]">
       <div className="mx-auto grid min-h-screen max-w-[1600px] grid-cols-1 gap-8 px-5 py-6 lg:grid-cols-[248px_minmax(0,1fr)] lg:px-8">
         <aside className="rounded-[32px] border border-black/8 bg-white/78 p-6 shadow-[0_30px_70px_rgba(19,19,18,0.05)] backdrop-blur">
           <div className="border-b border-black/6 pb-6">
-            <p className="text-[11px] uppercase tracking-[0.26em] text-black/35">Davide Private Ops</p>
+            <p className="text-[11px] uppercase tracking-[0.26em] text-black/35">VitaDex</p>
             <h1 className="mt-3 font-serif text-[2rem] leading-none text-black/85">Local observatory</h1>
             <p className="mt-3 text-sm leading-6 text-black/45">
-              Editorial read-only view connected to the live signals from your Private OS.
+              Editorial read-only view connected to the live signals from your VitaDex.
             </p>
           </div>
 
@@ -53,20 +69,10 @@ export function AppShell({ children, connection, generatedAt }: AppShellProps) {
               <Radio className={cn('h-4 w-4', connection === 'connected' ? 'text-emerald-700' : 'text-amber-700')} />
               <div>
                 <p className="text-[11px] uppercase tracking-[0.24em] text-black/35">Realtime</p>
-                <p className="text-sm text-black/70">
-                  {connection === 'connected'
-                    ? 'Connected to the local stream'
-                    : connection === 'degraded'
-                      ? 'Reconnecting'
-                      : 'Initial connection'}
-                </p>
+                <p className="text-sm text-black/70">{connectionLabel}</p>
               </div>
             </div>
-            <p className="mt-4 text-xs leading-5 text-black/45">
-              {generatedAt
-                ? `Latest snapshot ${new Date(generatedAt).toLocaleString('en-US')}`
-                : 'Waiting for the first snapshot'}
-            </p>
+            <p className="mt-4 text-xs leading-5 text-black/45">{connectionNote}</p>
           </div>
         </aside>
 

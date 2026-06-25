@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from private_os.models.task import TaskRecord
-from private_os.services.skill_service import SkillService
+from vitadex.models.task import TaskRecord
+from vitadex.services.skill_service import SkillService
 
 
 def test_skill_matching_for_housing_task():

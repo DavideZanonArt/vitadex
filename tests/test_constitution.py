@@ -2,18 +2,18 @@ from __future__ import annotations
 
 from typer.testing import CliRunner
 
-from private_os.cli import app
-from private_os.constitution import Constitution
-from private_os.core.config import get_settings
-from private_os.models.action import ActionRequest
-from private_os.models.task import TaskRecord
-from private_os.permissions.evaluator import PermissionEvaluator
-from private_os.services.planning_service import PlanningService
+from vitadex.cli import app
+from vitadex.constitution import Constitution
+from vitadex.core.config import get_settings
+from vitadex.models.action import ActionRequest
+from vitadex.models.task import TaskRecord
+from vitadex.permissions.evaluator import PermissionEvaluator
+from vitadex.services.planning_service import PlanningService
 
 
 def test_constitution_is_loaded():
     text = Constitution(__import__("pathlib").Path.cwd()).load()
-    assert "Private OS Constitution" in text
+    assert "VitaDex Constitution" in text
     assert "Forbidden Actions" in text
 
 
@@ -23,8 +23,8 @@ def test_missing_constitution_fails_safe(tmp_path):
         app,
         ["task", "list"],
         env={
-            "PRIVATE_OS_ROOT": str(tmp_path),
-            "PRIVATE_OS_DB_PATH": str(tmp_path / "data" / "private_os.sqlite"),
+            "VITADEX_ROOT": str(tmp_path),
+            "VITADEX_DB_PATH": str(tmp_path / "data" / "vitadex.sqlite"),
         },
     )
     assert result.exit_code == 2
@@ -65,8 +65,8 @@ def test_user_facing_style_follows_constitution():
 
 def test_settings_support_separate_state_root(monkeypatch, tmp_path):
     state_root = tmp_path / "state"
-    monkeypatch.setenv("PRIVATE_OS_ROOT", str(tmp_path))
-    monkeypatch.setenv("PRIVATE_OS_STATE_ROOT", str(state_root))
+    monkeypatch.setenv("VITADEX_ROOT", str(tmp_path))
+    monkeypatch.setenv("VITADEX_STATE_ROOT", str(state_root))
 
     settings = get_settings()
 
@@ -76,14 +76,14 @@ def test_settings_support_separate_state_root(monkeypatch, tmp_path):
 
 
 def test_settings_load_env_local_file(monkeypatch, tmp_path):
-    monkeypatch.delenv("PRIVATE_OS_STATE_ROOT", raising=False)
-    monkeypatch.delenv("PRIVATE_OS_MEMORY_DIR", raising=False)
+    monkeypatch.delenv("VITADEX_STATE_ROOT", raising=False)
+    monkeypatch.delenv("VITADEX_MEMORY_DIR", raising=False)
     (tmp_path / ".env.local").write_text(
-        "PRIVATE_OS_STATE_ROOT=~/.private-os-test\nPRIVATE_OS_MEMORY_DIR=~/.private-os-test/memory\n",
+        "VITADEX_STATE_ROOT=~/.vitadex-test\nVITADEX_MEMORY_DIR=~/.vitadex-test/memory\n",
         encoding="utf-8",
     )
 
     settings = get_settings(tmp_path)
 
-    assert settings.state_root == (__import__("pathlib").Path("~/.private-os-test").expanduser().resolve())
-    assert settings.memory_dir == (__import__("pathlib").Path("~/.private-os-test/memory").expanduser().resolve())
+    assert settings.state_root == (__import__("pathlib").Path("~/.vitadex-test").expanduser().resolve())
+    assert settings.memory_dir == (__import__("pathlib").Path("~/.vitadex-test/memory").expanduser().resolve())

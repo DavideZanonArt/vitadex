@@ -1,10 +1,10 @@
 from __future__ import annotations
 
-from private_os.costs.budget import UsageLog
-from private_os.costs.optimizer import CostOptimizer
-from private_os.costs.policy import budget_for_profile
-from private_os.costs.usage_log import UsageLogService
-from private_os.models.task import TaskRecord
+from vitadex.costs.budget import UsageLog
+from vitadex.costs.optimizer import CostOptimizer
+from vitadex.costs.policy import budget_for_profile
+from vitadex.costs.usage_log import UsageLogService
+from vitadex.models.task import TaskRecord
 
 
 def test_trivial_task_gets_low_budget(tasks):

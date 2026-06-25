@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from private_os.models.memory import MemoryRecord
+from vitadex.models.memory import MemoryRecord
 
 
 def test_memory_add_search_deactivate(memory):

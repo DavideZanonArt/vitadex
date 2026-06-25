@@ -24,7 +24,7 @@ const mockedStore = {
       mode: 'read_only' as const,
       realtime: 'connected' as const,
       source: 'local_sqlite' as const,
-      workspaceRoot: '/tmp/private-os-state/workspace',
+      workspaceRoot: '/tmp/vitadex-state/workspace',
     },
   },
   knowledgeSnapshot: {
@@ -156,5 +156,45 @@ describe('App routes', () => {
     expect(screen.getByRole('heading', { name: /main docs/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /personal context/i })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: /recent workspace/i })).toBeInTheDocument()
+  })
+
+  it('shows a resilient realtime status when local data exists without a dashboard snapshot timestamp', () => {
+    render(
+      <MemoryRouter>
+        <AppShell connection="connecting" hasLocalData>
+          <div>content</div>
+        </AppShell>
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText('Local data available')).toBeInTheDocument()
+    expect(screen.getByText('Using the latest local data while realtime connects.')).toBeInTheDocument()
+    expect(screen.queryByText('Waiting for the first snapshot')).not.toBeInTheDocument()
+  })
+
+  it('shows reconnecting status without hiding the latest snapshot when realtime degrades', () => {
+    render(
+      <MemoryRouter>
+        <AppShell connection="degraded" generatedAt="2026-06-21T10:00:00+00:00" hasLocalData>
+          <div>content</div>
+        </AppShell>
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText('Realtime reconnecting')).toBeInTheDocument()
+    expect(screen.getByText(/Latest snapshot/)).toBeInTheDocument()
+  })
+
+  it('shows a generic workspace label instead of the absolute local path on the dashboard hero', () => {
+    render(
+      <MemoryRouter initialEntries={['/']}>
+        <AppShell connection="connected" generatedAt="2026-06-21T10:00:00+00:00" hasLocalData>
+          <AppRoutes />
+        </AppShell>
+      </MemoryRouter>,
+    )
+
+    expect(screen.getByText('Workspace locale connesso')).toBeInTheDocument()
+    expect(screen.queryByText('/tmp/vitadex-state/workspace')).not.toBeInTheDocument()
   })
 })

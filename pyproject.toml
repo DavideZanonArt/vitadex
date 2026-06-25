@@ -3,14 +3,14 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [project]
-name = "private-os"
+name = "vitadex"
 version = "0.1.0"
-description = "Private, local-first personal agentic operating system."
+description = "Your personal life folder, powered by Codex. Memory, tasks, workflows, approvals and follow-ups in one local repo."
 readme = "README.md"
 requires-python = ">=3.12"
 license = { file = "LICENSE" }
 authors = [
-  { name = "private-os contributors" },
+  { name = "VitaDex contributors" },
 ]
 classifiers = [
   "Development Status :: 3 - Alpha",
@@ -39,15 +39,15 @@ dev = [
 ]
 
 [project.scripts]
-private-os = "private_os.cli:app"
+vitadex = "vitadex.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/DavideZanonArt/private-os-public"
-Repository = "https://github.com/DavideZanonArt/private-os-public"
-Issues = "https://github.com/DavideZanonArt/private-os-public/issues"
+Homepage = "https://github.com/DavideZanonArt/vitadex"
+Repository = "https://github.com/DavideZanonArt/vitadex"
+Issues = "https://github.com/DavideZanonArt/vitadex/issues"
 
 [tool.hatch.build.targets.wheel]
-packages = ["private_os"]
+packages = ["vitadex"]
 
 [tool.ruff]
 line-length = 140

@@ -1,6 +1,6 @@
 # Codex Local Workflow
 
-This document describes the recommended setup for using `private-os` as the public core and Codex as a local agent on top of an untracked personal overlay.
+This document describes the recommended setup for using `vitadex` as the public core and Codex as a local agent on top of an untracked personal overlay.
 
 ## Goal
 
@@ -11,10 +11,10 @@ This document describes the recommended setup for using `private-os` as the publ
 
 ## Recommended Structure
 
-- local clone of the `private-os` repository
+- local clone of the `vitadex` repository
 - `.env.local` untracked inside the clone
-- `CONSTITUTION.local.md` in `PRIVATE_OS_STATE_ROOT`
-- memory, database, logs, and workspace in `~/.private-os/`
+- `CONSTITUTION.local.md` in `VITADEX_STATE_ROOT`
+- memory, database, logs, and workspace in `~/.vitadex/`
 
 ## Bootstrap
 
@@ -23,7 +23,7 @@ python3.12 -m venv .venv
 source .venv/bin/activate
 pip install -e ".[dev]"
 ./scripts/bootstrap-local.sh
-private-os init
+vitadex init
 ```
 
 ## How Codex Works

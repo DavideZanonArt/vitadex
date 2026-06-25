@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from private_os.models.approval import ApprovalRecord
-from private_os.services.approval_service import ApprovalService
+from vitadex.models.approval import ApprovalRecord
+from vitadex.services.approval_service import ApprovalService
 
 
 def test_approval_queue(conn):

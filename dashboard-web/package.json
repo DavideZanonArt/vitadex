@@ -2,7 +2,7 @@
   "name": "dashboard-web",
   "private": true,
   "version": "0.0.0",
-  "description": "Read-only React dashboard for private-os.",
+  "description": "Read-only React dashboard for VitaDex.",
   "license": "MIT",
   "type": "module",
   "packageManager": "npm@11.12.1",
@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/DavideZanonArt/private-os-public.git",
+    "url": "https://github.com/DavideZanonArt/vitadex.git",
     "directory": "dashboard-web"
   },
   "scripts": {

@@ -1,21 +1,21 @@
 # Future OpenClaw Integration
 
-OpenClaw should treat `private-os` as a local and auditable backend.
+OpenClaw should treat `vitadex` as a local and auditable backend.
 
 ## CLI contract
 
-- Create tasks: `private-os task create --title ... --area ... --goal ...`
-- Plan: `private-os task plan <task_id>`
-- Run dry-run: `private-os task execute <task_id> --dry-run`
-- Bind Codex: `private-os codex bind <task_id>`
-- Run Codex dry-run: `private-os codex run <task_id> --dry-run`
-- Read dashboard: `private-os dashboard`
-- Read approvals: `private-os approvals list`
+- Create tasks: `vitadex task create --title ... --area ... --goal ...`
+- Plan: `vitadex task plan <task_id>`
+- Run dry-run: `vitadex task execute <task_id> --dry-run`
+- Bind Codex: `vitadex codex bind <task_id>`
+- Run Codex dry-run: `vitadex codex run <task_id> --dry-run`
+- Read dashboard: `vitadex dashboard`
+- Read approvals: `vitadex approvals list`
 
 ## Codex harness split
 
 Codex owns the agent session, thread continuation, workspace changes, and delegated
-skills. `private-os` owns the task registry, memory, local profile, permissions,
+skills. `vitadex` owns the task registry, memory, local profile, permissions,
 approval queue, follow-ups, audit log, channel formatting, dashboard, safe mode,
 and final summary. The adapter starts in `dry_run` and `fail_closed`.
 
@@ -25,7 +25,7 @@ Telegram can create tasks and show compact dashboards. It must not send external
 
 ## Codex
 
-Codex can add or improve skills, templates, and tests. It must stay inside the local `private-os` workspace and must not use business repositories or data.
+Codex can add or improve skills, templates, and tests. It must stay inside the local `vitadex` workspace and must not use business repositories or data.
 
 ## Gmail
 

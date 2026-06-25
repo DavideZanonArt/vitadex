@@ -1,6 +1,6 @@
 # Contributing
 
-Thanks for contributing to `private-os`.
+Thanks for contributing to `vitadex`.
 
 ## Basic Rules
 
@@ -23,7 +23,7 @@ cp .env.example .env.local
 ```bash
 pytest
 ruff check .
-mypy private_os
+mypy vitadex
 ```
 
 ## Pull Request

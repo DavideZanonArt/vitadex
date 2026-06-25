@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from private_os.models.task import TaskRecord
+from vitadex.models.task import TaskRecord
 
 
 def test_task_create_and_update(tasks):

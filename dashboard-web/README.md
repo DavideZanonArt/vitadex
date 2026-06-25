@@ -1,6 +1,6 @@
 # Dashboard Web
 
-`dashboard-web/` is the read-only React dashboard for the open-source `private-os` repository.
+`dashboard-web/` is the read-only React dashboard for the open-source `VitaDex` repository.
 It presents the local backend as an editorial interface for:
 
 - dashboard snapshots

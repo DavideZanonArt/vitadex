@@ -27,11 +27,14 @@ export default function KnowledgePage() {
     void refreshKnowledgeItems()
   }, [knowledgeFilters.scope, knowledgeFilters.search, knowledgeFilters.source, refreshKnowledgeItems])
 
+  const visibleSelectedKnowledgeItem =
+    selectedKnowledgeItem && knowledgeItems.some((item) => item.id === selectedKnowledgeItem.id) ? selectedKnowledgeItem : null
+
   useEffect(() => {
-    if (!selectedKnowledgeItem && knowledgeItems.length > 0) {
+    if (!visibleSelectedKnowledgeItem && knowledgeItems.length > 0) {
       void selectKnowledgeItem(knowledgeItems[0].id)
     }
-  }, [knowledgeItems, selectKnowledgeItem, selectedKnowledgeItem])
+  }, [knowledgeItems, selectKnowledgeItem, visibleSelectedKnowledgeItem])
 
   const counts = knowledgeSnapshot?.health.counts
 
@@ -100,13 +103,13 @@ export default function KnowledgePage() {
 
           <KnowledgeList
             items={knowledgeItems}
-            selectedId={selectedKnowledgeItem?.id}
+            selectedId={visibleSelectedKnowledgeItem?.id}
             emptyLabel="No knowledge item matches the current filters."
             onSelect={(item) => void selectKnowledgeItem(item.id)}
           />
         </SectionFrame>
 
-        <KnowledgeDetail item={selectedKnowledgeItem} />
+        <KnowledgeDetail item={visibleSelectedKnowledgeItem} />
       </div>
     </div>
   )

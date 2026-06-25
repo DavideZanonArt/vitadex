@@ -2,11 +2,11 @@ from __future__ import annotations
 
 import pytest
 
-from private_os.models.action import ActionRequest
-from private_os.models.approval import ApprovalRecord
-from private_os.services.action_gateway import ActionGateway
-from private_os.services.approval_service import ApprovalService
-from private_os.tools.gmail import GmailTool
+from vitadex.models.action import ActionRequest
+from vitadex.models.approval import ApprovalRecord
+from vitadex.services.action_gateway import ActionGateway
+from vitadex.services.approval_service import ApprovalService
+from vitadex.tools.gmail import GmailTool
 
 
 def test_gateway_rejects_external_action_without_approved_matching_approval(conn):

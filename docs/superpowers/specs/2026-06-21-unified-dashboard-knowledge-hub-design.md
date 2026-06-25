@@ -262,7 +262,7 @@ Run:
 
 - `pytest`
 - `ruff check .`
-- `mypy private_os`
+- `mypy vitadex`
 - `npm run lint`
 - `npm run check`
 - `npm run build`

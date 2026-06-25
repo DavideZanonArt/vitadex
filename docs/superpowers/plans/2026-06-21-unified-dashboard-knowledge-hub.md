@@ -12,8 +12,8 @@
 
 ## File Map
 
-- Create: `private_os/web/knowledge.py`
-- Modify: `private_os/web/app.py`
+- Create: `vitadex/web/knowledge.py`
+- Modify: `vitadex/web/app.py`
 - Modify: `tests/test_web_api.py`
 - Modify: `dashboard-web/src/types.ts`
 - Modify: `dashboard-web/src/store/useOpsStore.ts`
@@ -51,7 +51,7 @@ def _write_knowledge_fixtures(root: Path) -> None:
 
 
 def test_knowledge_snapshot_returns_public_and_personal_sections(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path)
     client = _client(tmp_path, db_path)
@@ -67,7 +67,7 @@ def test_knowledge_snapshot_returns_public_and_personal_sections(tmp_path: Path)
 
 
 def test_knowledge_items_filters_by_scope_and_search(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path)
     client = _client(tmp_path, db_path)
@@ -82,7 +82,7 @@ def test_knowledge_items_filters_by_scope_and_search(tmp_path: Path) -> None:
 
 
 def test_knowledge_snapshot_degrades_when_personal_roots_are_missing(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     (tmp_path / "README.md").write_text("# Public README\n", encoding="utf-8")
     client = _client(tmp_path, db_path)
@@ -96,7 +96,7 @@ def test_knowledge_snapshot_degrades_when_personal_roots_are_missing(tmp_path: P
 
 
 def test_knowledge_content_returns_preview_for_allowed_item(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     _write_knowledge_fixtures(tmp_path)
     client = _client(tmp_path, db_path)
@@ -111,7 +111,7 @@ def test_knowledge_content_returns_preview_for_allowed_item(tmp_path: Path) -> N
 
 
 def test_knowledge_content_rejects_unknown_item_identifier(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = _client(tmp_path, db_path)
 
@@ -144,7 +144,7 @@ def _client(
             access_token=access_token,
         )
     )
-    client.cookies.set("private_os_session", access_token)
+    client.cookies.set("vitadex_session", access_token)
     return client
 ```
 
@@ -164,14 +164,14 @@ git commit -m "test: add knowledge hub api coverage"
 ## Task 2: Implement the filesystem-backed knowledge index
 
 **Files:**
-- Create: `private_os/web/knowledge.py`
+- Create: `vitadex/web/knowledge.py`
 - Test: `tests/test_web_api.py`
 
 - [ ] **Step 1: Write the failing unit through the existing API tests**
 
 Run: `pytest tests/test_web_api.py -k "knowledge_snapshot or knowledge_items or knowledge_content" -v`
 
-Expected: FAIL because `private_os.web.knowledge` does not exist and routes are not wired.
+Expected: FAIL because `vitadex.web.knowledge` does not exist and routes are not wired.
 
 - [ ] **Step 2: Create the knowledge index module with approved roots and item models**
 
@@ -257,21 +257,21 @@ Expected: PASS for the new knowledge tests.
 - [ ] **Step 6: Commit the backend knowledge index**
 
 ```bash
-git add private_os/web/knowledge.py tests/test_web_api.py
+git add vitadex/web/knowledge.py tests/test_web_api.py
 git commit -m "feat: add read-only knowledge index"
 ```
 
 ## Task 3: Wire the new knowledge endpoints into the FastAPI app
 
 **Files:**
-- Modify: `private_os/web/app.py`
+- Modify: `vitadex/web/app.py`
 - Test: `tests/test_web_api.py`
 
 - [ ] **Step 1: Write the failing route-level expectation**
 
 ```python
 def test_knowledge_routes_require_authentication(tmp_path: Path) -> None:
-    db_path = tmp_path / "data" / "private_os.sqlite"
+    db_path = tmp_path / "data" / "vitadex.sqlite"
     _seed_dashboard(tmp_path, db_path)
     client = TestClient(create_web_app(root=tmp_path, db_path=db_path, access_token="test-token"))
 
@@ -288,7 +288,7 @@ Expected: FAIL until the new routes are protected exactly like the existing API.
 - [ ] **Step 3: Import and mount the knowledge endpoints**
 
 ```python
-from private_os.web.knowledge import KnowledgeIndex
+from vitadex.web.knowledge import KnowledgeIndex
 
 
 def get_knowledge_index() -> KnowledgeIndex:
@@ -330,7 +330,7 @@ Expected: PASS, including the new knowledge cases and the existing dashboard API
 - [ ] **Step 5: Commit the API wiring**
 
 ```bash
-git add private_os/web/app.py tests/test_web_api.py
+git add vitadex/web/app.py tests/test_web_api.py
 git commit -m "feat: expose knowledge hub api"
 ```
 
@@ -590,7 +590,7 @@ Expected: PASS for the full Python test suite.
 
 - [ ] **Step 2: Run static analysis for Python**
 
-Run: `ruff check . && mypy private_os`
+Run: `ruff check . && mypy vitadex`
 
 Expected: PASS with no new lint or typing regressions.
 
@@ -622,7 +622,7 @@ Expected: PASS.
 - [ ] **Step 6: Commit the validated final slice**
 
 ```bash
-git add private_os/web/knowledge.py private_os/web/app.py tests/test_web_api.py dashboard-web/src/types.ts dashboard-web/src/store/useOpsStore.ts dashboard-web/src/components/ScopeBadge.tsx dashboard-web/src/components/KnowledgeCard.tsx dashboard-web/src/components/KnowledgeDetail.tsx dashboard-web/src/components/KnowledgeList.tsx dashboard-web/src/pages/KnowledgePage.tsx dashboard-web/src/components/AppShell.tsx dashboard-web/src/pages/DashboardPage.tsx dashboard-web/src/App.tsx dashboard-web/src/App.test.tsx
+git add vitadex/web/knowledge.py vitadex/web/app.py tests/test_web_api.py dashboard-web/src/types.ts dashboard-web/src/store/useOpsStore.ts dashboard-web/src/components/ScopeBadge.tsx dashboard-web/src/components/KnowledgeCard.tsx dashboard-web/src/components/KnowledgeDetail.tsx dashboard-web/src/components/KnowledgeList.tsx dashboard-web/src/pages/KnowledgePage.tsx dashboard-web/src/components/AppShell.tsx dashboard-web/src/pages/DashboardPage.tsx dashboard-web/src/App.tsx dashboard-web/src/App.test.tsx
 git commit -m "feat: add unified dashboard knowledge hub"
 ```
 

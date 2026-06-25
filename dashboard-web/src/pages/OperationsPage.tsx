@@ -20,6 +20,18 @@ export default function OperationsPage() {
     void refreshOperations()
   }, [filters.kind, filters.search, filters.status, refreshOperations])
 
+  const visibleSelectedEntity =
+    selectedEntity && operations.some((item) => item.id === selectedEntity.id && item.kind === selectedEntity.kind)
+      ? selectedEntity
+      : null
+
+  useEffect(() => {
+    if (operations.length > 0 && !visibleSelectedEntity) {
+      const firstVisibleEntity = operations[0]
+      void selectEntity(firstVisibleEntity.kind, firstVisibleEntity.id)
+    }
+  }, [operations, selectEntity, visibleSelectedEntity])
+
   return (
     <div className="grid gap-6 xl:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)]">
       <SectionFrame
@@ -60,13 +72,13 @@ export default function OperationsPage() {
 
         <UnifiedList
           items={operations}
-          selectedId={selectedEntity?.id}
+          selectedId={visibleSelectedEntity?.id}
           emptyLabel="No entity matches the current filters."
           onSelect={(item) => void selectEntity(item.kind, item.id)}
         />
       </SectionFrame>
 
-      <EntityDetail entity={selectedEntity} />
+      <EntityDetail entity={visibleSelectedEntity} />
     </div>
   )
 }

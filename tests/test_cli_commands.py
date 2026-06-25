@@ -5,7 +5,7 @@ from pathlib import Path
 
 from typer.testing import CliRunner
 
-from private_os.cli import app
+from vitadex.cli import app
 
 
 def _invoke(runner: CliRunner, root: Path, args: list[str]):
@@ -13,10 +13,10 @@ def _invoke(runner: CliRunner, root: Path, args: list[str]):
         app,
         args,
         env={
-            "PRIVATE_OS_ROOT": str(root),
-            "PRIVATE_OS_DB_PATH": str(root / "data" / "private_os.sqlite"),
-            "PRIVATE_OS_SAFE_MODE": "true",
-            "PRIVATE_OS_IGNORE_CONSTITUTION": "true",
+            "VITADEX_ROOT": str(root),
+            "VITADEX_DB_PATH": str(root / "data" / "vitadex.sqlite"),
+            "VITADEX_SAFE_MODE": "true",
+            "VITADEX_IGNORE_CONSTITUTION": "true",
         },
     )
     assert result.exit_code == 0, result.output

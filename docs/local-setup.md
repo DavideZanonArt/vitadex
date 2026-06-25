@@ -1,6 +1,6 @@
 # Local Setup
 
-`private-os` separates the public core from local runtime data.
+`vitadex` separates the public core from local runtime data.
 
 ## 1. Create the environment
 
@@ -21,19 +21,19 @@ cp .env.example .env.local
 Use a directory outside the repository, for example:
 
 ```env
-PRIVATE_OS_STATE_ROOT=~/.private-os
-PRIVATE_OS_DATA_DIR=~/.private-os/data
-PRIVATE_OS_MEMORY_DIR=~/.private-os/memory
-PRIVATE_OS_LOG_DIR=~/.private-os/logs
-PRIVATE_OS_WORKSPACE_DIR=~/.private-os/workspace
-PRIVATE_OS_DB_PATH=~/.private-os/data/private_os.sqlite
+VITADEX_STATE_ROOT=~/.vitadex
+VITADEX_DATA_DIR=~/.vitadex/data
+VITADEX_MEMORY_DIR=~/.vitadex/memory
+VITADEX_LOG_DIR=~/.vitadex/logs
+VITADEX_WORKSPACE_DIR=~/.vitadex/workspace
+VITADEX_DB_PATH=~/.vitadex/data/vitadex.sqlite
 ```
 
 ## 4. Initialize the runtime
 
 ```bash
 ./scripts/bootstrap-local.sh
-private-os init
+vitadex init
 ```
 
 ## 5. Optional local overlay
@@ -42,7 +42,7 @@ For untracked local rules or customizations you can use:
 
 - `CONSTITUTION.local.md`
 - `.env.local`
-- directory runtime sotto `PRIVATE_OS_STATE_ROOT`
+- directory runtime sotto `VITADEX_STATE_ROOT`
 
 These files must not be committed.
 

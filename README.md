@@ -1,9 +1,14 @@
-# private-os
+# VitaDex
 
-[![CI](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml)
-[![Secret Scan](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml)
+[![CI](https://github.com/DavideZanonArt/vitadex/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/vitadex/actions/workflows/ci.yml)
+[![Secret Scan](https://github.com/DavideZanonArt/vitadex/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/vitadex/actions/workflows/secret-scan.yml)
 
-Locale-first framework for building a personal agent OS with memory, tasks, plans, approvals, follow-ups, audit logs, and Codex integration.
+VitaDex is your personal life folder, powered by Codex.
+
+Put your private context, tasks, memories, workflows, documents, decisions and follow-ups in one local repo — then let Codex help you organize, execute and improve it.
+
+Not another chatbot.
+A filesystem-native personal OS for people who use Codex seriously.
 
 The public repository contains the product core. Personal data, real memory, logs, and user-specific configuration must remain local and outside version control.
 
@@ -31,7 +36,7 @@ source .venv/bin/activate
 pip install -e ".[dev]"
 cp .env.example .env.local
 ./scripts/bootstrap-local.sh
-private-os init
+vitadex init
 ```
 
 ## Secure Local Configuration
@@ -44,22 +49,22 @@ cp .env.example .env.local
 
 Configure at least these local paths:
 
-- `PRIVATE_OS_STATE_ROOT`
-- `PRIVATE_OS_DATA_DIR`
-- `PRIVATE_OS_MEMORY_DIR`
-- `PRIVATE_OS_LOG_DIR`
-- `PRIVATE_OS_WORKSPACE_DIR`
-- `PRIVATE_OS_DB_PATH`
+- `VITADEX_STATE_ROOT`
+- `VITADEX_DATA_DIR`
+- `VITADEX_MEMORY_DIR`
+- `VITADEX_LOG_DIR`
+- `VITADEX_WORKSPACE_DIR`
+- `VITADEX_DB_PATH`
 
 Recommended example:
 
 ```env
-PRIVATE_OS_STATE_ROOT=~/.private-os
-PRIVATE_OS_DATA_DIR=~/.private-os/data
-PRIVATE_OS_MEMORY_DIR=~/.private-os/memory
-PRIVATE_OS_LOG_DIR=~/.private-os/logs
-PRIVATE_OS_WORKSPACE_DIR=~/.private-os/workspace
-PRIVATE_OS_DB_PATH=~/.private-os/data/private_os.sqlite
+VITADEX_STATE_ROOT=~/.vitadex
+VITADEX_DATA_DIR=~/.vitadex/data
+VITADEX_MEMORY_DIR=~/.vitadex/memory
+VITADEX_LOG_DIR=~/.vitadex/logs
+VITADEX_WORKSPACE_DIR=~/.vitadex/workspace
+VITADEX_DB_PATH=~/.vitadex/data/vitadex.sqlite
 ```
 
 Do not commit `.env.local`. The same rule applies to `memory/`, `housing/`, `workspace/`, `logs/`, the SQLite database, and any file containing personal content.
@@ -67,15 +72,15 @@ Do not commit `.env.local`. The same rule applies to `memory/`, `housing/`, `wor
 ## Quickstart
 
 ```bash
-private-os init
-private-os memory add --type preference --area travel --text "I prefer road trips with reliable Wi-Fi."
-private-os task create --title "Prepare temporary apartment request" --area home --goal "Collect options and outreach drafts"
-private-os task plan <task_id>
-private-os task execute <task_id> --dry-run
-private-os approvals list
-private-os dashboard
-private-os web
-private-os codex status
+vitadex init
+vitadex memory add --type preference --area travel --text "I prefer road trips with reliable Wi-Fi."
+vitadex task create --title "Prepare temporary apartment request" --area home --goal "Collect options and outreach drafts"
+vitadex task plan <task_id>
+vitadex task execute <task_id> --dry-run
+vitadex approvals list
+vitadex dashboard
+vitadex web
+vitadex codex status
 ```
 
 ## Security Model
@@ -100,7 +105,7 @@ The intended structure is:
 
 ## Main Structure
 
-- `private_os/`: Python implementation
+- `vitadex/`: Python implementation
 - `tests/`: automated tests
 - `config/`: versioned policies and defaults
 - `docs/`: architecture, local setup, and integrations
@@ -123,9 +128,9 @@ The intended structure is:
 
 ## Codex Integration
 
-`private-os codex ...` binds a local task to a Codex thread. The core keeps tasks, memory, approvals, follow-ups, and audit logs; Codex owns the agent session and workspace changes.
+`vitadex codex ...` binds a local task to a Codex thread. The core keeps tasks, memory, approvals, follow-ups, and audit logs; Codex owns the agent session and workspace changes.
 
-See `docs/future-openclaw-integration.md` and `private_os/integrations/codex_harness/README.md`.
+See `docs/future-openclaw-integration.md` and `vitadex/integrations/codex_harness/README.md`.
 For the canonical local workflow, see `docs/codex-local-workflow.md`.
 
 ## Development
@@ -133,16 +138,16 @@ For the canonical local workflow, see `docs/codex-local-workflow.md`.
 ```bash
 pytest
 ruff check .
-mypy private_os
+mypy vitadex
 ```
 
 To add a skill:
 
-1. Create `private_os/skills/<skill>.py`.
+1. Create `vitadex/skills/<skill>.py`.
 2. Extend `Skill`.
 3. Define `manifest`.
 4. Implement `plan()` and `execute()`.
-5. Register the skill in `private_os/skills/__init__.py`.
+5. Register the skill in `vitadex/skills/__init__.py`.
 6. Add workflow, templates, and tests.
 
 ## Contributions

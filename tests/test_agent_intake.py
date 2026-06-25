@@ -5,10 +5,10 @@ import re
 
 from typer.testing import CliRunner
 
-from private_os.cli import app
-from private_os.models.memory import MemoryRecord
-from private_os.services.agent_intake_service import AgentIntakeService
-from private_os.services.audit_service import AuditService
+from vitadex.cli import app
+from vitadex.models.memory import MemoryRecord
+from vitadex.services.agent_intake_service import AgentIntakeService
+from vitadex.services.audit_service import AuditService
 
 
 def test_agent_intake_creates_housing_workflow(conn, memory, tasks):
@@ -33,7 +33,7 @@ def test_agent_intake_creates_housing_workflow(conn, memory, tasks):
     assert result["approvals"][0]["payload"]["action_id"].startswith("act_")
     assert result["followups"]
     assert "maximum monthly budget" in result["plan"]["missing_info"]
-    assert "*Private OS - intake completed*" in result["markdown"]
+    assert "*VitaDex - intake completed*" in result["markdown"]
     assert "*Email sending*" in result["markdown"]
     assert "Not executed" in result["markdown"]
     assert "agent.intake.completed" in [log["event_type"] for log in AuditService(conn).list()]
@@ -42,10 +42,10 @@ def test_agent_intake_creates_housing_workflow(conn, memory, tasks):
 def test_agent_intake_cli_outputs_markdown_and_json(tmp_path):
     runner = CliRunner()
     env = {
-        "PRIVATE_OS_ROOT": str(tmp_path),
-        "PRIVATE_OS_DB_PATH": str(tmp_path / "data" / "private_os.sqlite"),
-        "PRIVATE_OS_SAFE_MODE": "true",
-        "PRIVATE_OS_IGNORE_CONSTITUTION": "true",
+        "VITADEX_ROOT": str(tmp_path),
+        "VITADEX_DB_PATH": str(tmp_path / "data" / "vitadex.sqlite"),
+        "VITADEX_SAFE_MODE": "true",
+        "VITADEX_IGNORE_CONSTITUTION": "true",
     }
     message = "Find me housing options to stay 6 months in Munich, center or max 10 minutes by car."
 

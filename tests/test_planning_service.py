@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from private_os.models.task import TaskRecord
-from private_os.services.planning_service import PlanningService
+from vitadex.models.task import TaskRecord
+from vitadex.services.planning_service import PlanningService
 
 
 def test_housing_task_plan_and_execute_dry_run(conn, memory, tasks):

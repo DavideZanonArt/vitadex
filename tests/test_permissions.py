@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from private_os.models.action import ActionRequest
-from private_os.permissions.evaluator import PermissionEvaluator
+from vitadex.models.action import ActionRequest
+from vitadex.permissions.evaluator import PermissionEvaluator
 
 
 def test_permission_blocks_payment_and_signature():

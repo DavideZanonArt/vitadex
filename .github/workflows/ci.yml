@@ -19,7 +19,7 @@ jobs:
       - name: Ruff
         run: ruff check .
       - name: Mypy
-        run: mypy private_os
+        run: mypy vitadex
       - name: Pytest
         run: pytest
       - name: Detect secrets audit

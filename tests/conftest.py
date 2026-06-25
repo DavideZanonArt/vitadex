@@ -5,9 +5,9 @@ from pathlib import Path
 
 import pytest
 
-from private_os.core.db import init_db
-from private_os.services.memory_service import MemoryService
-from private_os.services.task_service import TaskService
+from vitadex.core.db import init_db
+from vitadex.services.memory_service import MemoryService
+from vitadex.services.task_service import TaskService
 
 
 @pytest.fixture()

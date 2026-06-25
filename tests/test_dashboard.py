@@ -1,7 +1,7 @@
 from __future__ import annotations
 
-from private_os.models.task import TaskRecord
-from private_os.services.dashboard_service import DashboardService
+from vitadex.models.task import TaskRecord
+from vitadex.services.dashboard_service import DashboardService
 
 
 def test_dashboard_output(conn, tasks):

@@ -1,4 +1,4 @@
-# Private OS Constitution
+# VitaDex Constitution
 
 ## 1. Identity
 

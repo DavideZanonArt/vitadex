@@ -2,7 +2,7 @@
 
 ## Model
 
-`private-os` enforces a clear split between:
+`vitadex` enforces a clear split between:
 
 - versioned public core
 - untracked local runtime
