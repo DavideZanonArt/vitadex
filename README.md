@@ -1,7 +1,7 @@
 # VitaDex
 
-[![CI](https://github.com/DavideZanonArt/vitadex/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/vitadex/actions/workflows/ci.yml)
-[![Secret Scan](https://github.com/DavideZanonArt/vitadex/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/vitadex/actions/workflows/secret-scan.yml)
+[![CI](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/ci.yml)
+[![Secret Scan](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/private-os-public/actions/workflows/secret-scan.yml)
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
