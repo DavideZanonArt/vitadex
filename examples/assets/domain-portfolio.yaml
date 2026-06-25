@@ -1,0 +1,49 @@
+assets:
+  - name: example-alpha.example
+    kind: domain
+    provider: Example Registrar
+    status: active
+    owner_area: personal
+    expires_on: 2027-05-10
+    renews_automatically: false
+    estimated_value:
+      currency: USD
+      amount: 250
+      label: "$250"
+    reminders:
+      - channel: calendar
+        days_before: 30
+      - channel: calendar
+        days_before: 7
+    integrations:
+      - name: calendar
+        enabled: true
+        provider: local
+      - name: dns
+        enabled: false
+      - name: analytics
+        enabled: false
+    tags:
+      - demo
+      - domain
+  - name: example-beta.example
+    kind: domain
+    provider: Example Registrar
+    status: active
+    owner_area: personal
+    expires_on: 2027-06-15
+    renews_automatically: true
+    estimated_value:
+      currency: USD
+      amount: null
+      label: Less than $100
+      upper_bound_exclusive: 100
+    reminders:
+      - channel: calendar
+        days_before: 7
+    integrations:
+      - name: calendar
+        enabled: true
+        provider: local
+      - name: dns
+        enabled: false

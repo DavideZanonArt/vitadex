@@ -22,6 +22,7 @@ The public repository contains the product core. Personal data, real memory, log
 - Structured memory with review workflows, sensitivity levels, and local search.
 - Approval queue for all external actions.
 - Persistent follow-ups and audit logs.
+- Generic asset tracking for renewals such as domains, subscriptions, licenses, contracts, and warranties.
 - Read-only CLI and web dashboards.
 - Exportable and reusable skills.
 - Local Codex harness integration running in `dry_run` and `fail_closed` mode.
@@ -143,6 +144,7 @@ The intended structure is:
 - `examples/`: anonymous fixtures
 - `templates/`: generic templates
 - `workflows/`: documented workflows
+- `examples/assets/`: anonymous asset tracking fixtures
 
 ## Included Skills
 
