@@ -225,7 +225,7 @@ class KnowledgeIndex:
         return any(term in value.casefold() for value in haystacks)
 
     def _item_id(self, *, scope: KnowledgeScope, source: KnowledgeSource, relative_path: str) -> str:
-        digest = hashlib.sha1(f"{scope}:{source}:{relative_path}".encode("utf-8")).hexdigest()[:16]
+        digest = hashlib.sha1(f"{scope}:{source}:{relative_path}".encode()).hexdigest()[:16]
         return f"kh_{digest}"
 
     def _extract_text_parts(self, path: Path) -> tuple[str, str]:

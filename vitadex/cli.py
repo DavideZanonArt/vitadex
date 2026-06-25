@@ -21,6 +21,8 @@ from vitadex.costs.policy import budget_for_profile
 from vitadex.costs.usage_log import UsageLogService
 from vitadex.integrations.codex_harness.adapter import CodexHarnessAdapter
 from vitadex.integrations.codex_harness.config import load_codex_config
+from vitadex.models.approval import ApprovalRecord
+from vitadex.models.followup import FollowupRecord
 from vitadex.models.memory import MemoryRecord
 from vitadex.models.task import TaskRecord
 from vitadex.panels.base import Panel
@@ -50,6 +52,7 @@ costs_app = typer.Typer(help="Token budgets and cost optimization.")
 codex_app = typer.Typer(help="Codex harness integration.")
 constitution_app = typer.Typer(help="Project operating constitution.")
 panel_app = typer.Typer(help="Panel workspace.")
+demo_app = typer.Typer(help="Anonymous demo data.")
 app.add_typer(memory_app, name="memory")
 app.add_typer(task_app, name="task")
 app.add_typer(skills_app, name="skills")
@@ -61,6 +64,7 @@ app.add_typer(costs_app, name="costs")
 app.add_typer(codex_app, name="codex")
 app.add_typer(constitution_app, name="constitution")
 app.add_typer(panel_app, name="panel")
+app.add_typer(demo_app, name="demo")
 
 
 def _conn():
@@ -129,6 +133,81 @@ def web(
     print(f"Local web dashboard: http://{host}:{port}/?access_token={access_token}")
     print("Read-only mode enabled. Do not expose this port on a public network.")
     uvicorn.run(app_instance, host=host, port=port, log_level="warning")
+
+
+@demo_app.command("seed")
+def demo_seed() -> None:
+    """Seed an anonymous local demo dataset."""
+    conn, _, memory, tasks = _services()
+    task = tasks.create(
+        TaskRecord(
+            title="Compare two anonymous apartment options",
+            description="Demo task using synthetic data only.",
+            area="home",
+            goal="Prepare a safe shortlist and draft outreach without sending anything.",
+            status="active",
+            priority="high",
+            autonomy_level="A2",
+            constraints=[
+                "Use only anonymous demo details.",
+                "Do not send messages without approval.",
+                "Keep the decision reversible.",
+            ],
+            assumptions=[
+                "Commute should stay under 30 minutes.",
+                "Reliable Wi-Fi matters more than decorative amenities.",
+            ],
+            missing_info=["final viewing date", "exact monthly utility costs"],
+            next_actions=[
+                "Compare total monthly cost.",
+                "Draft one availability request.",
+                "Ask for contract terms before deciding.",
+            ],
+            selected_skill="housing_search",
+        )
+    )
+    memory_record = memory.add(
+        MemoryRecord(
+            text="Demo operator prefers short commutes, predictable costs, and written confirmations.",
+            type="preference",
+            area="home",
+            sensitivity="public",
+            source="system",
+            confidence="high",
+            tags=["demo", "housing"],
+        )
+    )
+    approval = ApprovalService(conn).create(
+        ApprovalRecord(
+            task_id=task.id,
+            action_type="send_message",
+            title="Send anonymous availability request",
+            description="Demo approval for a draft message. No real recipient is configured.",
+            payload={"template": "templates/emails/housing-request-en.md", "mode": "draft_only"},
+            risk_level="low",
+            sensitivity_level="public",
+        )
+    )
+    followup = FollowupService(conn).create(
+        FollowupRecord(
+            task_id=task.id,
+            title="Check whether the demo landlord replied",
+            due_date="2099-01-07",
+            trigger_condition="No response after seven days.",
+            action="Review the draft and decide whether a follow-up is still useful.",
+            approval_required=False,
+        )
+    )
+    print_json(
+        {
+            "seeded": True,
+            "task_id": task.id,
+            "memory_id": memory_record.id,
+            "approval_id": approval.id,
+            "followup_id": followup.id,
+            "note": "Synthetic demo data only. Safe to inspect with `vitadex dashboard` or `vitadex web`.",
+        }
+    )
 
 
 @panel_app.command("list")

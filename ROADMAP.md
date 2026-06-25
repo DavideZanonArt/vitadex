@@ -6,13 +6,14 @@
 - configurable local runtime
 - secure README and setup
 - baseline CI
+- anonymous demo seed data
 
 ## v0.2.0
 
-- complete architecture docs
 - improved external local storage
 - richer anonymous demo fixtures
 - hardening web dashboard
+- dashboard screenshots generated from CI or release scripts
 
 ## v0.3.0
 

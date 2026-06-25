@@ -163,3 +163,18 @@ def test_cli_main_private_ops_workflow(tmp_path):
     ).output
     assert "entries" in _invoke(runner, root, ["costs", "report"]).output
     assert "suggested_actions" in _invoke(runner, root, ["costs", "optimize", cost_task_id]).output
+
+
+def test_demo_seed_creates_anonymous_dataset(tmp_path):
+    runner = CliRunner()
+    root = tmp_path
+
+    _invoke(runner, root, ["init"])
+    output = _invoke(runner, root, ["demo", "seed"]).output
+
+    assert '"seeded": true' in output
+    assert "Synthetic demo data only" in output
+    assert "Compare two anonymous apartment options" in _invoke(runner, root, ["task", "list"]).output
+    assert "Demo operator prefers short commutes" in _invoke(runner, root, ["memory", "list"]).output
+    assert "Send anonymous availability request" in _invoke(runner, root, ["approvals", "list"]).output
+    assert "Check whether the demo landlord replied" in _invoke(runner, root, ["followups", "list"]).output

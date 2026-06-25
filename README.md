@@ -2,6 +2,8 @@
 
 [![CI](https://github.com/DavideZanonArt/vitadex/actions/workflows/ci.yml/badge.svg)](https://github.com/DavideZanonArt/vitadex/actions/workflows/ci.yml)
 [![Secret Scan](https://github.com/DavideZanonArt/vitadex/actions/workflows/secret-scan.yml/badge.svg)](https://github.com/DavideZanonArt/vitadex/actions/workflows/secret-scan.yml)
+[![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
+[![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
 VitaDex is your personal life folder, powered by Codex.
 
@@ -11,6 +13,8 @@ Not another chatbot.
 A filesystem-native personal OS for people who use Codex seriously.
 
 The public repository contains the product core. Personal data, real memory, logs, and user-specific configuration must remain local and outside version control.
+
+![VitaDex dashboard preview](docs/assets/dashboard-preview.svg)
 
 ## Features
 
@@ -38,6 +42,18 @@ cp .env.example .env.local
 ./scripts/bootstrap-local.sh
 vitadex init
 ```
+
+## Try the Anonymous Demo
+
+Use the demo seed to inspect VitaDex without adding personal data:
+
+```bash
+vitadex demo seed
+vitadex dashboard
+vitadex web
+```
+
+The demo creates one synthetic task, one public memory, one draft-only approval, and one follow-up. It is safe to inspect and safe to delete with your local runtime.
 
 ## Secure Local Configuration
 
@@ -69,10 +85,25 @@ VITADEX_DB_PATH=~/.vitadex/data/vitadex.sqlite
 
 Do not commit `.env.local`. The same rule applies to `memory/`, `housing/`, `workspace/`, `logs/`, the SQLite database, and any file containing personal content.
 
+## Public vs Local
+
+VitaDex is designed around a hard boundary:
+
+```text
+GitHub repository
+  code, tests, docs, config, anonymous examples
+
+Local runtime
+  .env.local, memory, real tasks, logs, workspace, SQLite database
+```
+
+The public core can be published, forked, tested, and reviewed. The local runtime is where user-specific context lives. Do not copy data from the local runtime into pull requests, examples, issues, fixtures, screenshots, or docs.
+
 ## Quickstart
 
 ```bash
 vitadex init
+vitadex demo seed
 vitadex memory add --type preference --area travel --text "I prefer road trips with reliable Wi-Fi."
 vitadex task create --title "Prepare temporary apartment request" --area home --goal "Collect options and outreach drafts"
 vitadex task plan <task_id>
@@ -130,6 +161,8 @@ The intended structure is:
 
 `vitadex codex ...` binds a local task to a Codex thread. The core keeps tasks, memory, approvals, follow-ups, and audit logs; Codex owns the agent session and workspace changes.
 
+The harness is intentionally conservative in the public release: default behavior is `dry_run` and `fail_closed`. Live execution is an integration boundary, not a requirement for trying the open-source core.
+
 See `docs/future-openclaw-integration.md` and `vitadex/integrations/codex_harness/README.md`.
 For the canonical local workflow, see `docs/codex-local-workflow.md`.
 
@@ -154,9 +187,11 @@ To add a skill:
 
 Open issues or pull requests following `CONTRIBUTING.md`. PRs must not contain personal data, secrets, absolute local paths, or real examples traceable to actual people.
 
+Good first contributions include docs improvements, anonymous fixtures, dashboard hardening, new dry-run skills, and tests for boundary behavior.
+
 ## Post-Publish Operations
 
-See `docs/post-publish-checklist.md` for the GitHub and runtime steps to maintain after publishing.
+See `docs/post-publish-checklist.md` and `RELEASE.md` for the GitHub and runtime steps to maintain after publishing.
 
 ## License
 
