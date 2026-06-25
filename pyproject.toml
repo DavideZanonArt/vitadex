@@ -42,9 +42,9 @@ dev = [
 vitadex = "vitadex.cli:app"
 
 [project.urls]
-Homepage = "https://github.com/DavideZanonArt/vitadex"
-Repository = "https://github.com/DavideZanonArt/vitadex"
-Issues = "https://github.com/DavideZanonArt/vitadex/issues"
+Homepage = "https://github.com/DavideZanonArt/private-os-public"
+Repository = "https://github.com/DavideZanonArt/private-os-public"
+Issues = "https://github.com/DavideZanonArt/private-os-public/issues"
 
 [tool.hatch.build.targets.wheel]
 packages = ["vitadex"]
