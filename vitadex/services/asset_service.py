@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from builtins import list as builtin_list
 from collections.abc import Iterable
 from datetime import date, timedelta
 
@@ -14,7 +15,7 @@ class AssetService:
         self.assets.append(asset)
         return asset
 
-    def list(self, kind: str | None = None, status: str | None = None) -> list[AssetRecord]:
+    def list(self, kind: str | None = None, status: str | None = None) -> builtin_list[AssetRecord]:
         assets = self.assets
         if kind:
             assets = [asset for asset in assets if asset.kind == kind]
@@ -22,15 +23,15 @@ class AssetService:
             assets = [asset for asset in assets if asset.status == status]
         return sorted(assets, key=lambda asset: (asset.expires_on or date.max, asset.name))
 
-    def expiring_between(self, start: date, end: date, kind: str | None = None) -> list[AssetRecord]:
+    def expiring_between(self, start: date, end: date, kind: str | None = None) -> builtin_list[AssetRecord]:
         return [
             asset
             for asset in self.list(kind=kind)
             if asset.expires_on is not None and start <= asset.expires_on <= end
         ]
 
-    def reminder_candidates(self, today: date) -> list[tuple[AssetRecord, int]]:
-        candidates: list[tuple[AssetRecord, int]] = []
+    def reminder_candidates(self, today: date) -> builtin_list[tuple[AssetRecord, int]]:
+        candidates: builtin_list[tuple[AssetRecord, int]] = []
         for asset in self.list():
             if asset.expires_on is None:
                 continue
