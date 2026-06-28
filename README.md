@@ -16,6 +16,7 @@ The public repository contains the product core. Your real memory, logs, user-sp
 Try the anonymous demo in under three minutes:
 
 ```bash
+vitadex init
 vitadex demo seed
 vitadex dashboard
 vitadex web
