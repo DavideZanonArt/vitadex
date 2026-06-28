@@ -14,5 +14,5 @@ def test_dashboard_output(conn, tasks):
         )
     )
     output = DashboardService(conn).render()
-    assert "PRIVATE OPS DASHBOARD" in output
+    assert "VITADEX DASHBOARD" in output
     assert "Find a 6-month rental" in output

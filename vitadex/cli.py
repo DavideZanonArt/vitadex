@@ -40,7 +40,7 @@ from vitadex.skills.exporter import SkillExporter
 from vitadex.skills.validator import validate_exportable_manifests
 from vitadex.web.app import create_web_app
 
-app = typer.Typer(help="VitaDex is your personal life folder, powered by Codex.")
+app = typer.Typer(help="VitaDex is a local-first personal OS for Codex.")
 memory_app = typer.Typer(help="Structured memory.")
 task_app = typer.Typer(help="Operational tasks.")
 skills_app = typer.Typer(help="Available skills.")
@@ -201,11 +201,19 @@ def demo_seed() -> None:
     print_json(
         {
             "seeded": True,
+            "story": "Anonymous apartment shortlist with memory, task state, approval queue, and follow-up.",
             "task_id": task.id,
             "memory_id": memory_record.id,
             "approval_id": approval.id,
             "followup_id": followup.id,
             "note": "Synthetic demo data only. Safe to inspect with `vitadex dashboard` or `vitadex web`.",
+            "next_steps": [
+                "Run `vitadex dashboard` to see the connected local state.",
+                "Run `vitadex task show <task_id>` to inspect the operational task.",
+                "Run `vitadex approvals list` to see the draft-only external action.",
+                "Run `vitadex followups list` to see the pending next step.",
+                "Run `vitadex web` for the local read-only dashboard.",
+            ],
         }
     )
 
@@ -699,3 +707,7 @@ def print_json(data: object) -> None:
 
 def load_yaml_task(path: Path) -> dict:
     return yaml.safe_load(path.read_text(encoding="utf-8"))
+
+
+if __name__ == "__main__":
+    app()

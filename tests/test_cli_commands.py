@@ -82,7 +82,7 @@ def test_cli_main_private_ops_workflow(tmp_path):
     assert "Follow-up completed" in _invoke(
         runner, root, ["followups", "complete", followup_id]
     ).output
-    assert "PRIVATE OPS DASHBOARD" in _invoke(runner, root, ["dashboard"]).output
+    assert "VITADEX DASHBOARD" in _invoke(runner, root, ["dashboard"]).output
     assert "planning.created" in _invoke(runner, root, ["logs", "list"]).output
 
     second_task_output = _invoke(
@@ -173,7 +173,10 @@ def test_demo_seed_creates_anonymous_dataset(tmp_path):
     output = _invoke(runner, root, ["demo", "seed"]).output
 
     assert '"seeded": true' in output
+    assert "Anonymous apartment shortlist" in output
     assert "Synthetic demo data only" in output
+    assert "vitadex dashboard" in output
+    assert "vitadex approvals list" in output
     assert "Compare two anonymous apartment options" in _invoke(runner, root, ["task", "list"]).output
     assert "Demo operator prefers short commutes" in _invoke(runner, root, ["memory", "list"]).output
     assert "Send anonymous availability request" in _invoke(runner, root, ["approvals", "list"]).output

@@ -23,7 +23,7 @@ class DashboardService:
         decisions = [t for t in tasks if t.missing_info or t.status == "needs_approval"]
         recent_done = [t for t in tasks if t.decision_log][:5]
         lines = [
-            "PRIVATE OPS DASHBOARD",
+            "VITADEX DASHBOARD",
             "",
             "Today",
             f"- {len(active)} active tasks",
