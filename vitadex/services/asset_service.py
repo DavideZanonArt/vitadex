@@ -30,6 +30,28 @@ class AssetService:
             if asset.expires_on is not None and start <= asset.expires_on <= end
         ]
 
+    def linked_to(
+        self,
+        target: str,
+        target_kind: str | None = None,
+        confidence: str | None = None,
+    ) -> builtin_list[AssetRecord]:
+        matches: builtin_list[AssetRecord] = []
+        for asset in self.list():
+            for link in asset.links:
+                if link.target != target:
+                    continue
+                if target_kind is not None and link.target_kind != target_kind:
+                    continue
+                if confidence is not None and link.confidence != confidence:
+                    continue
+                matches.append(asset)
+                break
+        return matches
+
+    def missing_links(self, kind: str) -> builtin_list[AssetRecord]:
+        return [asset for asset in self.list(kind=kind) if not asset.links]
+
     def reminder_candidates(self, today: date) -> builtin_list[tuple[AssetRecord, int]]:
         candidates: builtin_list[tuple[AssetRecord, int]] = []
         for asset in self.list():

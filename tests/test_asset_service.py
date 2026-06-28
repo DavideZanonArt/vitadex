@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from datetime import date
 
-from vitadex.models.asset import AssetRecord, AssetReminder, AssetValue
+from vitadex.models.asset import AssetLink, AssetRecord, AssetReminder, AssetValue
 from vitadex.services.asset_service import AssetService
 
 
@@ -56,3 +56,27 @@ def test_asset_service_summary_counts_manual_renewals_and_value_model():
         "expiring_30_days": 1,
         "manual_renewal": 1,
     }
+
+
+def test_asset_service_tracks_repository_links_to_domains_and_deployments():
+    repository = AssetRecord(
+        name="example-web",
+        kind="github_repository",
+        provider="GitHub",
+        links=[
+            AssetLink(target="example-alpha.example", target_kind="domain", relationship="powers", confidence="confirmed"),
+            AssetLink(target="example-web-prod", target_kind="vercel_project", relationship="deploys", confidence="candidate"),
+        ],
+    )
+    service = AssetService(
+        [
+            AssetRecord(name="example-alpha.example", kind="domain"),
+            AssetRecord(name="example-web-prod", kind="vercel_project"),
+            repository,
+            AssetRecord(name="unmatched-repo", kind="github_repository"),
+        ]
+    )
+
+    assert service.linked_to("example-alpha.example", target_kind="domain") == [repository]
+    assert service.linked_to("example-web-prod", confidence="confirmed") == []
+    assert [asset.name for asset in service.missing_links("github_repository")] == ["unmatched-repo"]

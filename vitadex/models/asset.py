@@ -30,10 +30,31 @@ class AssetIntegration(BaseModel):
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 
+type AssetKind = Literal[
+    "domain",
+    "github_repository",
+    "vercel_project",
+    "lovable_project",
+    "subscription",
+    "license",
+    "contract",
+    "warranty",
+    "other",
+]
+
+
+class AssetLink(BaseModel):
+    target: str
+    target_kind: AssetKind | None = None
+    relationship: Literal["deploys", "owns", "powers", "tracks", "depends_on", "related_to"] = "related_to"
+    confidence: Literal["confirmed", "candidate", "unknown"] = "unknown"
+    metadata: dict[str, Any] = Field(default_factory=dict)
+
+
 class AssetRecord(BaseModel):
     id: str = Field(default_factory=lambda: new_id("asset"))
     name: str
-    kind: Literal["domain", "subscription", "license", "contract", "warranty", "other"] = "other"
+    kind: AssetKind = "other"
     provider: str | None = None
     status: Literal["active", "watching", "paused", "archived"] = "active"
     owner_area: str = "personal"
@@ -42,6 +63,7 @@ class AssetRecord(BaseModel):
     estimated_value: AssetValue | None = None
     reminders: list[AssetReminder] = Field(default_factory=list)
     integrations: list[AssetIntegration] = Field(default_factory=list)
+    links: list[AssetLink] = Field(default_factory=list)
     tags: list[str] = Field(default_factory=list)
     notes: list[str] = Field(default_factory=list)
     metadata: dict[str, Any] = Field(default_factory=dict)

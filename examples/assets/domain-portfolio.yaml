@@ -47,3 +47,38 @@ assets:
         provider: local
       - name: dns
         enabled: false
+  - name: example-web
+    kind: github_repository
+    provider: GitHub
+    status: active
+    owner_area: personal
+    integrations:
+      - name: code_host
+        enabled: true
+        provider: GitHub
+        external_id: example-org/example-web
+    links:
+      - target: example-alpha.example
+        target_kind: domain
+        relationship: powers
+        confidence: confirmed
+      - target: example-web-prod
+        target_kind: vercel_project
+        relationship: deploys
+        confidence: candidate
+    tags:
+      - demo
+      - repository
+  - name: example-web-prod
+    kind: vercel_project
+    provider: Vercel
+    status: active
+    owner_area: personal
+    links:
+      - target: example-web
+        target_kind: github_repository
+        relationship: depends_on
+        confidence: candidate
+    tags:
+      - demo
+      - deployment
