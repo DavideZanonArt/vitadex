@@ -203,6 +203,8 @@ Open issues or pull requests following `CONTRIBUTING.md`. PRs must not contain p
 
 Good first contributions include docs improvements, anonymous fixtures, dashboard hardening, new dry-run skills, and tests for boundary behavior.
 
+For product questions, demo feedback, and early workflow ideas, see `docs/feedback.md` and the pinned GitHub Discussion.
+
 ## Post-Publish Operations
 
 See `docs/post-publish-checklist.md` and `RELEASE.md` for the GitHub and runtime steps to maintain after publishing.

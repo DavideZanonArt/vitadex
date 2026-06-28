@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Product questions and early feedback
+    url: https://github.com/DavideZanonArt/vitadex/discussions/10
+    about: Use Discussions for feedback on positioning, demo clarity, workflows, and what VitaDex should remember.
+  - name: Demo and feedback guide
+    url: https://github.com/DavideZanonArt/vitadex/blob/main/docs/feedback.md
+    about: Read this before sharing demo feedback or public examples.
