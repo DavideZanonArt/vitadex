@@ -1,0 +1,34 @@
+<svg width="1280" height="640" viewBox="0 0 1280 640" fill="none" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+  <title id="title">VitaDex social preview</title>
+  <desc id="desc">Local-first personal OS for Codex with memory, tasks, and approvals.</desc>
+  <rect width="1280" height="640" fill="#0E1116"/>
+  <rect x="64" y="64" width="1152" height="512" rx="28" fill="#151A21" stroke="#2A3441" stroke-width="2"/>
+  <circle cx="112" cy="112" r="10" fill="#FF6B6B"/>
+  <circle cx="148" cy="112" r="10" fill="#FFD166"/>
+  <circle cx="184" cy="112" r="10" fill="#4ECDC4"/>
+  <text x="112" y="244" fill="#F4F7FA" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="88" font-weight="800">VitaDex</text>
+  <text x="116" y="312" fill="#B8C4D1" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="38" font-weight="500">Local-first personal OS for Codex</text>
+  <g font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="26" font-weight="700">
+    <rect x="116" y="370" width="150" height="58" rx="16" fill="#243447" stroke="#3B82F6"/>
+    <text x="148" y="408" fill="#DCEBFF">Memory</text>
+    <rect x="286" y="370" width="120" height="58" rx="16" fill="#263A32" stroke="#28A745"/>
+    <text x="320" y="408" fill="#DFF7E6">Tasks</text>
+    <rect x="426" y="370" width="170" height="58" rx="16" fill="#413227" stroke="#F59E0B"/>
+    <text x="459" y="408" fill="#FFE9C2">Approvals</text>
+  </g>
+  <text x="116" y="500" fill="#7F8EA3" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="24" font-weight="600">Public core. Private runtime.</text>
+  <g transform="translate(738 156)">
+    <rect x="0" y="0" width="390" height="92" rx="18" fill="#1C2430" stroke="#334155" stroke-width="2"/>
+    <rect x="24" y="24" width="44" height="44" rx="10" fill="#243447" stroke="#3B82F6"/>
+    <text x="88" y="40" fill="#F4F7FA" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="24" font-weight="700">Memory</text>
+    <rect x="88" y="56" width="230" height="10" rx="5" fill="#334155"/>
+    <rect x="0" y="122" width="390" height="92" rx="18" fill="#1C2430" stroke="#334155" stroke-width="2"/>
+    <rect x="24" y="146" width="44" height="44" rx="10" fill="#263A32" stroke="#28A745"/>
+    <text x="88" y="162" fill="#F4F7FA" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="24" font-weight="700">Task State</text>
+    <rect x="88" y="178" width="260" height="10" rx="5" fill="#334155"/>
+    <rect x="0" y="244" width="390" height="92" rx="18" fill="#1C2430" stroke="#334155" stroke-width="2"/>
+    <rect x="24" y="268" width="44" height="44" rx="10" fill="#413227" stroke="#F59E0B"/>
+    <text x="88" y="284" fill="#F4F7FA" font-family="Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, Segoe UI, sans-serif" font-size="24" font-weight="700">Approval Queue</text>
+    <rect x="88" y="300" width="210" height="10" rx="5" fill="#334155"/>
+  </g>
+</svg>

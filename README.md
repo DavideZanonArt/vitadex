@@ -5,14 +5,21 @@
 [![Python 3.12+](https://img.shields.io/badge/python-3.12%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/license-MIT-green.svg)](LICENSE)
 
-VitaDex is your personal life folder, powered by Codex.
+VitaDex is a local-first personal OS for Codex.
 
-Put your private context, tasks, memories, workflows, documents, decisions and follow-ups in one local repo — then let Codex help you organize, execute and improve it.
+It gives Codex durable local context: memory, tasks, approvals, workflows, documents, decisions, and follow-ups in one private filesystem-native runtime.
 
-Not another chatbot.
-A filesystem-native personal OS for people who use Codex seriously.
+Codex should not wake up stateless every session. VitaDex keeps the operating state around your work while the open-source repository stays clean and publishable.
 
-The public repository contains the product core. Personal data, real memory, logs, and user-specific configuration must remain local and outside version control.
+The public repository contains the product core. Your real memory, logs, user-specific configuration, and local runtime data stay outside version control.
+
+Try the anonymous demo in under three minutes:
+
+```bash
+vitadex demo seed
+vitadex dashboard
+vitadex web
+```
 
 ![VitaDex dashboard preview](docs/assets/dashboard-preview.svg)
 
@@ -44,7 +51,7 @@ cp .env.example .env.local
 vitadex init
 ```
 
-## Try the Anonymous Demo
+## Anonymous Demo
 
 Use the demo seed to inspect VitaDex without adding personal data:
 
@@ -55,6 +62,8 @@ vitadex web
 ```
 
 The demo creates one synthetic task, one public memory, one draft-only approval, and one follow-up. It is safe to inspect and safe to delete with your local runtime.
+
+See `docs/demo.md` for expected output and troubleshooting.
 
 ## Secure Local Configuration
 
@@ -149,6 +158,7 @@ The intended structure is:
 ## Included Skills
 
 - `housing_search`
+- `asset_reconciliation`
 - `quote_request`
 - `travel_planning`
 - `appointment_booking`
@@ -167,6 +177,7 @@ The harness is intentionally conservative in the public release: default behavio
 
 See `docs/future-openclaw-integration.md` and `vitadex/integrations/codex_harness/README.md`.
 For the canonical local workflow, see `docs/codex-local-workflow.md`.
+For core terms, see `docs/glossary.md`.
 
 ## Development
 

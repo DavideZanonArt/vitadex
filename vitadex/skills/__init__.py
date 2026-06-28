@@ -1,4 +1,5 @@
 from vitadex.skills.appointment_booking import AppointmentBookingSkill
+from vitadex.skills.asset_reconciliation import AssetReconciliationSkill
 from vitadex.skills.complaint_management import ComplaintManagementSkill
 from vitadex.skills.dashboard_digest import DashboardDigestSkill
 from vitadex.skills.decision_matrix import DecisionMatrixSkill
@@ -11,6 +12,7 @@ from vitadex.skills.travel_planning import TravelPlanningSkill
 
 ALL_SKILLS = [
     HousingSearchSkill(),
+    AssetReconciliationSkill(),
     QuoteRequestSkill(),
     TravelPlanningSkill(),
     AppointmentBookingSkill(),

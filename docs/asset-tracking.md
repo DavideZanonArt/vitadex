@@ -25,3 +25,5 @@ Use these generic asset kinds for project reconciliation:
 - `domain`
 
 Repository inventory can be stored as `AssetRecord` items with `provider: GitHub`. Use `links` to express relationships to domains, deployment projects, or builder projects. Keep uncertain matches as `confidence: candidate` until the deployment provider inventory confirms them.
+
+Use the `asset_reconciliation` skill when a task needs to normalize multiple inventories, compare link coverage, or produce a missing-link queue across repositories, domains, Vercel projects, Lovable projects, or other renewable assets. The skill should keep real inventory outputs in the local runtime and use only synthetic data in public examples.

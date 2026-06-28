@@ -1,5 +1,6 @@
 enabled:
   - housing_search
+  - asset_reconciliation
   - quote_request
   - travel_planning
   - appointment_booking

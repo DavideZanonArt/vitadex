@@ -6,6 +6,7 @@ from vitadex.models.skill import SkillManifest
 
 EXPORTABLE_SKILLS = {
     "housing_search": "vitadex-housing-search",
+    "asset_reconciliation": "vitadex-asset-reconciliation",
     "quote_request": "vitadex-quote-request",
     "email_followup": "vitadex-email-followup",
     "decision_matrix": "vitadex-decision-matrix",
